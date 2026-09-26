@@ -3,10 +3,14 @@ name: Paper bot
 on:
   schedule:
     - cron: "7,22,37,52 * * * *"   # every 15 min at off-peak minutes (GitHub drops runs at :00/:15/:30/:45 when busy)
-  workflow_dispatch: {}        # "Run workflow" button for a manual refresh
+  workflow_dispatch: {}        # "Run workflow" button; also how each run starts the next one
+  push:
+    branches: [main]
+    paths: [".github/workflows/paper-bot.yml"]   # restart the loop when this file changes
 
 permissions:
   contents: write
+  actions: write     # lets a run start the next run (self-scheduling loop)
 
 concurrency:
   group: paper-state
@@ -15,7 +19,7 @@ concurrency:
 jobs:
   run:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 25
     env:
       PAPERBOT_DATA: ${{ github.workspace }}/docs
       TZ: America/New_York
@@ -24,11 +28,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - name: Log funding rates (top of the hour)
-        run: |
-          if [ "$(date -u +%M)" -lt 20 ] && [ "$(date -u +%M)" -ge 5 ] || [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            python bot/funding_logger.py
-          fi
+      - name: Log funding rates
+        run: python bot/funding_logger.py
       - name: Run paper strategies (PAPER ONLY, no orders)
         run: |
           python bot/paper_bot.py
@@ -41,3 +42,10 @@ jobs:
           if git diff --cached --quiet; then echo "no changes"; exit 0; fi
           git commit -m "paper bot update $(date -u +'%Y-%m-%d %H:%M UTC')" -q
           for i in 1 2 3; do git pull --rebase -q && git push -q && break; sleep 5; done
+      - name: Start the next run in ~15 minutes (keeps the bot going without GitHub's cron)
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          sleep 840
+          gh workflow run paper-bot.yml --ref main -R "${{ github.repository }}"
