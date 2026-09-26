@@ -1,0 +1,43 @@
+name: Paper bot
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"     # every 15 minutes: live values; trades only on finished daily closes
+  workflow_dispatch: {}        # "Run workflow" button for a manual refresh
+
+permissions:
+  contents: write
+
+concurrency:
+  group: paper-state
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      PAPERBOT_DATA: ${{ github.workspace }}/docs
+      TZ: America/New_York
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Log funding rates (top of the hour)
+        run: |
+          if [ "$(date -u +%M)" -lt 15 ] || [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            python bot/funding_logger.py
+          fi
+      - name: Run paper strategies (PAPER ONLY, no orders)
+        run: |
+          python bot/paper_bot.py
+          python bot/paper_multi.py
+      - name: Save state and pages
+        run: |
+          git config user.name "paper-bot"
+          git config user.email "paper-bot@users.noreply.github.com"
+          git add docs
+          if git diff --cached --quiet; then echo "no changes"; exit 0; fi
+          git commit -m "paper bot update $(date -u +'%Y-%m-%d %H:%M UTC')" -q
+          for i in 1 2 3; do git pull --rebase -q && git push -q && break; sleep 5; done
