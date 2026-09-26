@@ -1,0 +1,29 @@
+<!doctype html><meta charset=utf-8><meta http-equiv="refresh" content="60"><title>Paper Bot</title>
+<style>body{font:15px/1.5 system-ui,sans-serif;background:#111514;color:#eef3f1;max-width:900px;margin:0 auto;padding:24px 16px}
+h1{font-size:26px;margin:0} h2{font-size:17px;margin:28px 0 8px} .muted{color:#9aa6a0}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:16px}
+.tile{border-top:2px solid #eef3f1;padding-top:6px} .tile b{font:700 22px ui-monospace,monospace;display:block}
+table{border-collapse:collapse;width:100%;font-size:14px} td,th{padding:6px 8px;border-bottom:1px solid #2a312e;text-align:left}
+th{color:#86918c;font-size:12px;text-transform:uppercase} .n{text-align:right;font-family:ui-monospace,monospace}
+.wrap{overflow-x:auto} .pos{color:#5cc98a} .neg{color:#ef7a79}
+.nav{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px}.nav a{color:#eef3f1;text-decoration:none;border:1px solid #2a312e;border-radius:6px;padding:5px 10px;font-size:13px}.nav a.on{background:#2a312e}</style>
+<div class=nav><a href="compare.html">Comparison</a><a class=on href="report.html">A: Trend + stops</a><a href="strat_C/report.html">C: Trend basket</a><a href="strat_D/report.html">D: Momentum L/S</a></div>
+<h1>A: Trend + ATR stops</h1>
+<p class=muted>Trend + ATR stops on Coinbase nano perps (BTC, ETH, SOL, XRP). PAPER ONLY, no real orders.
+Started 2026-09-24 with $2,000. Data through 2026-09-25 (UTC close).</p>
+<div class=tiles>
+<div class=tile><b class="pos">$2,018.81</b><span class=muted>equity (+0.9%)</span></div>
+<div class=tile><b class="pos">$2,006.81</b><span class=muted>live value now (+0.3%) at Sep 26 09:47 AM</span></div>
+<div class=tile><b>3</b><span class=muted>open positions</span></div>
+<div class=tile><b>0</b><span class=muted>closed trades (0 wins)</span></div>
+<div class=tile><b>$201</b><span class=muted>starting money at risk (stops below entry)</span></div>
+<div class=tile><b>$26</b><span class=muted>open profit you'd give back if all stops hit</span></div>
+</div>
+
+<h2>Equity (daily closes)</h2>
+<svg viewBox="0 0 640 160" style="width:100%;height:auto"><line x1=0 x2=640 y1=91.6 y2=91.6 stroke="#55605b" stroke-dasharray="4 4"/>
+<path d="M0.0,98.2 L640.0,62.5" fill=none stroke="#3987e5" stroke-width=2 /></svg>
+<h2>Open positions and current stops</h2><div class=wrap><table><tr><th>Coin</th><th>Entered</th><th class=n>Contracts</th><th class=n>Entry</th><th class=n>Last close</th><th class=n>Live</th><th class=n>Stop</th><th class=n>Unrealized $ (live)</th></tr><tr><td>BTC</td><td>2026-09-24</td><td class=n>1</td><td class=n>84447.2</td><td class=n>84115</td><td class=n>83905</td><td class=n><b>79175</b></td><td class=n>-5.42</td></tr><tr><td>ETH</td><td>2026-09-24</td><td class=n>4</td><td class=n>2689.34</td><td class=n>2691</td><td class=n>2685</td><td class=n><b>2456.14</b></td><td class=n>-1.74</td></tr><tr><td>SOL</td><td>2026-09-24</td><td class=n>1</td><td class=n>117.149</td><td class=n>122.17</td><td class=n>120.67</td><td class=n><b>106.219</b></td><td class=n>+17.61</td></tr></table></div>
+<h2>Closed trades</h2><div class=wrap><table><tr><th>Coin</th><th>Entry</th><th>Exit</th><th class=n>Contracts</th><th class=n>P&amp;L</th><th class=n>R</th><th>Reason</th></tr><tr><td colspan=7>No closed trades yet</td></tr></table></div>
+<h2>Recent events</h2><div class=wrap><table><tr><th>Date</th><th>Coin</th><th>Event</th><th>Detail</th></tr><tr><td>2026-09-25</td><td>XRP</td><td>SKIP</td><td>open-risk cap 15% reached</td></tr><tr><td>2026-09-25</td><td>SOL</td><td>RAISE STOP</td><td>105.439 -> 106.219</td></tr><tr><td>2026-09-24</td><td>XRP</td><td>SKIP</td><td>open-risk cap 15% reached</td></tr><tr><td>2026-09-24</td><td>SOL</td><td>ENTER</td><td>1 contract(s) @ 117.149, stop 105.439, risk $59 (2.9%)</td></tr><tr><td>2026-09-24</td><td>ETH</td><td>ENTER</td><td>4 contract(s) @ 2689.34, stop 2456.14, risk $93 (4.7%)</td></tr><tr><td>2026-09-24</td><td>BTC</td><td>ENTER</td><td>1 contract(s) @ 84447.2, stop 79175, risk $53 (2.6%)</td></tr></table></div>
+<p class=muted style="margin-top:24px">Funding uses the current hourly rate at each run. Fees 0.12% + slippage 0.05% per side.</p>
