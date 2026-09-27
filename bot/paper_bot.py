@@ -267,6 +267,17 @@ def write_report(s, specs, data, last_t):
     xy = [(i * W / max(1, len(pts) - 1), H - (v - lo) / (hi - lo) * H) for i, v in enumerate(pts)]
     path = "M" + " L".join(f"{x:.1f},{y:.1f}" for x, y in xy)
     base_y = H - (START_EQUITY - lo) / (hi - lo) * H
+    import health as HL   # display only
+    hrows = []
+    for c, p in s["positions"].items():
+        size = specs[c]["contract_size"] * p["contracts"]
+        r = HL.base_row(c, "LONG", p["entry"], live[c], (live[c] - p["entry"]) * size, live[c] * size, live_eq,
+                       p.get("entry_date"), data["BTC"], live["BTC"])
+        dist = live[c] / p["stop"] - 1
+        r.update(trigger=f"stop {p['stop']:.6g}", state="bad" if dist <= 0 else ("close" if dist < 0.03 else "ok"),
+                 dist=f"{dist:+.1%} above stop" if dist > 0 else "at/below stop: exits on the daily bar")
+        hrows.append(r)
+    health_html = HL.table(hrows, HL.BLURB["A"])
     html = f"""<!doctype html><meta charset=utf-8><meta http-equiv="refresh" content="60"><title>Paper Bot</title>
 <style>body{{font:15px/1.5 system-ui,sans-serif;background:#111514;color:#eef3f1;max-width:900px;margin:0 auto;padding:24px 16px}}
 h1{{font-size:26px;margin:0}} h2{{font-size:17px;margin:28px 0 8px}} .muted{{color:#9aa6a0}}
@@ -275,8 +286,8 @@ h1{{font-size:26px;margin:0}} h2{{font-size:17px;margin:28px 0 8px}} .muted{{col
 table{{border-collapse:collapse;width:100%;font-size:14px}} td,th{{padding:6px 8px;border-bottom:1px solid #2a312e;text-align:left}}
 th{{color:#86918c;font-size:12px;text-transform:uppercase}} .n{{text-align:right;font-family:ui-monospace,monospace}}
 .wrap{{overflow-x:auto}} .pos{{color:#5cc98a}} .neg{{color:#ef7a79}}
-.nav{{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px}}.nav a{{color:#eef3f1;text-decoration:none;border:1px solid #2a312e;border-radius:6px;padding:5px 10px;font-size:13px}}.nav a.on{{background:#2a312e}}</style>
-<div class=nav><a href="compare.html">Comparison</a><a class=on href="report.html">A: Trend + stops</a><a href="strat_C/report.html">C: Trend basket</a><a href="strat_D/report.html">D: Momentum L/S</a></div>
+{HL.CSS}.nav{{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px}}.nav a{{color:#eef3f1;text-decoration:none;border:1px solid #2a312e;border-radius:6px;padding:5px 10px;font-size:13px}}.nav a.on{{background:#2a312e}}</style>
+{HL.xnav()}<div class=nav><a href="compare.html">Comparison</a><a class=on href="report.html">A: Trend + stops</a><a href="strat_C/report.html">C: Trend basket</a><a href="strat_D/report.html">D: Momentum L/S</a></div>
 <h1>A: Trend + ATR stops</h1>
 <p class=muted>Trend + ATR stops on Coinbase nano perps (BTC, ETH, SOL, XRP). PAPER ONLY, no real orders.
 Started {s['started']} with ${START_EQUITY:,.0f}. Data through {day(last_t)} (UTC close).</p>
@@ -293,6 +304,7 @@ Started {s['started']} with ${START_EQUITY:,.0f}. Data through {day(last_t)} (UT
 <svg viewBox="0 0 {W} {H}" style="width:100%;height:auto"><line x1=0 x2={W} y1={base_y:.1f} y2={base_y:.1f} stroke="#55605b" stroke-dasharray="4 4"/>
 <path d="{path}" fill=none stroke="#3987e5" stroke-width=2 /></svg>
 <h2>Open positions and current stops</h2><div class=wrap><table><tr><th>Coin</th><th>Entered</th><th class=n>Contracts</th><th class=n>Entry</th><th class=n>Last close</th><th class=n>Live</th><th class=n>Stop</th><th class=n>Unrealized $ (live)</th></tr>{pos_rows}</table></div>
+<h2>Position health</h2>{health_html}
 <h2>Closed trades</h2><div class=wrap><table><tr><th>Coin</th><th>Entry</th><th>Exit</th><th class=n>Contracts</th><th class=n>P&amp;L</th><th class=n>R</th><th>Reason</th></tr>{tr_rows}</table></div>
 <h2>Recent events</h2><div class=wrap><table><tr><th>Date</th><th>Coin</th><th>Event</th><th>Detail</th></tr>{ev_rows}</table></div>
 <p class=muted style="margin-top:24px">Funding uses the current hourly rate at each run. Fees {FEE_RATE:.2%} + slippage {SLIPPAGE:.2%} per side.</p>"""

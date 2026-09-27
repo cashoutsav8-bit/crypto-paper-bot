@@ -19,6 +19,7 @@ Writes strat_C/ and strat_D/ (state, equity, events) and compare.html.
 import csv, json, math, os
 from datetime import datetime, timezone
 import paper_bot as pb
+import health as HL
 
 HERE = pb.HERE
 START = 5000.0
@@ -148,6 +149,61 @@ def run_D(spec, data):
     B.save()
     return B
 
+# ---------------- position health (display only, no trading logic) ----------------
+def health_C(b, spec, data):
+    days = sorted(set.intersection(*[set(data[c]) for c in C_UNIVERSE.values()]))
+    live = {c: spec[c]["price"] for c in spec}
+    eq = b.equity(live, spec); ed = HL.entry_dates(os.path.join(b.dir, "events.csv")); rows = []
+    for c, p in b.s["pos"].items():
+        size = spec[c]["contract_size"] * p["n"]
+        r = HL.base_row(c, "LONG" if p["n"] > 0 else "SHORT", p["entry"], live[c], (live[c] - p["entry"]) * size,
+                       live[c] * size, eq, ed.get(c), data["BTC"], live["BTC"])
+        ref = data[c][days[len(days) - 20]]["c"] if len(days) >= 20 else None
+        if ref:
+            dist = live[c] / ref - 1
+            r["trigger"] = f"20-day-ago close {ref:.6g}"
+            r["state"] = "bad" if dist <= 0 else ("close" if dist < 0.03 else "ok")
+            r["dist"] = (f"{dist:+.1%} above it: stays long" if dist > 0 else
+                         f"{dist:+.1%} below it: sells at the next daily close if it stays there")
+        else:
+            r.update(trigger="-", state="ok", dist="-")
+        rows.append(r)
+    return rows
+
+def health_D(b, spec, data):
+    days = sorted(set.intersection(*[set(data[c]) for c in D_UNIVERSE.values()]))
+    live = {c: spec[c]["price"] for c in spec}
+    eq = b.equity(live, spec); ed = HL.entry_dates(os.path.join(b.dir, "events.csv")); rows = []
+    ref_t = days[len(days) - 56] if len(days) >= 56 else None
+    score = {c: live[c] / data[c][ref_t]["c"] - 1 for c in D_UNIVERSE.values() if ref_t in data[c]} if ref_t else {}
+    rank = {c: k + 1 for k, c in enumerate(sorted(score, key=score.get, reverse=True))}
+    wd = datetime.now(timezone.utc).weekday(); to_mon = (7 - wd) % 7 or 7
+    for c, p in b.s["pos"].items():
+        size = spec[c]["contract_size"] * p["n"]
+        side = "LONG" if p["n"] > 0 else "SHORT"
+        r = HL.base_row(c, side, p["entry"], live[c], (live[c] - p["entry"]) * size, live[c] * size, eq, ed.get(c), data["BTC"], live["BTC"])
+        k = rank.get(c); n = len(rank)
+        keep = (k is not None) and ((side == "LONG" and k <= 3) or (side == "SHORT" and k > n - 3))
+        near = (k is not None) and ((side == "LONG" and k <= 5) or (side == "SHORT" and k > n - 5))
+        r["trigger"] = f"Monday rebalance in {to_mon}d"
+        r["state"] = "ok" if keep else ("close" if near else "bad")
+        r["dist"] = (f"56-day rank now #{k} of {n}: " + ("would stay " + side.lower() if keep else "would be closed if Monday looked like today")) if k else "-"
+        rows.append(r)
+    return rows
+
+def health_A(spec, data):
+    s = pb.load_state(); live = {c: spec[c]["price"] for c in spec}
+    eq = s["cash_equity"] + pb.unrealized(s, live, spec); rows = []
+    for c, p in s["positions"].items():
+        size = spec[c]["contract_size"] * p["contracts"]
+        r = HL.base_row(c, "LONG", p["entry"], live[c], (live[c] - p["entry"]) * size, live[c] * size, eq, p.get("entry_date"), data["BTC"], live["BTC"])
+        dist = live[c] / p["stop"] - 1
+        r["trigger"] = f"stop {p['stop']:.6g}"
+        r["state"] = "bad" if dist <= 0 else ("close" if dist < 0.03 else "ok")
+        r["dist"] = f"{dist:+.1%} above stop" if dist > 0 else "at/below stop: exits on the daily bar"
+        rows.append(r)
+    return rows
+
 # ---------------- comparison page ----------------
 def series(path, col="equity"):
     if not os.path.exists(path): return []
@@ -160,11 +216,11 @@ def stats(pts, start):
         peak = max(peak, v); dd = min(dd, v / peak - 1)
     return eq[-1], eq[-1] / start - 1, dd
 
-NAV_CSS = ".nav{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px}.nav a{color:#eef3f1;text-decoration:none;border:1px solid #2a312e;border-radius:6px;padding:5px 10px;font-size:13px}.nav a.on{background:#2a312e}"
+NAV_CSS = HL.CSS + ".nav{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px}.nav a{color:#eef3f1;text-decoration:none;border:1px solid #2a312e;border-radius:6px;padding:5px 10px;font-size:13px}.nav a.on{background:#2a312e}"
 def nav(active, prefix=""):
     items = [("compare", "Comparison", "compare.html"), ("A", "A: Trend + stops", "report.html"),
              ("C", "C: Trend basket", "strat_C/report.html"), ("D", "D: Momentum L/S", "strat_D/report.html")]
-    return "<div class=nav>" + "".join(f'<a class="{"on" if k==active else ""}" href="{prefix}{h}">{t}</a>' for k, t, h in items) + "</div>"
+    return HL.xnav() + "<div class=nav>" + "".join(f'<a class="{"on" if k==active else ""}" href="{prefix}{h}">{t}</a>' for k, t, h in items) + "</div>"
 
 STRAT_INFO = {
     "C": ("C: Trend basket, vol-sized, no stops",
@@ -225,6 +281,7 @@ th{{color:#86918c;font-size:12px;text-transform:uppercase}} .n{{text-align:right
 <svg viewBox="0 0 {W} {H}" style="width:100%;height:auto"><line x1=0 x2={W} y1={base_y:.1f} y2={base_y:.1f} stroke="#55605b" stroke-dasharray="4 4"/>
 <path d="{path}" fill=none stroke="#3987e5" stroke-width=2 /></svg>
 <h2>Open positions</h2><div class=wrap><table><tr><th>Coin</th><th>Side</th><th class=n>Contracts</th><th class=n>Entry</th><th class=n>Last close</th><th class=n>Live</th><th class=n>Size</th><th class=n>Unrealized $ (live)</th></tr>{rows or '<tr><td colspan=8>No open positions</td></tr>'}</table></div>
+<h2>Position health</h2>{HL.table(health_C(b, spec, data) if key == "C" else health_D(b, spec, data), HL.BLURB[key])}
 <h2>Recent events</h2><div class=wrap><table><tr><th>Date</th><th>Coin</th><th>Event</th><th>Detail</th></tr>{ev_rows}</table></div>
 <p class=muted style="margin-top:24px">Funding uses the current hourly rate at each run (longs pay, shorts receive when positive). Fees {FEE:.2%} + slippage {SLIP:.2%} per side.</p>"""
     open(os.path.join(b.dir, "report.html"), "w", encoding="utf-8").write(html)
@@ -280,7 +337,9 @@ Judge on the 8-year backtest first; a few weeks of paper results is mostly luck.
 <div class=wrap><table><tr><th></th><th>Strategy</th><th class=n>Start</th><th class=n>Equity</th><th class=n>Return</th><th class=n>Max drawdown</th><th class=n>Live value now</th><th>Activity</th></tr>{trs}</table></div>
 <h2>Return since start</h2>
 <svg viewBox="0 0 {W} {H}" style="width:100%;height:auto"><line x1=0 x2={W} y1={zero_y:.1f} y2={zero_y:.1f} stroke="#55605b" stroke-dasharray="4 4"/>{paths}</svg>
-{pos_table(bC, "C")}{pos_table(bD, "D")}
+<h2>A: position health</h2>{HL.table(health_A(spec, data), HL.BLURB["A"])}
+<h2>C: position health</h2>{HL.table(health_C(bC, spec, data), HL.BLURB["C"])}
+<h2>D: position health</h2>{HL.table(health_D(bD, spec, data), HL.BLURB["D"])}
 <p class=muted>Strategy A details: report.html. Funding history is logged hourly to funding_log.csv for a future carry backtest.</p>"""
     open(os.path.join(HERE, "compare.html"), "w", encoding="utf-8").write(html)
 
