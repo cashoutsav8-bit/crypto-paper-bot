@@ -298,7 +298,21 @@ def compare(bC, bD, spec, data):
     rows = [("A", "Trend + ATR stops (BTC, ETH, SOL, XRP), 5% risk/trade", A, pb.START_EQUITY, f"{nA} closed trades"),
             ("C", "Trend basket, vol-sized, no stops (BTC, ETH, SOL, XRP)", C, START, f"{bC.s['trades']} rebalance trades"),
             ("D", "Momentum long/short, top 3 vs bottom 3 of 10 perps, weekly", D, START, f"{bD.s['trades']} rebalance trades")]
-    colors = {"A": "#3987e5", "C": "#1baf7a", "D": "#eb6834"}
+    colors = {"A": "#3987e5", "C": "#1baf7a", "D": "#eb6834", "BTC": "#c3c2b7", "MIX": "#8a938f"}
+    # ---- buy-and-hold benchmarks, measured from strategy A's first day ----
+    day_bar = {c: {pb.day(t): b for t, b in data[c].items()} for c in data}
+    base_day = A[0][0] if A else None
+    bench_rows = []
+    if base_day and all(base_day in day_bar[c] for c in C_UNIVERSE.values()):
+        base = {c: day_bar[c][base_day]["c"] for c in C_UNIVERSE.values()}
+        common = sorted(dt for dt in day_bar["BTC"] if dt >= base_day and all(dt in day_bar[c] for c in base))
+        btc = [(dt, 1 + day_bar["BTC"][dt]["c"] / base["BTC"] - 1) for dt in common]
+        mix = [(dt, sum(day_bar[c][dt]["c"] / base[c] for c in base) / len(base)) for dt in common]
+        lives["BTC"] = live["BTC"] / base["BTC"]
+        lives["MIX"] = sum(live[c] / base[c] for c in base) / len(base)
+        bench_rows = [("BTC", "Benchmark: just hold BTC", btc, 1.0, "no trades"),
+                      ("MIX", "Benchmark: just hold BTC, ETH, SOL, XRP equally", mix, 1.0, "no trades")]
+    rows = rows + bench_rows
     W, H = 640, 180
     allp = [v / st - 1 for _, pts, st in [(r[0], r[2], r[3]) for r in rows] for _, v in pts] + [0]
     lo, hi = min(allp) - 0.01, max(allp) + 0.01
@@ -308,11 +322,17 @@ def compare(bC, bD, spec, data):
     for key, _, pts, st, _ in rows:
         if len(pts) < 1: continue
         xy = [(xi[dt] * W / max(1, len(dates) - 1), H - ((v / st - 1) - lo) / (hi - lo) * H) for dt, v in pts]
-        paths += f'<path d="M{" L".join(f"{x:.1f},{y:.1f}" for x, y in xy)}" fill=none stroke="{colors[key]}" stroke-width=2 />'
+        dash = ' stroke-dasharray="5 4"' if key in ("BTC", "MIX") else ""
+        paths += f'<path d="M{" L".join(f"{x:.1f},{y:.1f}" for x, y in xy)}" fill=none stroke="{colors[key]}" stroke-width=2{dash} />'
     zero_y = H - (0 - lo) / (hi - lo) * H
     trs = ""
     for key, desc, pts, st, act in rows:
         eq, ret, dd = stats(pts, st)
+        if key in ("BTC", "MIX"):
+            trs += (f"<tr class=bench><td><b style='color:{colors[key]}'>—</b></td><td>{desc}</td><td class=n>since {base_day}</td>"
+                    f"<td class=n>–</td><td class=n style='color:{'#5cc98a' if ret>=0 else '#ef7a79'}'>{ret:+.2%}</td>"
+                    f"<td class=n>{dd:.2%}</td><td class=n>{lives[key]-1:+.2%}</td><td>{act}</td></tr>")
+            continue
         trs += (f"<tr><td><b style='color:{colors[key]}'>{key}</b></td><td>{desc}</td><td class=n>${st:,.0f}</td>"
                 f"<td class=n>${eq:,.2f}</td><td class=n style='color:{'#5cc98a' if ret>=0 else '#ef7a79'}'>{ret:+.2%}</td>"
                 f"<td class=n>{dd:.2%}</td><td class=n>${lives[key]:,.2f} ({lives[key]/st-1:+.2%})</td><td>{act}</td></tr>")
@@ -328,14 +348,15 @@ def compare(bC, bD, spec, data):
 <style>body{{font:15px/1.5 system-ui,sans-serif;background:#111514;color:#eef3f1;max-width:980px;margin:0 auto;padding:24px 16px}}
 h1{{font-size:26px;margin:0}} h2{{font-size:17px;margin:28px 0 8px}} .muted{{color:#9aa6a0}}
 table{{border-collapse:collapse;width:100%;font-size:14px}} td,th{{padding:6px 8px;border-bottom:1px solid #2a312e;text-align:left;vertical-align:top}}
-th{{color:#86918c;font-size:12px;text-transform:uppercase}} .n{{text-align:right;font-family:ui-monospace,monospace;white-space:nowrap}} .wrap{{overflow-x:auto}}
+th{{color:#86918c;font-size:12px;text-transform:uppercase}} .n{{text-align:right;font-family:ui-monospace,monospace;white-space:nowrap}} .wrap{{overflow-x:auto}} tr.bench td{{color:#9aa6a0}} .legend{{display:flex;flex-wrap:wrap;gap:14px;font-size:13px;color:#9aa6a0}} .legend i{{display:inline-block;width:14px;height:3px;border-radius:2px;vertical-align:middle;margin-right:6px}}
 {NAV_CSS}</style>
 {nav('compare')}
 <h1>Strategy Comparison</h1>
 <p class=muted>PAPER ONLY. Returns in % so different starting balances compare fairly. Equity and trades use daily closes (like the backtest); 'Live value now' uses current Coinbase prices and refreshes every hour. Updated {datetime.now().strftime('%Y-%m-%d %H:%M')}.
-Judge on the 8-year backtest first; a few weeks of paper results is mostly luck.</p>
+Judge on the 8-year backtest first; a few weeks of paper results is mostly luck. The grey benchmark rows show what simply holding the coins would have done over the same days.</p>
 <div class=wrap><table><tr><th></th><th>Strategy</th><th class=n>Start</th><th class=n>Equity</th><th class=n>Return</th><th class=n>Max drawdown</th><th class=n>Live value now</th><th>Activity</th></tr>{trs}</table></div>
 <h2>Return since start</h2>
+<div class=legend>{"".join(f'<span><i style="background:{colors[k]}"></i>{lab}</span>' for k, lab in [("A","A"),("C","C"),("D","D"),("BTC","Hold BTC (dashed)"),("MIX","Hold 4-coin mix (dashed)")])}</div>
 <svg viewBox="0 0 {W} {H}" style="width:100%;height:auto"><line x1=0 x2={W} y1={zero_y:.1f} y2={zero_y:.1f} stroke="#55605b" stroke-dasharray="4 4"/>{paths}</svg>
 <h2>A: position health</h2>{HL.table(health_A(spec, data), HL.BLURB["A"])}
 <h2>C: position health</h2>{HL.table(health_C(bC, spec, data), HL.BLURB["C"])}
