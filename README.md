@@ -7,6 +7,7 @@ Paper-trading research bot for Coinbase nano perpetual futures. **Paper only: it
 | | Strategy | Paper capital | Backtest (2018-22 / 2023-26 Sharpe) |
 |---|---|---|---|
 | A | Trend + ATR stops on BTC, ETH, SOL, XRP. Enter when close > close 20 days ago; stop 2 ATR below entry, trailing 3 ATR below the high. 5% risk per trade, 15% max risk to starting capital. | $2,000 | +0.48R / +0.32R per trade |
+| A2 | Same as A, but when a trade is up 4%, sell half and move the stop on the rest to break-even. | $5,000 | +0.09R per trade, 71% win rate (8-yr test) |
 | C | Trend basket, volatility-sized, no stops, same 4 coins. | $5,000 | 1.14 / 1.30 |
 | D | Momentum long/short: weekly, long top 3 / short bottom 3 of 10 perps by 56-day return. | $5,000 | 0.71 / 1.38 |
 

@@ -219,6 +219,7 @@ def stats(pts, start):
 NAV_CSS = HL.CSS + ".nav{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px}.nav a{color:#eef3f1;text-decoration:none;border:1px solid #2a312e;border-radius:6px;padding:5px 10px;font-size:13px}.nav a.on{background:#2a312e}"
 def nav(active, prefix=""):
     items = [("compare", "Comparison", "compare.html"), ("A", "A: Trend + stops", "report.html"),
+             ("A2", "A2: Take half +4%", "strat_A2/report.html"),
              ("C", "C: Trend basket", "strat_C/report.html"), ("D", "D: Momentum L/S", "strat_D/report.html")]
     return HL.xnav() + "<div class=nav>" + "".join(f'<a class="{"on" if k==active else ""}" href="{prefix}{h}">{t}</a>' for k, t, h in items) + "</div>"
 
@@ -295,10 +296,18 @@ def compare(bC, bD, spec, data):
     sA = pb.load_state()
     liveA = sA["cash_equity"] + pb.unrealized(sA, live, spec)
     lives = {"A": liveA, "C": bC.equity(live, spec), "D": bD.equity(live, spec)}
+    a2dir = os.path.join(HERE, "strat_A2"); a2rows = []
+    if os.path.exists(os.path.join(a2dir, "state.json")):
+        sA2 = json.load(open(os.path.join(a2dir, "state.json")))
+        lives["A2"] = sA2["cash_equity"] + pb.unrealized(sA2, live, spec)
+        A2 = series(os.path.join(a2dir, "equity.csv"))
+        nA2 = len(list(csv.DictReader(open(os.path.join(a2dir, "trades.csv"))))) if os.path.exists(os.path.join(a2dir, "trades.csv")) else 0
+        a2rows = [("A2", "Same as A, but sell half at +4% and move the stop on the rest to break-even", A2, 5000.0, f"{nA2} closed trades")]
     rows = [("A", "Trend + ATR stops (BTC, ETH, SOL, XRP), 5% risk/trade", A, pb.START_EQUITY, f"{nA} closed trades"),
             ("C", "Trend basket, vol-sized, no stops (BTC, ETH, SOL, XRP)", C, START, f"{bC.s['trades']} rebalance trades"),
             ("D", "Momentum long/short, top 3 vs bottom 3 of 10 perps, weekly", D, START, f"{bD.s['trades']} rebalance trades")]
-    colors = {"A": "#3987e5", "C": "#1baf7a", "D": "#eb6834", "BTC": "#c3c2b7", "MIX": "#8a938f"}
+    rows = rows[:1] + a2rows + rows[1:]
+    colors = {"A": "#3987e5", "A2": "#9085e9", "C": "#1baf7a", "D": "#eb6834", "BTC": "#c3c2b7", "MIX": "#8a938f"}
     # ---- buy-and-hold benchmarks, measured from strategy A's first day ----
     day_bar = {c: {pb.day(t): b for t, b in data[c].items()} for c in data}
     base_day = A[0][0] if A else None
@@ -356,7 +365,7 @@ th{{color:#86918c;font-size:12px;text-transform:uppercase}} .n{{text-align:right
 Judge on the 8-year backtest first; a few weeks of paper results is mostly luck. The grey benchmark rows show what simply holding the coins would have done over the same days.</p>
 <div class=wrap><table><tr><th></th><th>Strategy</th><th class=n>Start</th><th class=n>Equity</th><th class=n>Return</th><th class=n>Max drawdown</th><th class=n>Live value now</th><th>Activity</th></tr>{trs}</table></div>
 <h2>Return since start</h2>
-<div class=legend>{"".join(f'<span><i style="background:{colors[k]}"></i>{lab}</span>' for k, lab in [("A","A"),("C","C"),("D","D"),("BTC","Hold BTC (dashed)"),("MIX","Hold 4-coin mix (dashed)")])}</div>
+<div class=legend>{"".join(f'<span><i style="background:{colors[k]}"></i>{lab}</span>' for k, lab in [("A","A"),("A2","A2"),("C","C"),("D","D"),("BTC","Hold BTC (dashed)"),("MIX","Hold 4-coin mix (dashed)")])}</div>
 <svg viewBox="0 0 {W} {H}" style="width:100%;height:auto"><line x1=0 x2={W} y1={zero_y:.1f} y2={zero_y:.1f} stroke="#55605b" stroke-dasharray="4 4"/>{paths}</svg>
 <h2>A: position health</h2>{HL.table(health_A(spec, data), HL.BLURB["A"])}
 <h2>C: position health</h2>{HL.table(health_C(bC, spec, data), HL.BLURB["C"])}

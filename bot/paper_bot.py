@@ -19,7 +19,10 @@ import csv, json, math, os, sys, time, urllib.request
 from datetime import datetime, timezone
 
 # ---------------- settings ----------------
-START_EQUITY     = 2000.0
+# Variant settings (A = defaults; A2 = take half at +4%, set by the workflow via env vars)
+NAME             = os.environ.get("PAPERBOT_NAME", "A")
+TAKE_HALF_AT     = float(os.environ.get("PAPERBOT_TP", "0") or 0)   # e.g. 0.04 = sell half at +4%, stop on rest to break-even
+START_EQUITY     = float(os.environ.get("PAPERBOT_START", "2000"))
 RISK_PER_TRADE   = 0.05     # 5% of equity at risk per trade
 MAX_OPEN_RISK    = 0.15     # max 15% of equity at risk across all open positions
 MAX_MARGIN_USE   = 0.90     # overnight margin may use at most 90% of equity
@@ -164,6 +167,7 @@ def main():
             s["cash_equity"] -= funding
             p["funding_paid"] += funding
             exit_px = None
+            took_half = False
             if b["o"] <= p["stop"]:
                 exit_px, why = b["o"], "gap below stop"
             elif b["l"] <= p["stop"]:
@@ -171,7 +175,7 @@ def main():
             if exit_px is not None:
                 fill = exit_px * (1 - SLIPPAGE)
                 fee = fill * size * FEE_RATE
-                pnl = (fill - p["entry"]) * size - fee - p["entry_fee"] - p["funding_paid"]
+                pnl = (fill - p["entry"]) * size - fee - p["entry_fee"] - p["funding_paid"] + p.get("realized", 0.0)
                 s["cash_equity"] += (fill - p["entry"]) * size - fee
                 R = pnl / p["risk_usd"] if p["risk_usd"] else 0
                 append_csv(TRADES_F, [coin, p["entry_date"], d, p["contracts"], round(p["entry"], 6), round(fill, 6),
@@ -181,6 +185,24 @@ def main():
                 del s["positions"][coin]
                 exited_today.add(coin)
                 continue
+            # A2 only: bank half at +TAKE_HALF_AT, then the rest can't become a loss (stop to break-even)
+            if TAKE_HALF_AT and not p.get("half_taken") and b["h"] >= p["entry"] * (1 + TAKE_HALF_AT):
+                p["half_taken"] = True; took_half = True
+                tp_px = max(b["o"], p["entry"] * (1 + TAKE_HALF_AT))
+                k = p["contracts"] // 2
+                if k >= 1:
+                    fill = tp_px * (1 - SLIPPAGE); part = sp["contract_size"] * k
+                    fee = fill * part * FEE_RATE
+                    gain = (fill - p["entry"]) * part - fee
+                    s["cash_equity"] += gain
+                    p["realized"] = p.get("realized", 0.0) + gain
+                    p["contracts"] -= k
+                    event(d, coin, "TAKE HALF", f"sold {k} @ {fill:.6g} (+{TAKE_HALF_AT:.0%}), banked ${gain:,.2f}; {p['contracts']} left")
+                else:
+                    event(d, coin, "TAKE HALF", f"+{TAKE_HALF_AT:.0%} reached but only 1 contract; keeping it")
+                if p["entry"] > p["stop"]:
+                    event(d, coin, "RAISE STOP", f"{p['stop']:.6g} -> {p['entry']:.6g} (break-even)")
+                    p["stop"] = p["entry"]
             p["high"] = max(p["high"], b["h"])
             new_stop = max(p["stop"], p["high"] - TRAIL_ATR * b["atr"])
             if new_stop > p["stop"] + 1e-12:
@@ -233,6 +255,16 @@ def main():
     write_report(s, specs, data, days[-1])
 
 # ---------------- report ----------------
+PFX = "../" if NAME != "A" else ""
+TITLE = "A: Trend + ATR stops" if NAME == "A" else f"{NAME}: Trend + stops, take half at +{TAKE_HALF_AT:.0%}"
+DESC = ("Trend + ATR stops on Coinbase nano perps (BTC, ETH, SOL, XRP)." if NAME == "A" else
+        f"Same entries and stops as A. When a trade is up {TAKE_HALF_AT:.0%}, sell half and move the stop on the rest to break-even; the rest keeps trailing.")
+def nav_html():
+    items = [("compare", "Comparison", "compare.html"), ("A", "A: Trend + stops", "report.html"),
+             ("A2", "A2: Take half +4%", "strat_A2/report.html"),
+             ("C", "C: Trend basket", "strat_C/report.html"), ("D", "D: Momentum L/S", "strat_D/report.html")]
+    return "<div class=nav>" + "".join(f'<a class="{"on" if k == NAME else ""}" href="{PFX}{h}">{t}</a>' for k, t, h in items) + "</div>"
+
 def read_csv(path):
     if not os.path.exists(path):
         return []
@@ -278,7 +310,7 @@ def write_report(s, specs, data, last_t):
                  dist=f"{dist:+.1%} above stop" if dist > 0 else "at/below stop: exits on the daily bar")
         hrows.append(r)
     health_html = HL.table(hrows, HL.BLURB["A"])
-    html = f"""<!doctype html><meta charset=utf-8><meta http-equiv="refresh" content="60"><title>Paper Bot</title>
+    html = f"""<!doctype html><meta charset=utf-8><meta http-equiv="refresh" content="60"><title>{TITLE}</title>
 <style>body{{font:15px/1.5 system-ui,sans-serif;background:#111514;color:#eef3f1;max-width:900px;margin:0 auto;padding:24px 16px}}
 h1{{font-size:26px;margin:0}} h2{{font-size:17px;margin:28px 0 8px}} .muted{{color:#9aa6a0}}
 .tiles{{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:16px}}
@@ -287,9 +319,9 @@ table{{border-collapse:collapse;width:100%;font-size:14px}} td,th{{padding:6px 8
 th{{color:#86918c;font-size:12px;text-transform:uppercase}} .n{{text-align:right;font-family:ui-monospace,monospace}}
 .wrap{{overflow-x:auto}} .pos{{color:#5cc98a}} .neg{{color:#ef7a79}}
 {HL.CSS}.nav{{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px}}.nav a{{color:#eef3f1;text-decoration:none;border:1px solid #2a312e;border-radius:6px;padding:5px 10px;font-size:13px}}.nav a.on{{background:#2a312e}}</style>
-{HL.xnav()}<div class=nav><a href="compare.html">Comparison</a><a class=on href="report.html">A: Trend + stops</a><a href="strat_C/report.html">C: Trend basket</a><a href="strat_D/report.html">D: Momentum L/S</a></div>
-<h1>A: Trend + ATR stops</h1>
-<p class=muted>Trend + ATR stops on Coinbase nano perps (BTC, ETH, SOL, XRP). PAPER ONLY, no real orders.
+{HL.xnav()}{nav_html()}
+<h1>{TITLE}</h1>
+<p class=muted>{DESC} PAPER ONLY, no real orders.
 Started {s['started']} with ${START_EQUITY:,.0f}. Data through {day(last_t)} (UTC close).</p>
 <div class=tiles>
 <div class=tile><b class="{'pos' if ret>=0 else 'neg'}">${equity:,.2f}</b><span class=muted>equity ({ret:+.1%})</span></div>
