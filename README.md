@@ -11,6 +11,8 @@ Paper-trading research bot for Coinbase nano perpetual futures. **Paper only: it
 | C | Trend basket, volatility-sized, no stops, same 4 coins. | $5,000 | 1.14 / 1.30 |
 | D | Momentum long/short: weekly, long top 3 / short bottom 3 of 10 perps by 56-day return. | $5,000 | 0.71 / 1.38 |
 
+| X | **Claude portfolio**: 50% trend sleeve + 50% momentum long/short (shorts only if falling), 10 perps, longs halved when BTC < 50-day avg, max 25%/coin, 1.5x gross. | $10,000 | +43%/yr, Sharpe 1.38 / +45%/yr, Sharpe 1.87 |
+
 Trades are decided on finished daily closes (00:00 UTC). Live values refresh about every 15 minutes: each run starts the next one (GitHub cron is a backup). Funding rates are logged hourly to `docs/funding_log.csv` to build history for a future carry backtest.
 
 Costs modeled: 0.12% fee + 0.05% slippage per side, hourly funding at Coinbase's current rate.

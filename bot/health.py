@@ -96,6 +96,8 @@ def base_row(coin, side, entry, live, pnl, notional, equity, entry_date, btc_bar
 
 
 BLURB = {
+    "X": "X has no per-trade stops. Risk is controlled by position size (volatility-based, max 25% per coin, 1.5x total), "
+         "by dropping a coin as soon as its 20-day trend turns, and by halving all longs when BTC falls below its 50-day average.",
     "A": "Every position has a hard stop that only moves up; a loser can cost about 5% of the account at most, and nothing needs doing by hand. "
          "A position down with BTC also down is market noise. Coin-specific weakness is exactly what the stop is for.",
     "C": "C has no stops by design. It holds each coin while today's close is above the close 20 days earlier and sells at the first daily close that isn't. "

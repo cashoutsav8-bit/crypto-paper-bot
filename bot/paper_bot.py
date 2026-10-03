@@ -262,7 +262,8 @@ DESC = ("Trend + ATR stops on Coinbase nano perps (BTC, ETH, SOL, XRP)." if NAME
 def nav_html():
     items = [("compare", "Comparison", "compare.html"), ("A", "A: Trend + stops", "report.html"),
              ("A2", "A2: Take half +4%", "strat_A2/report.html"),
-             ("C", "C: Trend basket", "strat_C/report.html"), ("D", "D: Momentum L/S", "strat_D/report.html")]
+             ("C", "C: Trend basket", "strat_C/report.html"), ("D", "D: Momentum L/S", "strat_D/report.html"),
+             ("X", "X: Claude portfolio", "strat_X/report.html")]
     return "<div class=nav>" + "".join(f'<a class="{"on" if k == NAME else ""}" href="{PFX}{h}">{t}</a>' for k, t, h in items) + "</div>"
 
 def read_csv(path):
