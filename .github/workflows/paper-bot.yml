@@ -34,6 +34,8 @@ jobs:
         run: |
           python bot/paper_bot.py
           PAPERBOT_DATA="$PAPERBOT_DATA/strat_A2" PAPERBOT_NAME=A2 PAPERBOT_TP=0.04 PAPERBOT_START=5000 python bot/paper_bot.py
+          PAPERBOT_DATA="$PAPERBOT_DATA/strat_S" PAPERBOT_NAME=S PAPERBOT_SIDES=short PAPERBOT_START=5000 PAPERBOT_RISK=0.025 PAPERBOT_CAP=0.075 python bot/paper_bot.py
+          PAPERBOT_DATA="$PAPERBOT_DATA/strat_T" PAPERBOT_NAME=T PAPERBOT_SIDES=both PAPERBOT_START=5000 PAPERBOT_RISK=0.025 PAPERBOT_CAP=0.075 python bot/paper_bot.py
           python bot/paper_multi.py
       - name: Save state and pages
         run: |
