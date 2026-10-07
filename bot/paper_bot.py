@@ -213,7 +213,8 @@ def main():
         equity = s["cash_equity"] + unrealized(s, prices, specs)
         for coin in PRODUCTS.values():
             b, sp = bars[coin], specs[coin]
-            if coin in s["positions"] or coin in exited_today or not b["up"] or b["atr"] is None:
+            if coin in s["positions"] or coin in exited_today or s.get("exited_on", {}).get(coin) == d \
+                    or not b["up"] or b["atr"] is None:
                 continue
             stop = b["c"] - STOP_ATR * b["atr"]
             risk_1 = (b["c"] - stop) * sp["contract_size"]
@@ -251,6 +252,25 @@ def main():
                               round(open_risk(s, prices, specs), 2), round(margin_used(s, prices, specs), 2)],
                    ["date", "equity", "open_positions", "open_risk_usd", "overnight_margin_usd"])
         s["last_t"] = t
+    # 3) intraday stops: every run (~15 min), exit any position whose live price is at or below its stop,
+    #    the way a resting stop order on the exchange would. Booked at the stop price (same as the backtest).
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    for coin in list(s["positions"].keys()):
+        p, sp = s["positions"][coin], specs[coin]
+        if sp["price"] > p["stop"]:
+            continue
+        size = sp["contract_size"] * p["contracts"]
+        fill = p["stop"] * (1 - SLIPPAGE)
+        fee = fill * size * FEE_RATE
+        pnl = (fill - p["entry"]) * size - fee - p["entry_fee"] - p["funding_paid"] + p.get("realized", 0.0)
+        s["cash_equity"] += (fill - p["entry"]) * size - fee
+        R = pnl / p["risk_usd"] if p["risk_usd"] else 0
+        append_csv(TRADES_F, [coin, p["entry_date"], today, p["contracts"], round(p["entry"], 6), round(fill, 6),
+                              round(pnl, 2), round(R, 2), "stop hit (intraday)"],
+                   ["coin", "entry_date", "exit_date", "contracts", "entry", "exit", "pnl_usd", "R", "reason"])
+        event(today, coin, "EXIT", f"{p['contracts']} @ {fill:.6g} (stop hit intraday, live {sp['price']:.6g}), P&L ${pnl:,.2f} = {R:+.2f}R")
+        del s["positions"][coin]
+        s.setdefault("exited_on", {})[coin] = today   # no re-entry until the next daily close
     save_state(s)
     write_report(s, specs, data, days[-1])
 
