@@ -308,7 +308,7 @@ DESC = {"A": "Trend + ATR stops on Coinbase nano perps (BTC, ETH, SOL, XRP).",
              "Sits in cash when BTC is above its 50-day average. 2.5% risk per trade, 7.5% cap.",
         "T": "Long when a coin is in an uptrend (A's rules), short when it is in a downtrend and BTC is below its 50-day average (S's rules). "
              "Same stops, 2.5% risk per trade, 7.5% risk cap. 8-year test: +500R vs +409R long-only, worst year -25R vs -45R."}.get(
-        NAME, f"Same entries and stops as A. When a trade is up {TAKE_HALF_AT:.0%}, sell half and move the stop on the rest to break-even; the rest keeps trailing.")
+        NAME, f"Same entries and stops as A. When a trade is up {TAKE_HALF_AT:.0%}, sell half and move the stop on the rest to break-even; the rest keeps trailing. Risk per trade cut from 5% to 2.5% (cap 15% to 7.5%) on 2026-10-07; positions opened before then keep their old size.")
 def nav_html():
     items = [("compare", "Comparison", "compare.html"), ("A", "A: Trend + stops", "report.html"),
              ("A2", "A2: Take half +4%", "strat_A2/report.html"),

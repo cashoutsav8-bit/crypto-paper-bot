@@ -386,7 +386,7 @@ def compare(bC, bD, spec, data, bX=None):
     liveA = sA["cash_equity"] + pb.unrealized(sA, live, spec)
     lives = {"A": liveA, "C": bC.equity(live, spec), "D": bD.equity(live, spec)}
     a2rows = []
-    for key, desc in [("A2", "Same as A, but sell half at +4% and move the stop on the rest to break-even"),
+    for key, desc in [("A2", "Same as A, but sell half at +4% and move the stop on the rest to break-even (2.5% risk/trade from Oct 7)"),
                       ("S", "Bear-market short: short downtrending coins only while BTC is below its 50-day average (2.5% risk/trade)"),
                       ("T", "Trend both ways: long uptrends, short downtrends when BTC is below its 50-day average (2.5% risk/trade)")]:
         sdir = os.path.join(HERE, f"strat_{key}")
