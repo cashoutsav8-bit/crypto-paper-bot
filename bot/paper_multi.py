@@ -302,7 +302,8 @@ NAV_CSS = HL.CSS + ".nav{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px}.na
 def nav(active, prefix=""):
     items = [("compare", "Comparison", "compare.html"), ("A", "A: Trend + stops", "report.html"),
              ("A2", "A2: Take half +4%", "strat_A2/report.html"),
-             ("S", "S: Bear short", "strat_S/report.html"), ("T", "T: Both ways", "strat_T/report.html"),
+             ("S", "S: Bear short", "strat_S/report.html"), ("T", "T: Flip long/short", "strat_T/report.html"),
+             ("L", "L: Long or cash", "strat_L/report.html"),
              ("C", "C: Trend basket", "strat_C/report.html"), ("D", "D: Momentum L/S", "strat_D/report.html"),
              ("X", "X: Claude portfolio", "strat_X/report.html")]
     return HL.xnav() + "<div class=nav>" + "".join(f'<a class="{"on" if k==active else ""}" href="{prefix}{h}">{t}</a>' for k, t, h in items) + "</div>"
@@ -388,7 +389,8 @@ def compare(bC, bD, spec, data, bX=None):
     a2rows = []
     for key, desc in [("A2", "Same as A, but sell half at +4% and move the stop on the rest to break-even (2.5% risk/trade from Oct 7)"),
                       ("S", "Bear-market short: short downtrending coins only while BTC is below its 50-day average (2.5% risk/trade)"),
-                      ("T", "Trend both ways: long uptrends, short downtrends when BTC is below its 50-day average (2.5% risk/trade)")]:
+                      ("T", "Flips with the market: long uptrends while BTC is above its 50-day average, short downtrends (no new longs) while below (2.5% risk/trade)"),
+                      ("L", "Long or cash: A's longs, but no new longs while BTC is below its 50-day average (2.5% risk/trade)")]:
         sdir = os.path.join(HERE, f"strat_{key}")
         if not os.path.exists(os.path.join(sdir, "state.json")): continue
         st = json.load(open(os.path.join(sdir, "state.json")))
@@ -402,7 +404,7 @@ def compare(bC, bD, spec, data, bX=None):
     if bX is not None:
         lives["X"] = bX.equity(live, spec)
         rows.append(("X", "Claude portfolio: trend + momentum L/S + BTC regime filter, 10 perps", series(os.path.join(bX.dir, "equity.csv")), bX.start, f"{bX.s['trades']} rebalance trades"))
-    colors = {"A": "#3987e5", "A2": "#9085e9", "S": "#e34948", "T": "#e87ba4", "C": "#1baf7a", "D": "#eb6834", "X": "#eda100", "BTC": "#c3c2b7", "MIX": "#8a938f"}
+    colors = {"A": "#3987e5", "A2": "#9085e9", "S": "#e34948", "T": "#e87ba4", "L": "#4fb8c9", "C": "#1baf7a", "D": "#eb6834", "X": "#eda100", "BTC": "#c3c2b7", "MIX": "#8a938f"}
     # ---- buy-and-hold benchmarks, measured from strategy A's first day ----
     day_bar = {c: {pb.day(t): b for t, b in data[c].items()} for c in data}
     base_day = A[0][0] if A else None
@@ -460,7 +462,7 @@ th{{color:#86918c;font-size:12px;text-transform:uppercase}} .n{{text-align:right
 Judge on the 8-year backtest first; a few weeks of paper results is mostly luck. The grey benchmark rows show what simply holding the coins would have done over the same days.</p>
 <div class=wrap><table><tr><th></th><th>Strategy</th><th class=n>Start</th><th class=n>Equity</th><th class=n>Return</th><th class=n>Max drawdown</th><th class=n>Live value now</th><th>Activity</th></tr>{trs}</table></div>
 <h2>Return since start</h2>
-<div class=legend>{"".join(f'<span><i style="background:{colors[k]}"></i>{lab}</span>' for k, lab in [("A","A"),("A2","A2"),("S","S"),("T","T"),("C","C"),("D","D"),("X","X: Claude"),("BTC","Hold BTC (dashed)"),("MIX","Hold 4-coin mix (dashed)")])}</div>
+<div class=legend>{"".join(f'<span><i style="background:{colors[k]}"></i>{lab}</span>' for k, lab in [("A","A"),("A2","A2"),("S","S"),("T","T"),("L","L"),("C","C"),("D","D"),("X","X: Claude"),("BTC","Hold BTC (dashed)"),("MIX","Hold 4-coin mix (dashed)")])}</div>
 <svg viewBox="0 0 {W} {H}" style="width:100%;height:auto"><line x1=0 x2={W} y1={zero_y:.1f} y2={zero_y:.1f} stroke="#55605b" stroke-dasharray="4 4"/>{paths}</svg>
 <h2>A: position health</h2>{HL.table(health_A(spec, data), HL.BLURB["A"])}
 <h2>C: position health</h2>{HL.table(health_C(bC, spec, data), HL.BLURB["C"])}

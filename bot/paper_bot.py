@@ -24,6 +24,7 @@ NAME             = os.environ.get("PAPERBOT_NAME", "A")
 TAKE_HALF_AT     = float(os.environ.get("PAPERBOT_TP", "0") or 0)   # e.g. 0.04 = sell half at +4%, stop on rest to break-even
 START_EQUITY     = float(os.environ.get("PAPERBOT_START", "2000"))
 SIDES            = os.environ.get("PAPERBOT_SIDES", "long")   # long | short | both
+LONG_FILTER      = os.environ.get("PAPERBOT_LONGFILTER", "0") == "1"   # T: no new longs while BTC is below its 50-day average
 # shorts (S, T) are only opened when BTC closes below its 50-day average (bear-market filter)
 RISK_PER_TRADE   = float(os.environ.get("PAPERBOT_RISK", "0.05"))   # share of equity at risk per trade
 MAX_OPEN_RISK    = float(os.environ.get("PAPERBOT_CAP", "0.15"))    # max share at risk across all open positions
@@ -237,14 +238,17 @@ def main():
         prices = {c: bars[c]["c"] for c in bars}
         equity = s["cash_equity"] + unrealized(s, prices, specs)
         bear = bool(bars["BTC"]["ma50"] is not None and bars["BTC"]["c"] < bars["BTC"]["ma50"])
-        if SIDES != "long" and s.get("bear") != bear:
-            event(d, "BTC", "REGIME", "bear: BTC below 50-day average, shorts allowed" if bear else "BTC above 50-day average, no new shorts")
+        if (SIDES != "long" or LONG_FILTER) and s.get("bear") != bear:
+            if SIDES == "long": msg = "bear: BTC below 50-day average, no new longs (stays in cash)" if bear else "BTC above 50-day average, longs allowed"
+            else: msg = (("bear: BTC below 50-day average, shorts allowed" + (", no new longs" if LONG_FILTER else "")) if bear
+                         else ("BTC above 50-day average, no new shorts" + (", longs allowed" if LONG_FILTER else "")))
+            event(d, "BTC", "REGIME", msg)
             s["bear"] = bear
         for coin in PRODUCTS.values():
             b, sp = bars[coin], specs[coin]
             if coin in s["positions"] or coin in exited_today or s.get("exited_on", {}).get(coin) == d or b["atr"] is None:
                 continue
-            if b["up"] and SIDES in ("long", "both"): side = 1
+            if b["up"] and SIDES in ("long", "both") and not (LONG_FILTER and bear): side = 1
             elif b["dn"] and bear and SIDES in ("short", "both"): side = -1
             else: continue
             stop = b["c"] - STOP_ATR * b["atr"] * side
@@ -300,19 +304,25 @@ def main():
 
 # ---------------- report ----------------
 PFX = "../" if NAME != "A" else ""
-TITLE = {"A": "A: Trend + ATR stops", "S": "S: Bear-market short", "T": "T: Trend both ways (long or short)"}.get(
+TITLE = {"A": "A: Trend + ATR stops", "S": "S: Bear-market short", "T": "T: Flip with the market (long or short)", "L": "L: Long or cash"}.get(
     NAME, f"{NAME}: Trend + stops, take half at +{TAKE_HALF_AT:.0%}")
 DESC = {"A": "Trend + ATR stops on Coinbase nano perps (BTC, ETH, SOL, XRP).",
+        "L": "A's long trades, with an off switch: no new longs while BTC is below its 50-day average, so it sits in cash through bear markets "
+             "instead of shorting. Open trades still exit on their own stops. 2.5% risk per trade, 7.5% cap. 8-year test on these 4 coins (with costs): "
+             "+0.68R per trade 2018-22 and +0.72R 2023-26, vs +0.51R and +0.38R for A; worst drawdown -19R vs -25R. Started 2026-10-09.",
         "S": "Mirror image of A on the short side: short a coin when it closes below its price 20 days ago, but only while BTC is below its "
              "50-day average (bear market). Stop 2x ATR above entry, trailing down at the lowest low + 3x ATR. "
              "Sits in cash when BTC is above its 50-day average. 2.5% risk per trade, 7.5% cap.",
-        "T": "Long when a coin is in an uptrend (A's rules), short when it is in a downtrend and BTC is below its 50-day average (S's rules). "
-             "Same stops, 2.5% risk per trade, 7.5% risk cap. 8-year test: +500R vs +409R long-only, worst year -25R vs -45R."}.get(
+        "T": "Flips with the market. While BTC is above its 50-day average it only buys coins in uptrends (A's rules); while BTC is below it, "
+             "it stops opening longs and only shorts coins in downtrends (S's rules). Open trades always exit on their own stops. "
+             "2.5% risk per trade, 7.5% risk cap. 8-year test (with costs): +529R vs +393R for A, worst year -22R vs -47R. "
+             "No-longs-in-bear-markets rule added 2026-10-09, before it had ever been triggered."}.get(
         NAME, f"Same entries and stops as A. When a trade is up {TAKE_HALF_AT:.0%}, sell half and move the stop on the rest to break-even; the rest keeps trailing. Risk per trade cut from 5% to 2.5% (cap 15% to 7.5%) on 2026-10-07; positions opened before then keep their old size.")
 def nav_html():
     items = [("compare", "Comparison", "compare.html"), ("A", "A: Trend + stops", "report.html"),
              ("A2", "A2: Take half +4%", "strat_A2/report.html"),
-             ("S", "S: Bear short", "strat_S/report.html"), ("T", "T: Both ways", "strat_T/report.html"),
+             ("S", "S: Bear short", "strat_S/report.html"), ("T", "T: Flip long/short", "strat_T/report.html"),
+             ("L", "L: Long or cash", "strat_L/report.html"),
              ("C", "C: Trend basket", "strat_C/report.html"), ("D", "D: Momentum L/S", "strat_D/report.html"),
              ("X", "X: Claude portfolio", "strat_X/report.html")]
     return "<div class=nav>" + "".join(f'<a class="{"on" if k == NAME else ""}" href="{PFX}{h}">{t}</a>' for k, t, h in items) + "</div>"
