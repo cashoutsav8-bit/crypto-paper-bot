@@ -435,7 +435,7 @@ REDDIT_SUBS = ["CryptoMoonShots", "SatoshiStreetBets", "memecoins", "solana", "C
 def f_reddit():
     docs, fails = [], 0
     for s in REDDIT_SUBS:
-        if fails >= 2 and not docs:
+        if fails >= 3:
             _mark("Reddit", False, "Reddit blocks GitHub's servers (HTTP 429/403); skipped the rest")
             break
         got = False
