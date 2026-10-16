@@ -168,11 +168,18 @@ def check_news(watch, book):
             seen.add(norm)
             book.d["seen_news"].append(norm)
             low = title.lower()
-            relevant = any(n.lower() in low for n in names) or (re.search(r"rockstar|take-two|take two", low) and re.search(r"coin|crypto|token", low))
+            pick = next((n for n in names if n.lower() in low), None)
+            official = bool(re.search(r"rockstar|take-two|take two", low) and re.search(r"coin|crypto|token", low)
+                            and re.search(r"respond|statement|comment|confirm|den(y|ies)|warn|sue|lawsuit|cease|official|clarif|not affiliated|scam", low))
             fresh = it["t"] and time.time() - it["t"] < 3 * 3600
-            if relevant and fresh and not first_ever:
-                book.alert("news:" + norm[:60], "news", "📰 " + title[:110], f"{title}\n(Google News, query {q})",
-                           ms.safe_url(it["link"]), 4, ["newspaper"])
+            if not fresh or first_ever or not (pick or official) or book.count_today("news") >= 5:
+                continue
+            # many outlets re-run the same story: one alert per pick every 6 hours, unless it's Rockstar/Take-Two reacting
+            key = "news:official:" + norm[:50] if official else "news:" + (pick or "").lower()
+            if book.recently(key, 6):
+                continue
+            book.alert(key, "news", ("🚨 " if official else "📰 ") + title[:110], f"{title}\n(Google News, query {q})",
+                       ms.safe_url(it["link"]), 5 if official else 3, ["rotating_light" if official else "newspaper"])
     book.d["seen_news"] = book.d["seen_news"][-400:]
 
 
