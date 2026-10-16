@@ -38,14 +38,14 @@ TICKET_DAYS = 14
 COST_EACH_WAY = 0.02          # swap fee + slippage + network, each way
 BOT_TICKETS_PER_DAY = 5
 CB_TICKETS_PER_DAY = 2
-PICK_SCORE = 55               # DEX coin needs this score to get a paper ticket
+PICK_SCORE = 50               # DEX coin needs this score to get a paper ticket
 CB_PICK_HEAT = 70
 
 # ------------------------------------------------------------------ narratives
 # Themes are matched against each coin's name, ticker, description and links. A theme with an upcoming
 # catalyst earns more points the closer the date gets (memes tend to run INTO an event and dump after).
 THEMES = {
-    "gaming":   {"label": "Gaming / GTA VI", "kw": [r"gta", r"gta ?(6|vi)", r"vice ?city", r"rockstar", r"gamers?", r"gaming", r"playstation", r"xbox", r"nintendo", r"cyberleek", r"lucia", r"leonida"]},
+    "gaming":   {"label": "Gaming / GTA VI", "kw": [r"gta", r"gta ?(6|vi)", r"vice ?city", r"rockstar", r"gamers?", r"gaming", r"playstation", r"xbox", r"nintendo", r"cyberleek", r"lucia", r"leonida", r"dacity", r"audacity"]},
     "spooky":   {"label": "Halloween", "kw": [r"halloween", r"spooky", r"pumpkin", r"ghosts?", r"witch(es)?", r"zombies?", r"skeletons?", r"vampires?", r"jack ?o ?lantern"]},
     "politics": {"label": "US midterms / politics", "kw": [r"trump", r"maga", r"midterms?", r"elections?", r"senate", r"congress", r"republicans?", r"democrats?", r"vance", r"potus", r"white ?house"]},
     "holiday":  {"label": "Thanksgiving / Christmas", "kw": [r"thanksgiving", r"turkey", r"santa", r"christmas", r"xmas", r"grinch", r"reindeer"]},
@@ -63,7 +63,7 @@ CATALYSTS = [
     {"date": "2026-12-25", "event": "Christmas", "theme": "holiday"},
 ]
 # DexScreener searches run every scan, so new coins riding these narratives show up early.
-THEME_SEARCH = {"gta": ["gta"], "gta 6": ["gta"], "vice city": ["vice"], "cyberleek": ["leek"], "halloween": ["hallow", "spook"],
+THEME_SEARCH = {"gta": ["gta"], "gta 6": ["gta"], "vice city": ["vice"], "cyberleek": ["leek"], "dacity": ["dacity"], "audacity": ["dacity"], "halloween": ["hallow", "spook"],
                 "pumpkin": ["pumpkin"], "midterm": ["midterm", "elect"], "vrax": ["vrax"], "robinhood": ["robin", "hood"]}
 # Coins with a known problem. They are shown with the note and never get a paper ticket.
 MANUAL_FLAGS = {
@@ -308,11 +308,15 @@ def take_pair(p, source=None):
             return c
         c["_pairs"].add(pa)
         vol, tx = p.get("volume") or {}, p.get("txns") or {}
+        if num((p.get("liquidity") or {}).get("usd")) > 2e7 and num(vol.get("h24")) < num((p.get("liquidity") or {}).get("usd")) * 0.005:
+            return c
         for k in ("m5", "h1", "h6", "h24"):
             c["vol"][k] += num(vol.get(k))
             c["txns"][k][0] += int(num((tx.get(k) or {}).get("buys")))
             c["txns"][k][1] += int(num((tx.get(k) or {}).get("sells")))
         liq = num((p.get("liquidity") or {}).get("usd"))
+        if liq > 2e7 and num(vol.get("h24")) < liq * 0.005:    # huge "liquidity" nobody trades against: fake pool
+            return c
         c["liq_total"] += liq
         created = num(p.get("pairCreatedAt")) / 1000 or None
         if created and (not c["created"] or created < c["created"]):
@@ -815,6 +819,8 @@ def score(c, ctx):
     if note:
         pen += 25
         W.insert(0, note)
+    if c.get("copy_note"):
+        W.append(c["copy_note"])
     total = clamp(sum(pts.values()) - pen, 0, 100)
     c["score"], c["pts"], c["pen"], c["why"], c["warn"] = round(total), {k: round(x, 1) for k, x in pts.items()}, pen, R, W
     return total
@@ -1464,6 +1470,19 @@ def main():
         for grp in (sol, evm):
             for c, res in zip(grp, ex.map(lambda c: security(c, sec_cache), grp)):
                 c["sec"] = res
+    groups = {}
+    for c in live:
+        for g in {re.sub(r"[^a-z0-9]", "", c["symbol"].lower()), re.sub(r"[^a-z0-9]", "", c["name"].lower())}:
+            if len(g) >= 3:
+                groups.setdefault(g, []).append(c)
+    for c in live:
+        twins = {x["key"] for g in {re.sub(r"[^a-z0-9]", "", c["symbol"].lower()), re.sub(r"[^a-z0-9]", "", c["name"].lower())}
+                 for x in groups.get(g, []) if x["key"] != c["key"]}
+        if twins:
+            older = [C[k] for k in twins if C[k].get("created") and c.get("created") and C[k]["created"] < c["created"]]
+            c["copycats"] = len(twins)
+            c["copy_note"] = (f"{len(twins)} other coin{'s' if len(twins) > 1 else ''} use this name; "
+                              + ("this is NOT the oldest: check the contract" if older else "this is the oldest one"))
     for c in live:
         if "sec" not in c and c["key"] in sec_cache:
             c["sec"] = sec_cache[c["key"]]
@@ -1554,7 +1573,7 @@ def main():
     def slim(c):
         return {k: c.get(k) for k in ("key", "symbol", "name", "chain", "address", "pair_url", "price", "mcap", "liq", "vol", "chg", "txns",
                                       "created", "score", "pts", "pen", "why", "warn", "ment", "themes", "metas", "culture", "cg_rank",
-                                      "on_cb", "sec", "src", "links", "desc", "score_6h")}
+                                      "on_cb", "sec", "src", "links", "desc", "score_6h", "copy_note")}
     save("scan.json", {"t": NOW, "updated": datetime.fromtimestamp(NOW, ET_TZ).isoformat(), "health": HEALTH, "top": [slim(c) for c in live[:60]],
                        "flagged": [slim(c) for c in flagged[:20]], "coinbase_memes": cbm[:30], "metas": metas[:15],
                        "trends": [{k: v for k, v in t.items() if k != "coins"} | {"coins": [c["key"] for c in t.get("coins", [])[:6]]} for t in trends[:15]],
