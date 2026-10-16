@@ -69,6 +69,10 @@ THEME_SEARCH = {"gta": ["gta"], "gta 6": ["gta"], "vice city": ["vice"], "cyberl
 MANUAL_FLAGS = {
     "cyberleek": "Creator wallet already sold about $250k on Aug 27 (Tom's Hardware). Pumps are driven by threats to leak stolen GTA VI files; fell ~50% in a day on Oct 12 (Kotaku).",
 }
+# Facts worth knowing about specific coins (shown as a chip; adds narrative points). Keyed by lowercase ticker or name.
+MANUAL_NOTES = {
+    "dacity": "'Dacity Coin' is shown on a plane in the official GTA VI launch trailer (Oct 15); Rockstar hasn't commented",
+}
 THEME_RE = {k: re.compile(r"(?<![a-z0-9])(" + "|".join(v["kw"]) + r")(?![a-z0-9])", re.I) for k, v in THEMES.items()}
 
 MAJORS = {"SOL", "WSOL", "ETH", "WETH", "BTC", "WBTC", "CBBTC", "USDC", "USDT", "DAI", "USDS", "USD1", "PYUSD", "BNB", "WBNB", "USDE",
@@ -769,6 +773,10 @@ def score(c, ctx):
         best = max(c["metas"], key=lambda mm: mm[1])
         npts += clamp(best[1] / 10, 1, 6)
         R.append(f"in hot DexScreener narrative '{best[0]}'")
+    mn = next((v for k, v in MANUAL_NOTES.items() if k == (c.get("symbol") or "").lower() or k in (c.get("name") or "").lower()), None)
+    if mn:
+        npts += 5
+        R.insert(0, mn)
     if c.get("culture"):
         npts += 6
         R.append(f"named after a Google trending search: '{c['culture']}'")
