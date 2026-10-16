@@ -652,14 +652,17 @@ def mentions(c, docs, idx):
     akey = c["address"] if c["chain"] in CASE_SENSITIVE_CHAINS else (c["address"] or "").lower()
     bare_ok = len(sym) >= 3 and s_up not in STOP and re.fullmatch(r"[A-Za-z0-9]+", sym or "-") is not None
     name = (c["name"] or "").lower().strip()
-    name_ok = len(name) >= 5 and name.upper() not in STOP and name != s_low and not name.isdigit()
+    # a coin named "GTA VI" or "Halloween" would otherwise count every headline about the game or the holiday
+    coinish = bool(re.search(r"(coin|token)$", name))      # "Dacity Coin" names a coin outright
+    name_ok = (len(name) >= 5 and name.upper() not in STOP and name != s_low and not name.isdigit() and (coinish or not theme_hits(name)))
     name_re = re.compile(r"(?<![a-z0-9])" + re.escape(name) + r"(?![a-z0-9])") if name_ok else None
+    news_re = name_re if coinish else (re.compile(r"(?<![a-z0-9])" + re.escape(name) + r"\s*(\(\$?[a-z0-9]+\)\s*)?(coin|token|memecoin|meme coin)") if name_ok else None)
     hits = set(idx["cash"].get(s_low, ())) | set(idx["addr"].get(akey, ()))
     if bare_ok:
         hits |= {i for i in idx["upper"].get(s_up, ()) if docs[i].src != "news"}
     if name_ok:
         for i, d in enumerate(docs):
-            if name in d.low and name_re.search(d.low):
+            if name in d.low and (news_re if d.src == "news" else name_re).search(d.low):
                 hits.add(i)
     m = {"biz": 0, "reddit": 0, "news": 0, "w": 0.0, "heads": []}
     for i in hits:
@@ -813,6 +816,9 @@ def score(c, ctx):
     elif ch["h24"] > 300:
         pen += 6
         W.append(f"already up {ch['h24']:,.0f}% in 24h")
+    if v["h1"] < 5000:
+        pen += 10
+        W.append(f"barely trading ({usd(v['h1'])} in the last hour)")
     if b1 > 60 and s1 == 0:
         pen += 15
         W.append("no sells in the last hour: possible honeypot")
@@ -901,8 +907,16 @@ def ds_prices(keys):
     return out
 
 
+VOID_TICKETS = {"solana:4kjruqGHDsSqkMdFfCjV7Vb62HPFhtXyWc2t6JpQzDnz":
+                "voided: bought because headlines about the game GTA VI were counted as chatter about this coin (fixed Oct 16)"}
+
+
 def update_ledger(ledger, ranked, cbm, cbprods, claude_picks):
     tickets = ledger.setdefault("tickets", [])
+    for t in tickets:
+        if t["key"] in VOID_TICKETS and t["by"] == "bot" and t["status"] != "void":
+            t["status"], t["note"] = "void", VOID_TICKETS[t["key"]]
+    ledger["tickets"] = tickets = [t for t in tickets if t["status"] != "void"] + [t for t in tickets if t["status"] == "void"]
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     # Claude's hand picks (docs/meme/claude_picks.json) become tickets the first time the bot sees them
     have = {(t["key"], t["by"]) for t in tickets}
@@ -946,7 +960,8 @@ def update_ledger(ledger, ranked, cbm, cbprods, claude_picks):
         a = age_h(c)
         sec = (c.get("sec") or {}).get("verdict")
         if (c["key"] in recent or sec == "danger" or flag_note(c) or c["liq"] < 40000 or (a is not None and a < 3)
-                or c["chg"]["h24"] > 500 or not c["price"]):
+                or c["chg"]["h24"] > 500 or not c["price"] or c["vol"]["h1"] < 10000 or sum(c["txns"]["h1"]) < 30
+                or c.get("copy_younger")):
             continue
         tickets.append({"key": c["key"], "by": "bot", "day": today, "symbol": c["symbol"], "name": c["name"], "chain": c["chain"],
                         "url": c.get("pair_url"), "t": NOW, "entry": c["price"], "peak": c["price"], "last": c["price"], "last_t": NOW,
@@ -969,7 +984,7 @@ def update_ledger(ledger, ranked, cbm, cbprods, claude_picks):
 
 
 def ledger_summary(tickets, by):
-    ts = [t for t in tickets if t["by"] == by]
+    ts = [t for t in tickets if t["by"] == by and t["status"] != "void"]
     if not ts:
         return None
     vals = [ticket_value(t, t["last"] if t["status"] == "open" else t.get("exit", 0)) for t in ts]
@@ -1217,7 +1232,7 @@ def write_page(ctx):
         h.append("</table></div>")
         h.append("<div class=wrap style='margin-top:10px'><table><tr><th>Bought</th><th>Coin</th><th class='n hide-s'>Entry</th><th class=n>Now</th><th class=n>Peak</th>"
                  "<th class=n>Worth</th><th class=hide-s>Status</th><th class=hide-s>Why it was picked</th></tr>")
-        order = sorted(tickets, key=lambda t: (t["status"] != "open", -t["t"]))
+        order = sorted([t for t in tickets if t["status"] != "void"], key=lambda t: (t["status"] != "open", -t["t"]))
         for t in order[:60]:
             price = t["last"] if t["status"] == "open" else t.get("exit", 0)
             val = ticket_value(t, price)
@@ -1624,6 +1639,7 @@ def main():
     for c in top:
         a = age_h(c)
         if (c["score"] >= ALERT_SCORE and (c.get("sec") or {}).get("verdict") in ("pass", "caution") and c["liq"] >= 50000
+                and c["vol"]["h1"] >= 10000 and sum(c["txns"]["h1"]) >= 30
                 and (a is None or a >= 2) and c["chg"]["h24"] < 300 and not c.get("copy_younger") and not flag_note(c)
                 and not book.recently("toppick:" + c["key"], 24) and book.count_today("toppick") < TOPPICK_ALERTS_PER_DAY):
             book.alert("toppick:" + c["key"], "toppick", f"🔥 Top pick: ${c['symbol']} scores {c['score']}",
