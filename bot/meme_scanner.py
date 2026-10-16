@@ -38,7 +38,7 @@ TICKET_DAYS = 14
 COST_EACH_WAY = 0.02          # swap fee + slippage + network, each way
 BOT_TICKETS_PER_DAY = 5
 CB_TICKETS_PER_DAY = 2
-PICK_SCORE = 65               # DEX coin needs this score to get a paper ticket
+PICK_SCORE = 55               # DEX coin needs this score to get a paper ticket
 CB_PICK_HEAT = 70
 
 # ------------------------------------------------------------------ narratives
@@ -107,7 +107,7 @@ EVM_RE = re.compile(r"\b0x[a-fA-F0-9]{40}\b")
 HEALTH = {}
 _hl = threading.Lock()
 _host_lock, _host_last = {}, {}
-PACE = {"api.geckoterminal.com": 2.2, "api.coingecko.com": 4.0, "api.rugcheck.xyz": 0.7, "api.gopluslabs.io": 1.1,
+PACE = {"api.geckoterminal.com": 3.0, "api.coingecko.com": 4.0, "api.rugcheck.xyz": 0.7, "api.gopluslabs.io": 1.1,
         "www.reddit.com": 1.2, "old.reddit.com": 1.2, "api.dexscreener.com": 0.22, "a.4cdn.org": 1.1, "api.coinbase.com": 0.12}
 
 
@@ -284,13 +284,21 @@ def add_links(c, links):
             c["links"].append(u)
 
 
+STOCK_RE = re.compile(r"(\binc\.?$|\bcorp(oration)?\.?$|tokenized|xstock|\bplc$|\bltd\.?$|class [ab] )", re.I)
+
+
+def is_stock(name, sym):
+    """Tokenized stocks (Apple Inc., TSLAx...) trade on DEXes too; they aren't memes."""
+    return bool(STOCK_RE.search((name or "").strip()))
+
+
 def take_pair(p, source=None):
     """Merge one DexScreener pair into its base token's candidate (volumes summed over pools, price from the deepest pool)."""
     try:
         bt = p.get("baseToken") or {}
         chain, addr = p.get("chainId"), bt.get("address")
         sym = (bt.get("symbol") or "").strip()
-        if not chain or not addr or not sym or sym.upper() in MAJORS:
+        if not chain or not addr or not sym or sym.upper() in MAJORS or is_stock(bt.get("name"), sym):
             return None
         c = cand(chain, addr)
         if source:
@@ -315,7 +323,7 @@ def take_pair(p, source=None):
         c["boosts"] = max(c["boosts"], int(num((p.get("boosts") or {}).get("active"))))
         if liq > c["liq"]:
             pc = p.get("priceChange") or {}
-            c.update(symbol=sym, name=(bt.get("name") or sym).strip(), pair_url=safe_url(p.get("url")), dex=p.get("dexId"),
+            c.update(symbol=sym, name=(bt.get("name") or sym).strip(), pair_url=safe_url(p.get("url")) or f"https://dexscreener.com/{chain}/{addr}", dex=p.get("dexId"),
                      price=num(p.get("priceUsd")), mcap=num(p.get("marketCap")) or num(p.get("fdv")), liq=liq,
                      chg={k: num(pc.get(k)) for k in ("m5", "h1", "h6", "h24")}, has_data=True)
         return c
@@ -411,8 +419,8 @@ REDDIT_SUBS = ["CryptoMoonShots", "SatoshiStreetBets", "memecoins", "solana", "C
 def f_reddit():
     docs, fails = [], 0
     for s in REDDIT_SUBS:
-        if fails >= 3 and not docs:
-            _mark("Reddit", False, "blocked from GitHub's servers; skipped the rest")
+        if fails >= 2 and not docs:
+            _mark("Reddit", False, "Reddit blocks GitHub's servers (HTTP 429/403); skipped the rest")
             break
         got = False
         for host in ("www.reddit.com", "old.reddit.com"):
@@ -467,6 +475,19 @@ def f_trends():
     for it in items[:25]:
         out.append({"term": it["title"], "traffic": it["traffic"], "news": it["extra"][:2]})
     return out
+
+
+COMMON_WORDS = set("""what when where time today tonight game games news live score scores near team weather update death dies dead
+died schedule season week year days night show video watch where how who will open start world state city county high school
+football basketball baseball soccer hockey match final finals vote results""".split())
+
+
+def traffic_n(s):
+    m = re.match(r"([\d.,]+)\s*([KkMm]?)", s or "")
+    if not m:
+        return 0
+    v = num(m.group(1))
+    return v * {"k": 1e3, "m": 1e6}.get(m.group(2).lower(), 1)
 
 
 def f_cb_hourly(pids):
@@ -670,8 +691,11 @@ def score(c, ctx):
     pace = v["h24"] / hours if v["h24"] > 0 else 0
     va = v["h1"] / pace if pace > 0 else 0
     m = clamp(math.log2(va) * 8, 0, 16) if va > 1 else 0
-    if va >= 1.8 and v["h1"] >= 5000:
-        R.append(f"volume {va:.1f}x its normal pace")
+    m *= clamp(v["h1"] / 25000, 0.2, 1)          # a spike on $3k of volume is noise
+    if ch["h1"] < 0:
+        m *= 0.5                                 # heavy volume while the price falls is selling, not a breakout
+    if va >= 1.8 and v["h1"] >= 10000:
+        R.append(f"volume {va:.1f}x its normal pace" + (" (but price falling)" if ch["h1"] < 0 else ""))
     if ch["h1"] > 0:
         m += clamp(ch["h1"] / 5, 0, 8)
     if ch["m5"] > 0 and v["m5"] * 12 > v["h1"] * 1.2 and v["m5"] > 1000:
@@ -969,7 +993,9 @@ def age_s(c):
         return f"{a:.0f}h old"
     if a < 24 * 60:
         return f"{a / 24:.0f}d old"
-    return f"{a / 24 / 30:.0f}mo old"
+    if a < 24 * 365:
+        return f"{a / 24 / 30:.0f}mo old"
+    return f"{a / 24 / 365:.1f}y old"
 
 
 def sc_cls(s):
@@ -1158,10 +1184,19 @@ def write_page(ctx):
     if flagged:
         h.append("<h2>Red flags (skipped)</h2><p class='muted small'>Coins that had buying or chatter but failed a safety check. This is the stuff that turns $100 into $0.</p>"
                  "<div class=wrap><table><tr><th>Coin</th><th class=n>Mcap</th><th class=n>24h</th><th>Problem</th></tr>")
-        for c in flagged[:12]:
+        seen = {}
+        for c in flagged:
+            seen[c["symbol"].upper()] = seen.get(c["symbol"].upper(), 0) + 1
+        shown = set()
+        for c in flagged:
+            if c["symbol"].upper() in shown or len(shown) >= 12:
+                continue
+            shown.add(c["symbol"].upper())
+            dup = seen[c["symbol"].upper()] - 1
             link = c.get("pair_url") or ""
             probs = flag_note(c) or "; ".join(((c.get("sec") or {}).get("bad") or [])[:3]) or "; ".join(c["warn"][:2])
-            h.append(f"<tr><td><a href='{esc(link)}' target=_blank rel=noopener><b>${esc(c['symbol'])}</b></a> <span class='muted small'>{esc(CHAIN_LABEL.get(c['chain'], c['chain']))}</span></td>"
+            dups = f"<div class='muted small'>+{dup} copycat{'s' if dup > 1 else ''} with the same name</div>" if dup else ""
+            h.append(f"<tr><td><a href='{esc(link)}' target=_blank rel=noopener><b>${esc(c['symbol'])}</b></a> <span class='muted small'>{esc(CHAIN_LABEL.get(c['chain'], c['chain']))}</span>{dups}</td>"
                      f"<td class=n>{usd(c['mcap'])}</td><td class=n>{pct(c['chg']['h24'])}</td><td class=small>{esc(probs)}</td></tr>")
         h.append("</table></div>")
     # how it works + sources
@@ -1251,7 +1286,7 @@ def main():
             addr, chain = bid.rsplit("_", 1)[1], GT2DS.get(net, net or bid.rsplit("_", 1)[0])
             ta = toks.get(bid, {})
             sym = (ta.get("symbol") or (a.get("name") or "").split(" / ")[0]).strip()
-            if not sym or sym.upper() in MAJORS:
+            if not sym or sym.upper() in MAJORS or is_stock(ta.get("name"), sym):
                 continue
             c = cand(chain, addr)
             tag(c, src)
@@ -1300,6 +1335,13 @@ def main():
             idx["addr"].setdefault(a, []).append(i)
     cash_count = sorted(((s, len(v)) for s, v in idx["cash"].items() if s.upper() not in MAJORS and s.upper() not in STOP), key=lambda x: -x[1])
     trends = raw["trends"] or []
+    caps = {}
+    for d in docs:
+        if d.src == "biz":
+            for w in d.upper:
+                if w not in STOP and not w.isdigit():
+                    caps[w] = caps.get(w, 0) + 1
+    caps_top = sorted(caps.items(), key=lambda x: -x[1])[:60]
 
     # phase 2: searches that depend on phase 1 (chatter tickers, CoinGecko trending, Google Trends terms), Coinbase hourly bars
     known_syms = {c["symbol"].lower() for c in C.values() if c["symbol"]}
@@ -1310,7 +1352,8 @@ def main():
     for t in cg_trend:
         if t["symbol"].lower() not in known_syms and t["symbol"] not in MAJORS:
             qs.append((t["name"] or t["symbol"], "cg_search", t["symbol"]))
-    for t in trends[:10]:
+    trends.sort(key=lambda t: -traffic_n(t["traffic"]))
+    for t in trends[:8]:
         qs.append((t["term"], "trend_search", t["term"]))
     meme_syms = {m.get("symbol", "").upper(): m for m in cg_memes}
     if not meme_syms:
@@ -1330,12 +1373,15 @@ def main():
     trend_coins = {}
     for q, src, want, pairs in sres:
         if src == "trend_search":
-            words = [w for w in re.findall(r"[a-z0-9]+", q.lower()) if len(w) >= 4 and w.upper() not in STOP]
+            # a coin "named after" a trend: its name holds the trend's most distinctive words, and it launched this week
+            words = [w for w in re.findall(r"[a-z0-9]+", q.lower()) if len(w) >= 4 and w.upper() not in STOP and w not in COMMON_WORDS]
+            words = sorted(words, key=len, reverse=True)[:2]
             got = []
             for p in pairs[:30]:
                 bt = p.get("baseToken") or {}
-                nm = ((bt.get("name") or "") + " " + (bt.get("symbol") or "")).lower()
-                if words and any(w in nm for w in words) and num((p.get("liquidity") or {}).get("usd")) >= 3000:
+                nm = re.sub(r"[^a-z0-9]", "", ((bt.get("name") or "") + (bt.get("symbol") or "")).lower())
+                fresh = NOW - num(p.get("pairCreatedAt")) / 1000 < 7 * 86400
+                if words and all(w in nm for w in words) and fresh and num((p.get("liquidity") or {}).get("usd")) >= 3000:
                     c = take_pair(p, "trend_search")
                     if c:
                         c["culture"] = q
@@ -1470,17 +1516,20 @@ def main():
     for s in recent_scans:
         for k, v in (s.get("tick") or {}).items():
             prev_tick.setdefault(k, []).append(v)
-    chat = []
-    for s, _ in cash_count[:40]:
-        ids = set(idx["cash"].get(s, ()))
-        if len(ids) < 2:
-            continue
-        r = {"sym": s.upper(), "biz": sum(docs[i].src == "biz" for i in ids), "reddit": sum(docs[i].src == "reddit" for i in ids),
-             "news": sum(docs[i].src == "news" for i in ids), "n": len(ids), "c": sym2c.get(s)}
-        pv = prev_tick.get(s)
+    rows = {}
+    for c in sorted(live, key=lambda c: -c["ment"]["n"]):
+        s = c["symbol"].upper()
+        if c["ment"]["n"] >= 2 and s not in rows:
+            rows[s] = {"sym": s, "biz": c["ment"]["biz"], "reddit": c["ment"]["reddit"], "news": c["ment"]["news"], "n": c["ment"]["n"], "c": c}
+    for s, n in cash_count[:40]:
+        if n >= 2 and s.upper() not in rows:
+            ids = set(idx["cash"].get(s, ()))
+            rows[s.upper()] = {"sym": s.upper(), "biz": sum(docs[i].src == "biz" for i in ids), "reddit": sum(docs[i].src == "reddit" for i in ids),
+                               "news": sum(docs[i].src == "news" for i in ids), "n": len(ids), "c": sym2c.get(s)}
+    chat = sorted(rows.values(), key=lambda r: -r["n"])[:40]
+    for r in chat:
+        pv = prev_tick.get(r["sym"].lower())
         r["before"] = sum(pv) / len(recent_scans) if pv else (0 if recent_scans else None)
-        chat.append(r)
-    chat.sort(key=lambda r: -r["n"])
 
     # ledger, history
     ledger = update_ledger(ledger, live, cbm, cbprods, claude_picks)
@@ -1504,7 +1553,8 @@ def main():
                        "chatter": [{k: v for k, v in r.items() if k != "c"} | {"coin": (r["c"] or {}).get("key")} for r in chat[:30]],
                        "catalysts": [{k: v for k, v in x.items() if k != "coins"} | {"coins": [c["key"] for c in x["coins"][:8]]} for x in cats],
                        "cg_trending": cg_trend, "cg_categories": cg_categories, "cb_new": cb_new[:20],
-                       "n_docs": {s: sum(d.src == s for d in docs) for s in SRC_W}, "secs": round(time.time() - START, 1)}, pretty=True)
+                       "n_docs": {s: sum(d.src == s for d in docs) for s in SRC_W}, "secs": round(time.time() - START, 1),
+                       "debug": {"cashtags": cash_count[:40], "caps_biz": caps_top}}, pretty=True)
     save("history.json", hist)
     save("security_cache.json", sec_cache)
     if cbprods:
