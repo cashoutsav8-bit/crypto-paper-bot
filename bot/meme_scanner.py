@@ -773,7 +773,7 @@ def score(c, ctx):
         best = max(c["metas"], key=lambda mm: mm[1])
         npts += clamp(best[1] / 10, 1, 6)
         R.append(f"in hot DexScreener narrative '{best[0]}'")
-    mn = next((v for k, v in MANUAL_NOTES.items() if k == (c.get("symbol") or "").lower() or k in (c.get("name") or "").lower()), None)
+    mn = next((v for k, v in MANUAL_NOTES.items() if k == (c.get("symbol") or "").lower() or (c.get("name") or "").lower() in (k, k + " coin")), None)
     if mn:
         npts += 5
         R.insert(0, mn)
@@ -829,6 +829,8 @@ def score(c, ctx):
         W.insert(0, note)
     if c.get("copy_note"):
         W.append(c["copy_note"])
+        if c.get("copy_younger"):
+            pen += 8           # a later copy of a coin that's already running is the classic trap
     total = clamp(sum(pts.values()) - pen, 0, 100)
     c["score"], c["pts"], c["pen"], c["why"], c["warn"] = round(total), {k: round(x, 1) for k, x in pts.items()}, pen, R, W
     return total
@@ -1489,6 +1491,7 @@ def main():
         if twins:
             older = [C[k] for k in twins if C[k].get("created") and c.get("created") and C[k]["created"] < c["created"]]
             c["copycats"] = len(twins)
+            c["copy_younger"] = bool(older)
             c["copy_note"] = (f"{len(twins)} other coin{'s' if len(twins) > 1 else ''} use this name; "
                               + ("this is NOT the oldest: check the contract" if older else "this is the oldest one"))
     for c in live:
@@ -1504,7 +1507,13 @@ def main():
                 c["score_6h"] = ref["c"][c["key"]][0]
     dangerous = lambda c: (c.get("sec") or {}).get("verdict") == "danger" or flag_note(c)
     ok_live = [c for c in live if not dangerous(c) and c["mcap"] < 1e9]
-    top = [c for c in ok_live if c["score"] >= 45][:10] or ok_live[:5]
+    seen_names, uniq = set(), []
+    for c in ok_live:        # one row per name: copycats collapse into the best-scoring one
+        nm = re.sub(r"[^a-z0-9]", "", c["name"].lower()) or c["key"]
+        if nm not in seen_names:
+            seen_names.add(nm)
+            uniq.append(c)
+    top = [c for c in uniq if c["score"] >= 45][:10] or uniq[:5]
     flagged = sorted([c for c in live if dangerous(c) and (c["ment"]["n"] or c["vol"]["h1"] > 20000 or flag_note(c))], key=lambda c: -c["vol"]["h24"])
 
     # Coinbase memes
