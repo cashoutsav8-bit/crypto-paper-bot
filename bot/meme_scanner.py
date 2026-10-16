@@ -288,7 +288,7 @@ def add_links(c, links):
             c["links"].append(u)
 
 
-STOCK_RE = re.compile(r"(\binc\.?$|\bcorp(oration)?\.?$|tokenized|xstock|\bplc$|\bltd\.?$|class [ab] )", re.I)
+STOCK_RE = re.compile(r"(\binc\.?$|\bcorp(oration)?\.?$|tokenized|xstock|\bplc$|\bltd\.?$|class [ab] |securities|pre-?ipo)", re.I)
 
 
 def is_stock(name, sym):
