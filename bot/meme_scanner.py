@@ -1151,11 +1151,17 @@ def write_page(ctx):
     h.append("<h2>Trending in culture right now</h2><p class='muted small'>Top US Google searches. When something goes viral, someone launches a coin named "
              "after it within hours; the first one to get real volume sometimes runs. Most die within a day.</p>")
     if trends:
-        h.append("<div class=wrap><table><tr><th>Search</th><th class=n>Searches</th><th>Coins named after it</th></tr>")
-        for t in trends[:12]:
-            coins = " ".join(f"<a class=chip href='{esc(c.get('pair_url') or '')}' target=_blank rel=noopener>${esc(c['symbol'])} · {usd(c['mcap'])} · {age_s(c)}</a>" for c in t["coins"][:4]) or "<span class=muted>none</span>"
-            h.append(f"<tr><td>{esc(t['term'])}</td><td class=n>{esc(t['traffic'])}</td><td>{coins}</td></tr>")
-        h.append("</table></div>")
+        hit = [t for t in trends if t["coins"]]
+        if hit:
+            h.append("<div class=wrap><table><tr><th>Search</th><th class=n>Searches</th><th>Coins named after it (launched this week)</th></tr>")
+            for t in hit[:8]:
+                coins = " ".join(f"<a class=chip href='{esc(c.get('pair_url') or '')}' target=_blank rel=noopener>${esc(c['symbol'])} · {usd(c['mcap'])} · {age_s(c)}</a>" for c in t["coins"][:4])
+                h.append(f"<tr><td>{esc(t['term'])}</td><td class=n>{esc(t['traffic'])}</td><td>{coins}</td></tr>")
+            h.append("</table></div>")
+        rest = [t for t in trends if not t["coins"]][:10]
+        if rest:
+            h.append("<p class=small>" + ("Other trending searches" if hit else "No new coins named after today's top searches") + ": "
+                     + ", ".join(f"{esc(t['term'])} <span class=muted>({esc(t['traffic'])})</span>" for t in rest) + "</p>")
     else:
         h.append("<p class=muted>Google Trends didn't answer this scan.</p>")
     # chatter
@@ -1178,10 +1184,10 @@ def write_page(ctx):
     rows = [(lbl, ledger_summary(tickets, by)) for by, lbl in (("bot", "Bot picks"), ("claude", "Claude's picks"))]
     rows = [(l, s) for l, s in rows if s]
     if rows:
-        h.append("<div class=wrap><table><tr><th></th><th class=n>Tickets</th><th class=n>Paid</th><th class=n>Worth</th><th class=n>Return</th>"
+        h.append("<div class=wrap><table><tr><th></th><th class=n>Tickets</th><th class='n hide-s'>Paid</th><th class=n>Worth</th><th class=n>Return</th>"
                  "<th class='n hide-s'>Best peak</th><th class=n>Hit 2x</th><th class='n hide-s'>Hit 5x</th><th class='n hide-s'>Hit 10x</th><th class='n hide-s'>Lost 80%+</th></tr>")
         for lbl, s in rows:
-            h.append(f"<tr><td style='white-space:nowrap'><b>{lbl}</b></td><td class=n>{s['n']}<span class=hide-s> ({s['open']} open)</span></td><td class=n>${s['paid']:,.0f}</td><td class=n>${s['value']:,.0f}</td>"
+            h.append(f"<tr><td style='white-space:nowrap'><b>{lbl}</b></td><td class=n>{s['n']}<span class=hide-s> ({s['open']} open)</span></td><td class='n hide-s'>${s['paid']:,.0f}</td><td class=n>${s['value']:,.0f}</td>"
                      f"<td class=n>{pct((s['value'] / s['paid'] - 1) * 100, True)}</td><td class='n hide-s'>{s['best']:.1f}x</td><td class=n>{s['x2']}</td>"
                      f"<td class='n hide-s'>{s['x5']}</td><td class='n hide-s'>{s['x10']}</td><td class='n hide-s'>{s['wiped']}</td></tr>")
         h.append("</table></div>")
