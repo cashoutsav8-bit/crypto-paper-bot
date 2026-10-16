@@ -33,3 +33,7 @@ Costs modeled: 0.12% fee + 0.05% slippage per side, hourly funding at Coinbase's
 - `docs/meme/claude_picks.json`: hand picks to track alongside the bot's (edit this file only; the bot writes the rest)
 - `docs/meme/scan.json`: full data from the latest scan
 - `docs/meme/ledger.json`: paper tickets
+
+### Phone alerts
+
+`bot/meme_watch.py` runs between scans and checks the watchlist every minute; `bot/notify.py` pushes alerts through [ntfy](https://ntfy.sh). Alerts: breakouts (+10% in 5 min on heavy, mostly-buy volume, safety-checked coins only), top picks scoring 60+, new Coinbase meme listings, 2x/5x/10x/-50% and liquidity-pulled on Claude's picks and alerted coins, and news on picks. The ntfy topic lives only in the `NTFY_TOPIC` repo secret; without it alerts are logged on the dashboard but not pushed. Alert logs: `docs/meme/alerts.json` (scanner), `docs/meme/watch.json` (watcher).

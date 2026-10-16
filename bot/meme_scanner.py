@@ -21,6 +21,9 @@ from datetime import date, datetime, timezone
 from email.utils import parsedate_to_datetime
 from zoneinfo import ZoneInfo
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import notify
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.environ.get("MEME_DATA") or os.path.join(os.path.dirname(HERE), "docs", "meme")
 os.makedirs(OUT, exist_ok=True)
@@ -40,6 +43,8 @@ BOT_TICKETS_PER_DAY = 5
 CB_TICKETS_PER_DAY = 2
 PICK_SCORE = 50               # DEX coin needs this score to get a paper ticket
 CB_PICK_HEAT = 70
+ALERT_SCORE = 60              # phone alert when a top pick scores this high (and passes the filters)
+TOPPICK_ALERTS_PER_DAY = 4
 
 # ------------------------------------------------------------------ narratives
 # Themes are matched against each coin's name, ticker, description and links. A theme with an upcoming
@@ -1109,6 +1114,25 @@ def write_page(ctx):
         h.extend(card(i + 1, c) for i, c in enumerate(top))
     else:
         h.append("<p class=muted>No coin scored high enough this scan.</p>")
+    # alerts
+    al, on, wl = ctx.get("alerts") or [], ctx.get("alerts_on"), ctx.get("watch_last")
+    h.append("<h2>Phone alerts</h2>")
+    status = ("<span class='pill ok'>on</span> Pushing to your phone through ntfy." if on else
+              "<span class='pill close'>off</span> Alerts are logged here but not pushed yet: the NTFY_TOPIC secret isn't set on GitHub.")
+    if wl:
+        status += f" The fast watcher last checked prices {max(0, (NOW - wl) / 60):.0f} min ago (it checks every minute between scans)."
+    h.append(f"<p class=small>{status}</p>")
+    if al:
+        h.append("<div class=wrap><table><tr><th>When</th><th>Alert</th><th class=n>Since</th></tr>")
+        for x in al:
+            link = safe_url(x.get("url"))
+            title = f"<a href='{esc(link)}' target=_blank rel=noopener>{esc(x['title'])}</a>" if link else esc(x["title"])
+            since = pct(x["since"]) if x.get("since") is not None else "–"
+            h.append(f"<tr><td class=n>{datetime.fromtimestamp(x['t'], ET_TZ).strftime('%b %d %I:%M %p')}</td><td>{title}"
+                     f"{'' if x.get('pushed') else ' <span class=pill>logged only</span>'}</td><td class=n>{since}</td></tr>")
+        h.append("</table></div>")
+    else:
+        h.append("<p class='muted small'>No alerts yet. The bar is set high on purpose: a noisy alert feed trains you to chase.</p>")
     # coinbase
     h.append("<h2>Coinbase-listed memes heating up</h2><p class='muted small'>Easier to buy and much less rug risk, but also much less upside: "
              "these are already big. 'Vol now' compares the last full hour's Coinbase volume with the 24 hours before it.</p>")
@@ -1344,8 +1368,10 @@ def main():
         cbprods[b] = {"pid": p.get("product_id"), "name": p.get("base_name") or b, "price": num(p.get("price")),
                       "chg24": num(p.get("price_percentage_change_24h")), "vol_usd": num(p.get("approximate_quote_24h_volume")),
                       "volchg24": num(p.get("volume_percentage_change_24h")), "new": bool(p.get("new"))}
+    cb_newly = []
     if cbprods:   # remember when each Coinbase listing first appeared
         first_run = not cb_seen
+        cb_newly = [] if first_run else [b for b in cbprods if b not in cb_seen]
         for b in cbprods:
             if b not in cb_seen:
                 cb_seen[b] = 0 if first_run else NOW
@@ -1587,8 +1613,39 @@ def main():
             "tick": {r["sym"].lower(): r["n"] for r in chat[:40]}}
     hist["scans"] = [s for s in hist.get("scans", []) if NOW - s["t"] < 26 * 3600] + [snap]
 
+    # phone alerts from the full scan: top picks that clear a high bar, and new Coinbase meme listings
+    book = notify.AlertBook(os.path.join(OUT, "alerts.json"), [os.path.join(OUT, "watch.json")])
+    if notify.TOPIC and not book.d.get("hello"):
+        if notify.send("✅ Meme scanner alerts are on",
+                       "You'll get a push when a coin breaks out, a top pick clears the bar, Coinbase lists a meme, one of Claude's picks "
+                       "doubles or dumps, or there's news on a pick. Most alerts fade; size every buy as money you can lose.",
+                       SITE + "crypto-paper-bot/meme/", 3, ["white_check_mark"]):
+            book.d["hello"] = NOW
+    for c in top:
+        a = age_h(c)
+        if (c["score"] >= ALERT_SCORE and (c.get("sec") or {}).get("verdict") in ("pass", "caution") and c["liq"] >= 50000
+                and (a is None or a >= 2) and c["chg"]["h24"] < 300 and not c.get("copy_younger") and not flag_note(c)
+                and not book.recently("toppick:" + c["key"], 24) and book.count_today("toppick") < TOPPICK_ALERTS_PER_DAY):
+            book.alert("toppick:" + c["key"], "toppick", f"🔥 Top pick: ${c['symbol']} scores {c['score']}",
+                       f"{c['name']} on {CHAIN_LABEL.get(c['chain'], c['chain'])}. " + "; ".join(c["why"][:4])
+                       + f". Mcap {usd(c['mcap'])}, liquidity {usd(c['liq'])}, 1h {c['chg']['h1']:+.0f}%, safety {(c.get('sec') or {}).get('verdict')}."
+                       + (f" Watch out: {'; '.join(c['warn'][:2])}." if c["warn"] else "") + f"\nContract: {c['address']}",
+                       c.get("pair_url"), 5, ["fire"], c["key"], c["price"])
+    for e in cbm:
+        if (e["symbol"] in cb_newly or e["new"]) and not book.recently("cblist:" + e["symbol"], 24 * 7):
+            book.alert("cblist:" + e["symbol"], "listing", f"🆕 Coinbase listed ${e['symbol']}",
+                       f"{e['name']} is now tradable on Coinbase at {price_s(e['price'])} (mcap {usd(e['mcap'])}). "
+                       "New listings often pop and fade within hours.", f"https://www.coinbase.com/advanced-trade/spot/{e['pid']}", 5,
+                       ["new"], "cb:" + e["symbol"], e["price"])
+    book.save()
+    watchd = load("watch.json", {})
+    alog = sorted(book.d["log"] + watchd.get("log", []), key=lambda x: -x["t"])
+    for x in alog:
+        cur = C.get(x.get("coin") or "", {}).get("price") or (cbprods.get((x.get("coin") or "")[3:], {}).get("price") if (x.get("coin") or "").startswith("cb:") else None)
+        x["since"] = (cur / x["price"] - 1) * 100 if cur and x.get("price") else None
+
     n_ok = sum(1 for v in HEALTH.values() if v["ok"])
-    page_ctx = {"top": top, "cbm": cbm, "metas": metas, "trends": trends, "chat": chat, "ledger": ledger, "flagged": flagged,
+    page_ctx = {"alerts": alog[:12], "alerts_on": bool(notify.TOPIC), "watch_last": watchd.get("last_poll"), "top": top, "cbm": cbm, "metas": metas, "trends": trends, "chat": chat, "ledger": ledger, "flagged": flagged,
                 "catalysts": cats, "cg_categories": cg_categories, "cb_new": cb_new, "n_scanned": len(live), "n_sources": len(HEALTH),
                 "n_sources_ok": n_ok, "secs": time.time() - START}
     write_page(page_ctx)

@@ -6,7 +6,7 @@ on:
   workflow_dispatch: {}
   push:
     branches: [main]
-    paths: [".github/workflows/meme-scanner.yml", "bot/meme_scanner.py", "docs/meme/claude_picks.json"]
+    paths: [".github/workflows/meme-scanner.yml", "bot/meme_scanner.py", "bot/meme_watch.py", "bot/notify.py", "docs/meme/claude_picks.json"]
 
 permissions:
   contents: write
@@ -22,6 +22,7 @@ jobs:
     env:
       MEME_DATA: ${{ github.workspace }}/docs/meme
       TZ: America/New_York
+      NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}     # private phone-alert channel; never put it in the repo
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -39,18 +40,43 @@ jobs:
           for i in 1 2 3 4 5; do git pull --rebase -q && git push -q && exit 0; git rebase --abort 2>/dev/null; sleep 6; done
           echo "could not push this scan"; exit 1
 
-  next:
+  watch:
     needs: scan
     if: always()
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 22
+    env:
+      MEME_DATA: ${{ github.workspace }}/docs/meme
+      TZ: America/New_York
+      NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+      MEME_WATCH_MINUTES: "12.5"
     steps:
-      - name: Start the next scan in ~15 minutes (only the newest run keeps the loop going)
+      - uses: actions/checkout@v4
+        with:
+          ref: main          # get the scan that just finished
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Watch prices every minute until the next scan (alerts only, no orders)
+        continue-on-error: true
+        timeout-minutes: 15
+        run: python bot/meme_watch.py
+      - name: Save the alert log
+        if: always()
+        run: |
+          git config user.name "meme-scanner"
+          git config user.email "meme-scanner@users.noreply.github.com"
+          git add docs/meme/watch.json 2>/dev/null || true
+          if git diff --cached --quiet; then echo "no changes"; exit 0; fi
+          git commit -m "meme watch $(date -u +'%Y-%m-%d %H:%M UTC')" -q
+          for i in 1 2 3 4 5; do git pull --rebase -q && git push -q && exit 0; git rebase --abort 2>/dev/null; sleep 6; done
+          echo "could not push the alert log"
+      - name: Start the next scan (only the newest run keeps the loop going)
+        if: always()
         env:
           GH_TOKEN: ${{ github.token }}
           REPO: ${{ github.repository }}
         run: |
-          sleep 780
           me=$(gh run view ${{ github.run_id }} -R "$REPO" --json createdAt -q .createdAt)
           newer=$(gh run list -R "$REPO" --workflow meme-scanner.yml --limit 20 --json createdAt -q "[.[] | select(.createdAt > \"$me\")] | length")
           if [ "${newer:-0}" -gt 0 ]; then echo "a newer run carries the loop"; exit 0; fi
