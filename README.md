@@ -25,3 +25,11 @@ Costs modeled: 0.12% fee + 0.05% slippage per side, hourly funding at Coinbase's
 - `bot/` strategy code (Python standard library only)
 - `docs/` state, logs and the dashboard (served by GitHub Pages)
 - `.github/workflows/paper-bot.yml` schedule
+
+## Meme scanner (`docs/meme/`, dashboard at `/meme/`)
+
+**Research + paper only.** `bot/meme_scanner.py` runs about every 15 minutes in its own workflow (`meme-scanner.yml`). It pulls candidates from DexScreener, GeckoTerminal, CoinGecko and Coinbase, reads chatter from 4chan /biz/, Reddit, crypto news and Google News/Trends, tags narratives and upcoming catalysts (GTA VI, Halloween, midterms...), checks rug risk with RugCheck (Solana) and GoPlus (EVM), and scores each coin 0-100. Coins that clear the bar get a $100 paper ticket that is tracked for 14 days, so the scanner's hit rate shows up over time.
+
+- `docs/meme/claude_picks.json`: hand picks to track alongside the bot's (edit this file only; the bot writes the rest)
+- `docs/meme/scan.json`: full data from the latest scan
+- `docs/meme/ledger.json`: paper tickets

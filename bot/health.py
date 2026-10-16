@@ -13,14 +13,15 @@ CSS = (".pill{display:inline-block;font:600 11px/1 ui-monospace,monospace;paddin
        ".pill.ok{background:#1c3b2c;color:#79d9a3}.pill.close{background:#3f3219;color:#f0c374}.pill.bad{background:#40211f;color:#f39a93}"
        ".hbox{border:1px solid #2a312e;border-radius:8px;padding:10px 14px;margin:8px 0 10px}.hbox p{margin:4px 0}"
        ".ht td,.ht th{white-space:nowrap}"
-       ".xnav{display:flex;gap:8px;margin:0 0 10px;font-size:13px}.xnav a{color:#eef3f1;text-decoration:none;padding:4px 10px;border-radius:14px;border:1px solid #2a312e}"
+       ".xnav{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 10px;font-size:13px}.xnav a{color:#eef3f1;text-decoration:none;padding:4px 10px;border-radius:14px;border:1px solid #2a312e}"
        ".xnav a.on{background:#eef3f1;color:#111514;font-weight:600}")
 STOCKS_URL = "https://cashoutsav8-bit.github.io/stock-paper-bot/"
 CRYPTO_URL = "https://cashoutsav8-bit.github.io/crypto-paper-bot/"
 
 
 def xnav():
-    return f'<div class=xnav><a class=on href="{CRYPTO_URL}">Crypto bot</a><a href="{STOCKS_URL}">Stock bot</a></div>'
+    return (f'<div class=xnav><a class=on href="{CRYPTO_URL}">Crypto bot</a><a href="{STOCKS_URL}">Stock bot</a>'
+            f'<a href="{CRYPTO_URL}meme/">Meme scanner</a></div>')
 
 
 def day(t):

@@ -1,0 +1,57 @@
+name: Meme scanner
+
+on:
+  schedule:
+    - cron: "4,34 * * * *"    # backup only: each run starts the next one ~15 min later
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths: [".github/workflows/meme-scanner.yml", "bot/meme_scanner.py", "docs/meme/claude_picks.json"]
+
+permissions:
+  contents: write
+  actions: write     # lets a run start the next run
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    concurrency:
+      group: meme-scan
+      cancel-in-progress: false
+    env:
+      MEME_DATA: ${{ github.workspace }}/docs/meme
+      TZ: America/New_York
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Scan meme coins (RESEARCH + PAPER ONLY, no orders)
+        run: python bot/meme_scanner.py
+      - name: Save results and page
+        run: |
+          git config user.name "meme-scanner"
+          git config user.email "meme-scanner@users.noreply.github.com"
+          git add docs/meme
+          if git diff --cached --quiet; then echo "no changes"; exit 0; fi
+          git commit -m "meme scan $(date -u +'%Y-%m-%d %H:%M UTC')" -q
+          for i in 1 2 3 4 5; do git pull --rebase -q && git push -q && exit 0; git rebase --abort 2>/dev/null; sleep 6; done
+          echo "could not push this scan"; exit 1
+
+  next:
+    needs: scan
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Start the next scan in ~15 minutes (only the newest run keeps the loop going)
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          sleep 780
+          me=$(gh run view ${{ github.run_id }} -R "$REPO" --json createdAt -q .createdAt)
+          newer=$(gh run list -R "$REPO" --workflow meme-scanner.yml --limit 20 --json createdAt -q "[.[] | select(.createdAt > \"$me\")] | length")
+          if [ "${newer:-0}" -gt 0 ]; then echo "a newer run carries the loop"; exit 0; fi
+          gh workflow run meme-scanner.yml --ref main -R "$REPO"
