@@ -92,7 +92,7 @@ GT2DS = {"eth": "ethereum", "bsc": "bsc", "base": "base", "solana": "solana", "a
          "avax": "avalanche", "sui-network": "sui", "ton": "ton", "tron": "tron", "optimism": "optimism", "blast": "blast",
          "sonic": "sonic", "unichain": "unichain", "abstract": "abstract", "hyperevm": "hyperevm", "berachain": "berachain"}
 EVM_ID = {"ethereum": 1, "bsc": 56, "base": 8453, "arbitrum": 42161, "polygon": 137, "avalanche": 43114, "optimism": 10,
-          "blast": 81457, "sonic": 146, "unichain": 130}
+          "blast": 81457, "sonic": 146, "unichain": 130, "robinhood": 4663}
 CHAIN_LABEL = {"solana": "Solana", "ethereum": "Ethereum", "base": "Base", "bsc": "BNB Chain", "arbitrum": "Arbitrum",
                "polygon": "Polygon", "avalanche": "Avalanche", "sui": "Sui", "ton": "TON", "tron": "Tron", "hyperevm": "HyperEVM",
                "abstract": "Abstract", "robinhood": "Robinhood Chain"}
@@ -392,6 +392,9 @@ def f_cb():
     return fetch(CB + "/products?product_type=SPOT&limit=3000", "Coinbase", timeout=25)
 
 
+BIZ_THREADS = []
+
+
 def f_biz():
     docs = []
     cat = fetch("https://a.4cdn.org/biz/catalog.json", "4chan /biz/")
@@ -402,10 +405,15 @@ def f_biz():
             texts = [(t.get("sub") or "") + " " + (t.get("com") or "")] + [r.get("com") or "" for r in t.get("last_replies") or []]
             for x in texts:
                 docs.append(("biz", x, None, None, t.get("time")))
-    # the meme-coin general threads hold most of the ticker talk: read the busiest few in full
-    gen = [t for t in threads if re.search(r"/smg/|/cmg/|memecoin|meme coin|shitcoin|solana|/sol/|pump", (t.get("sub") or "") + " " + (t.get("com") or "")[:200], re.I)]
-    gen.sort(key=lambda t: -int(t.get("replies") or 0))
-    for t in gen[:4]:
+    # the crypto / meme-coin general threads hold most of the ticker talk: read the busiest few in full
+    # (/smg/ on /biz/ is the STOCK market general, so it's skipped)
+    def is_gen(t):
+        head = (t.get("sub") or "") + " " + clean(t.get("com") or "")[:300]
+        return (re.search(r"memecoin|meme coin|shitcoin|/cmg/|/mcg/|/acg/|/sol/|solana|pump\.?fun|degen|altcoin|crypto general|/crypto/|robinhood chain|base chain", head, re.I)
+                and not re.search(r"/smg/|stock", head, re.I))
+    gen = sorted([t for t in threads if is_gen(t)], key=lambda t: -int(t.get("replies") or 0))
+    BIZ_THREADS[:] = [((t.get("sub") or clean(t.get("com") or ""))[:80], int(t.get("replies") or 0)) for t in gen[:8]]
+    for t in gen[:5]:
         th = fetch(f"https://a.4cdn.org/biz/thread/{t.get('no')}.json", "4chan /biz/")
         for p in (th or {}).get("posts", [])[1:]:
             if NOW - num(p.get("time")) < 2 * 86400:
@@ -1554,7 +1562,7 @@ def main():
                        "catalysts": [{k: v for k, v in x.items() if k != "coins"} | {"coins": [c["key"] for c in x["coins"][:8]]} for x in cats],
                        "cg_trending": cg_trend, "cg_categories": cg_categories, "cb_new": cb_new[:20],
                        "n_docs": {s: sum(d.src == s for d in docs) for s in SRC_W}, "secs": round(time.time() - START, 1),
-                       "debug": {"cashtags": cash_count[:40], "caps_biz": caps_top}}, pretty=True)
+                       "debug": {"cashtags": cash_count[:40], "caps_biz": caps_top, "biz_threads": BIZ_THREADS}}, pretty=True)
     save("history.json", hist)
     save("security_cache.json", sec_cache)
     if cbprods:
