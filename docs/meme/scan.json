@@ -1,19 +1,19 @@
 {
- "t": 1792398721.0281591,
- "updated": "2026-10-19T04:32:01.028159-04:00",
+ "t": 1792399572.5441015,
+ "updated": "2026-10-19T04:46:12.544101-04:00",
  "health": {
-  "Reddit": {
-   "ok": 1,
-   "fail": 12,
-   "note": "Reddit blocks GitHub's servers (HTTP 429/403); skipped the rest"
+  "DexScreener lists": {
+   "ok": 4,
+   "fail": 0,
+   "note": ""
   },
   "CoinGecko": {
    "ok": 2,
    "fail": 0,
    "note": ""
   },
-  "DexScreener lists": {
-   "ok": 4,
+  "4chan /biz/": {
+   "ok": 3,
    "fail": 0,
    "note": ""
   },
@@ -22,17 +22,22 @@
    "fail": 1,
    "note": "HTTP 429"
   },
+  "Coinbase": {
+   "ok": 26,
+   "fail": 0,
+   "note": ""
+  },
   "DexScreener narratives": {
    "ok": 8,
    "fail": 0,
    "note": ""
   },
-  "News: CoinDesk": {
+  "Google Trends": {
    "ok": 1,
    "fail": 0,
    "note": ""
   },
-  "Google Trends": {
+  "News: CoinDesk": {
    "ok": 1,
    "fail": 0,
    "note": ""
@@ -42,8 +47,8 @@
    "fail": 0,
    "note": ""
   },
-  "Coinbase": {
-   "ok": 26,
+  "DexScreener search": {
+   "ok": 31,
    "fail": 0,
    "note": ""
   },
@@ -52,18 +57,8 @@
    "fail": 0,
    "note": ""
   },
-  "4chan /biz/": {
-   "ok": 3,
-   "fail": 0,
-   "note": ""
-  },
   "News: The Block": {
    "ok": 1,
-   "fail": 0,
-   "note": ""
-  },
-  "DexScreener search": {
-   "ok": 31,
    "fail": 0,
    "note": ""
   },
@@ -77,18 +72,18 @@
    "fail": 0,
    "note": ""
   },
+  "Reddit": {
+   "ok": 1,
+   "fail": 12,
+   "note": "Reddit blocks GitHub's servers (HTTP 429/403); skipped the rest"
+  },
   "DexScreener tokens": {
    "ok": 18,
    "fail": 0,
    "note": ""
   },
-  "RugCheck": {
-   "ok": 0,
-   "fail": 5,
-   "note": "URLError: <urlopen error [Errno -2] Name or service not known>"
-  },
   "GoPlus": {
-   "ok": 7,
+   "ok": 2,
    "fail": 0,
    "note": ""
   },
@@ -100,50 +95,140 @@
  },
  "top": [
   {
+   "key": "bsc:0x7d0443cddfc8e11af105f4fe44dd28c630237777",
+   "symbol": "DAWG",
+   "name": "DAWG",
+   "chain": "bsc",
+   "address": "0x7D0443CdDFc8E11AF105F4fE44Dd28c630237777",
+   "pair_url": "https://dexscreener.com/bsc/0x9e83be1267e9a6d43bb7f3a8c0dc3c092ccae63e",
+   "price": 0.004285,
+   "mcap": 4285708.0,
+   "liq": 216895.3,
+   "vol": {
+    "m5": 18026.32,
+    "h1": 90431.61,
+    "h6": 211154.56,
+    "h24": 554497.89
+   },
+   "chg": {
+    "m5": 1.51,
+    "h1": 13.2,
+    "h6": 11.67,
+    "h24": -5.31
+   },
+   "txns": {
+    "m5": [
+     98,
+     46
+    ],
+    "h1": [
+     1118,
+     1023
+    ],
+    "h6": [
+     2184,
+     2007
+    ],
+    "h24": [
+     11760,
+     7415
+    ]
+   },
+   "created": 1792075556.0,
+   "score": 47,
+   "pts": {
+    "momentum": 24.4,
+    "buyers": 1.3,
+    "chatter": 5,
+    "narrative": 0,
+    "room": 10,
+    "liquidity": 6
+   },
+   "pen": 0,
+   "why": [
+    "volume 3.9x its normal pace",
+    "still accelerating (last 5 min)",
+    "trending on GeckoTerminal",
+    "paid DexScreener boosts"
+   ],
+   "warn": [],
+   "ment": {
+    "biz": 0,
+    "reddit": 0,
+    "news": 0,
+    "w": 0.0,
+    "heads": [],
+    "n": 0
+   },
+   "themes": [],
+   "metas": [],
+   "culture": null,
+   "cg_rank": null,
+   "on_cb": null,
+   "sec": {
+    "by": "GoPlus",
+    "bad": [],
+    "warn": [],
+    "verdict": "pass",
+    "t": 1792396191.3583739
+   },
+   "src": {
+    "dex_boost": 1,
+    "dex_boost_top": 1,
+    "gt_trending": 1
+   },
+   "links": [
+    "https://x.com/dawgonbnb"
+   ],
+   "desc": "i got that dawg in me",
+   "score_6h": null,
+   "copy_note": null
+  },
+  {
    "key": "solana:nxPqZ4F7ux8Vph5NFu25rEP6Kx9Gr1U6Fmj36Rjpump",
    "symbol": "Dacity",
    "name": "Dacity Coin",
    "chain": "solana",
    "address": "nxPqZ4F7ux8Vph5NFu25rEP6Kx9Gr1U6Fmj36Rjpump",
    "pair_url": "https://dexscreener.com/solana/g2uurbmvdzdfp4qyobjrskbxsi7d6v4bpp9thps36y4b",
-   "price": 0.004136,
-   "mcap": 4061151.0,
-   "liq": 242879.69,
+   "price": 0.004157,
+   "mcap": 4082185.0,
+   "liq": 243475.1,
    "vol": {
-    "m5": 488.64000000000004,
-    "h1": 32081.97,
-    "h6": 321749.91000000003,
-    "h24": 2736576.84
+    "m5": 604.74,
+    "h1": 31637.16,
+    "h6": 285537.94,
+    "h24": 2734674.9099999997
    },
    "chg": {
-    "m5": -0.35,
-    "h1": -4.16,
-    "h6": -26.42,
-    "h24": 99.46
+    "m5": 0.39,
+    "h1": -3.2,
+    "h6": -23.55,
+    "h24": 103.0
    },
    "txns": {
     "m5": [
-     5,
-     11
+     7,
+     7
     ],
     "h1": [
-     152,
-     215
+     158,
+     221
     ],
     "h6": [
-     1710,
-     1622
+     1589,
+     1540
     ],
     "h24": [
-     13690,
-     11771
+     13704,
+     11776
     ]
    },
    "created": 1791717419.0,
    "score": 41,
    "pts": {
     "momentum": 0.0,
-    "buyers": 0.3,
+    "buyers": 0.2,
     "chatter": 12.0,
     "narrative": 12.8,
     "room": 10,
@@ -193,8 +278,97 @@
     "https://x.com/robtmb1/status/2109241600002118071?s=20"
    ],
    "desc": null,
-   "score_6h": 44,
+   "score_6h": 37,
    "copy_note": "9 other coins use this name; this is the oldest one"
+  },
+  {
+   "key": "solana:FGkCj28xhabWTYg9QyzACvs4NsN6LUyesP6EwiHepump",
+   "symbol": "UHI",
+   "name": "Universal High Income",
+   "chain": "solana",
+   "address": "FGkCj28xhabWTYg9QyzACvs4NsN6LUyesP6EwiHepump",
+   "pair_url": "https://dexscreener.com/solana/3ensvqnhuhtqzmbxpdg4pkxwbbnzjvfcz2yycfxc9qnh",
+   "price": 0.001119,
+   "mcap": 1075249.0,
+   "liq": 105383.62,
+   "vol": {
+    "m5": 26980.8,
+    "h1": 1652405.77,
+    "h6": 2803504.07,
+    "h24": 3891774.74
+   },
+   "chg": {
+    "m5": 4.45,
+    "h1": 407.0,
+    "h6": 1690.0,
+    "h24": 2567.0
+   },
+   "txns": {
+    "m5": [
+     177,
+     218
+    ],
+    "h1": [
+     7247,
+     5784
+    ],
+    "h6": [
+     18194,
+     13964
+    ],
+    "h24": [
+     30193,
+     23647
+    ]
+   },
+   "created": 1792370815.0,
+   "score": 36,
+   "pts": {
+    "momentum": 25.1,
+    "buyers": 3.6,
+    "chatter": 3,
+    "narrative": 0,
+    "room": 10,
+    "liquidity": 6
+   },
+   "pen": 12,
+   "why": [
+    "volume 3.4x its normal pace",
+    "trending on GeckoTerminal"
+   ],
+   "warn": [
+    "already up 2,567% in 24h (late)",
+    "1 other coin use this name; this is the oldest one"
+   ],
+   "ment": {
+    "biz": 0,
+    "reddit": 0,
+    "news": 0,
+    "w": 0.0,
+    "heads": [],
+    "n": 0
+   },
+   "themes": [],
+   "metas": [],
+   "culture": null,
+   "cg_rank": null,
+   "on_cb": null,
+   "sec": {
+    "by": "GoPlus",
+    "bad": [],
+    "warn": [],
+    "verdict": "pass",
+    "t": 1792397031.081899
+   },
+   "src": {
+    "gt_trending": 3
+   },
+   "links": [
+    "https://x.com/elonmusk/status/1792081341615599989?s=46&t=GxjUo2-PKtxd_pf_ZhwwiA"
+   ],
+   "desc": null,
+   "score_6h": null,
+   "copy_note": "1 other coin use this name; this is the oldest one"
   },
   {
    "key": "robinhood:0x000050e18ffa3f8f7ad170eb9cef160eb3ed1111",
@@ -203,44 +377,44 @@
    "chain": "robinhood",
    "address": "0x000050e18ffa3f8f7ad170eb9cef160eb3ed1111",
    "pair_url": "https://dexscreener.com/robinhood/0x1649550af1e3363b4c25236434530af7e6886b183e1f574a98fdd1d04d287a2d",
-   "price": 0.009862,
-   "mcap": 9603206.0,
-   "liq": 2077842.82,
+   "price": 0.009039,
+   "mcap": 8801795.0,
+   "liq": 1976681.8,
    "vol": {
-    "m5": 7131.55,
-    "h1": 125236.49,
-    "h6": 331272.72,
-    "h24": 2237101.09
+    "m5": 68382.5,
+    "h1": 142184.18,
+    "h6": 378713.41,
+    "h24": 2312229.46
    },
    "chg": {
-    "m5": 0.0,
-    "h1": 10.25,
-    "h6": 28.47,
-    "h24": 109.0
+    "m5": -8.61,
+    "h1": -5.83,
+    "h6": 13.3,
+    "h24": 90.06
    },
    "txns": {
     "m5": [
-     22,
-     8
+     29,
+     22
     ],
     "h1": [
-     374,
-     144
+     360,
+     168
     ],
     "h6": [
-     1000,
-     542
+     1047,
+     572
     ],
     "h24": [
-     4845,
-     2926
+     4902,
+     2967
     ]
    },
    "created": 1791656508.0,
-   "score": 38,
+   "score": 34,
    "pts": {
-    "momentum": 8.5,
-    "buyers": 11.0,
+    "momentum": 5.2,
+    "buyers": 10.2,
     "chatter": 3,
     "narrative": 0,
     "room": 10,
@@ -248,7 +422,7 @@
    },
    "pen": 0,
    "why": [
-    "72% of trades are buys (1h)",
+    "68% of trades are buys (1h)",
     "trending on GeckoTerminal"
    ],
    "warn": [],
@@ -283,190 +457,7 @@
     "https://t.me/torchpaddotfunofficial"
    ],
    "desc": null,
-   "score_6h": null,
-   "copy_note": null
-  },
-  {
-   "key": "solana:FGkCj28xhabWTYg9QyzACvs4NsN6LUyesP6EwiHepump",
-   "symbol": "UHI",
-   "name": "Universal High Income",
-   "chain": "solana",
-   "address": "FGkCj28xhabWTYg9QyzACvs4NsN6LUyesP6EwiHepump",
-   "pair_url": "https://dexscreener.com/solana/3ensvqnhuhtqzmbxpdg4pkxwbbnzjvfcz2yycfxc9qnh",
-   "price": 0.001339,
-   "mcap": 1286388.0,
-   "liq": 115806.36,
-   "vol": {
-    "m5": 59678.54,
-    "h1": 1466618.61,
-    "h6": 2661099.75,
-    "h24": 3699846.27
-   },
-   "chg": {
-    "m5": -6.33,
-    "h1": 479.0,
-    "h6": 1298.0,
-    "h24": 3090.0
-   },
-   "txns": {
-    "m5": [
-     398,
-     271
-    ],
-    "h1": [
-     6018,
-     5006
-    ],
-    "h6": [
-     17441,
-     13548
-    ],
-    "h24": [
-     28927,
-     22822
-    ]
-   },
-   "created": 1792370815.0,
-   "score": 34,
-   "pts": {
-    "momentum": 24.0,
-    "buyers": 3.1,
-    "chatter": 3,
-    "narrative": 0,
-    "room": 10,
-    "liquidity": 6
-   },
-   "pen": 12,
-   "why": [
-    "volume 3.1x its normal pace",
-    "trending on GeckoTerminal"
-   ],
-   "warn": [
-    "already up 3,090% in 24h (late)",
-    "1 other coin use this name; this is the oldest one"
-   ],
-   "ment": {
-    "biz": 0,
-    "reddit": 0,
-    "news": 0,
-    "w": 0.0,
-    "heads": [],
-    "n": 0
-   },
-   "themes": [],
-   "metas": [],
-   "culture": null,
-   "cg_rank": null,
-   "on_cb": null,
-   "sec": {
-    "by": "GoPlus",
-    "bad": [],
-    "warn": [],
-    "verdict": "pass",
-    "t": 1792397031.081899
-   },
-   "src": {
-    "gt_trending": 3
-   },
-   "links": [
-    "https://x.com/elonmusk/status/1792081341615599989?s=46&t=GxjUo2-PKtxd_pf_ZhwwiA"
-   ],
-   "desc": null,
-   "score_6h": null,
-   "copy_note": "1 other coin use this name; this is the oldest one"
-  },
-  {
-   "key": "solana:9g4Pib6AM3oVdP9YA7ZcssAXAuhoUzkjR8w27doYpump",
-   "symbol": "Pepper",
-   "name": "Pepper The Raccoon",
-   "chain": "solana",
-   "address": "9g4Pib6AM3oVdP9YA7ZcssAXAuhoUzkjR8w27doYpump",
-   "pair_url": "https://dexscreener.com/solana/gkvfziv4eunvimrfuejen5qjn29oxgcyk7fy2iuv3bgi",
-   "price": 0.003579,
-   "mcap": 3451413.0,
-   "liq": 346054.65,
-   "vol": {
-    "m5": 1091.51,
-    "h1": 10207.61,
-    "h6": 69290.7,
-    "h24": 286033.22
-   },
-   "chg": {
-    "m5": -0.09,
-    "h1": 222.0,
-    "h6": 832.0,
-    "h24": 547.0
-   },
-   "txns": {
-    "m5": [
-     42,
-     8
-    ],
-    "h1": [
-     499,
-     82
-    ],
-    "h6": [
-     1073,
-     438
-    ],
-    "h24": [
-     2519,
-     2407
-    ]
-   },
-   "created": 1791652656.0,
-   "score": 34,
-   "pts": {
-    "momentum": 11.0,
-    "buyers": 12,
-    "chatter": 0,
-    "narrative": 1,
-    "room": 10,
-    "liquidity": 6
-   },
-   "pen": 6,
-   "why": [
-    "86% of trades are buys (1h)",
-    "in hot DexScreener narrative 'Internet Animals'"
-   ],
-   "warn": [
-    "already up 547% in 24h"
-   ],
-   "ment": {
-    "biz": 0,
-    "reddit": 0,
-    "news": 0,
-    "w": 0.0,
-    "heads": [],
-    "n": 0
-   },
-   "themes": [],
-   "metas": [
-    [
-     "Internet Animals",
-     3.795180994058641
-    ]
-   ],
-   "culture": null,
-   "cg_rank": null,
-   "on_cb": null,
-   "sec": {
-    "by": "GoPlus",
-    "bad": [],
-    "warn": [],
-    "verdict": "pass",
-    "t": 1792389426.4666631
-   },
-   "src": {
-    "dex_meta": 1
-   },
-   "links": [
-    "https://peppertheraccoon.com/",
-    "https://x.com/i/communities/1990900319153160387"
-   ],
-   "desc": null,
-   "score_6h": null,
+   "score_6h": 33,
    "copy_note": null
   },
   {
@@ -476,43 +467,43 @@
    "chain": "solana",
    "address": "HMYd9tosnUXuNHmq7pXmoePRVBLBBjA3JBfydq6upump",
    "pair_url": "https://dexscreener.com/solana/12jc1dzjpzbcdakum4brakh9jcfry2tlg1ffgsl4ftcg",
-   "price": 0.0005709,
-   "mcap": 550012.0,
-   "liq": 76471.32,
+   "price": 0.000564,
+   "mcap": 543381.0,
+   "liq": 76052.53,
    "vol": {
-    "m5": 826.26,
-    "h1": 9903.38,
-    "h6": 30281.79,
-    "h24": 242445.18
+    "m5": 662.5,
+    "h1": 8709.34,
+    "h6": 32242.0,
+    "h24": 242957.59
    },
    "chg": {
-    "m5": 1.47,
-    "h1": 3.77,
-    "h6": -5.12,
-    "h24": -16.29
+    "m5": -1.39,
+    "h1": -0.34,
+    "h6": -6.08,
+    "h24": -15.53
    },
    "txns": {
     "m5": [
-     97,
-     36
+     85,
+     35
     ],
     "h1": [
-     698,
-     323
+     932,
+     390
     ],
     "h6": [
-     5962,
-     2238
+     5989,
+     2258
     ],
     "h24": [
-     25679,
+     25686,
      10192
     ]
    },
    "created": 1791314731.0,
-   "score": 34,
+   "score": 33,
    "pts": {
-    "momentum": 0.8,
+    "momentum": 0.0,
     "buyers": 12,
     "chatter": 5,
     "narrative": 0,
@@ -521,8 +512,8 @@
    },
    "pen": 0,
    "why": [
-    "68% of trades are buys (1h)",
-    "568 unique buyers vs 263 sellers (1h)",
+    "70% of trades are buys (1h)",
+    "739 unique buyers vs 333 sellers (1h)",
     "trending on GeckoTerminal",
     "paid DexScreener boosts"
    ],
@@ -562,49 +553,424 @@
    "copy_note": null
   },
   {
+   "key": "ethereum:0x8ed97a637a790be1feff5e888d43629dc05408f6",
+   "symbol": "NPC",
+   "name": "Non-Playable Coin",
+   "chain": "ethereum",
+   "address": "0x8eD97a637A790Be1feff5e888d43629dc05408F6",
+   "pair_url": "https://dexscreener.com/ethereum/0x69c7bd26512f52bf6f76fab834140d13dda673ca",
+   "price": 0.01881,
+   "mcap": 151456750.0,
+   "liq": 4646413.08,
+   "vol": {
+    "m5": 28836.18,
+    "h1": 88954.66,
+    "h6": 143213.01,
+    "h24": 434071.32
+   },
+   "chg": {
+    "m5": 0.18,
+    "h1": -1.67,
+    "h6": 2.04,
+    "h24": -0.29
+   },
+   "txns": {
+    "m5": [
+     18,
+     1
+    ],
+    "h1": [
+     59,
+     22
+    ],
+    "h6": [
+     192,
+     37
+    ],
+    "h24": [
+     590,
+     168
+    ]
+   },
+   "created": 1690648127.0,
+   "score": 32,
+   "pts": {
+    "momentum": 11.0,
+    "buyers": 12,
+    "chatter": 0,
+    "narrative": 1,
+    "room": 4,
+    "liquidity": 4
+   },
+   "pen": 0,
+   "why": [
+    "volume 4.9x its normal pace (but price falling)",
+    "still accelerating (last 5 min)",
+    "73% of trades are buys (1h)",
+    "in hot DexScreener narrative 'NFT'"
+   ],
+   "warn": [],
+   "ment": {
+    "biz": 0,
+    "reddit": 0,
+    "news": 0,
+    "w": 0.0,
+    "heads": [],
+    "n": 0
+   },
+   "themes": [],
+   "metas": [
+    [
+     "NFT",
+     1.9435174099177943
+    ]
+   ],
+   "culture": null,
+   "cg_rank": null,
+   "on_cb": null,
+   "sec": {
+    "by": "GoPlus",
+    "bad": [],
+    "warn": [],
+    "verdict": "pass",
+    "t": 1792386334.9429545
+   },
+   "src": {
+    "dex_meta": 1
+   },
+   "links": [
+    "https://www.npc.com/",
+    "https://docs.nonplayablecoin.io/",
+    "https://twitter.com/nonplayablecoin",
+    "https://t.me/nonplayablecoin"
+   ],
+   "desc": null,
+   "score_6h": null,
+   "copy_note": null
+  },
+  {
+   "key": "ethereum:0xf280b16ef293d8e534e370794ef26bf312694126",
+   "symbol": "ASTEROID",
+   "name": "Asteroid Shiba",
+   "chain": "ethereum",
+   "address": "0xf280B16EF293D8e534e370794ef26bF312694126",
+   "pair_url": "https://dexscreener.com/ethereum/0x76a411f14a704099ba476ce8dffc288a53295218",
+   "price": 1.052e-05,
+   "mcap": 4428886.0,
+   "liq": 932188.93,
+   "vol": {
+    "m5": 4041.14,
+    "h1": 22401.02,
+    "h6": 41823.35,
+    "h24": 99834.35
+   },
+   "chg": {
+    "m5": -0.13,
+    "h1": 7.51,
+    "h6": 11.2,
+    "h24": 10.57
+   },
+   "txns": {
+    "m5": [
+     2,
+     3
+    ],
+    "h1": [
+     16,
+     13
+    ],
+    "h6": [
+     33,
+     29
+    ],
+    "h24": [
+     121,
+     102
+    ]
+   },
+   "created": 1725963503.0,
+   "score": 31,
+   "pts": {
+    "momentum": 18.8,
+    "buyers": 2.7,
+    "chatter": 0,
+    "narrative": 1,
+    "room": 10,
+    "liquidity": 6
+   },
+   "pen": 8,
+   "why": [
+    "volume 5.4x its normal pace",
+    "in hot DexScreener narrative 'Elon Musk'"
+   ],
+   "warn": [
+    "1 other coin use this name; this is NOT the oldest: check the contract"
+   ],
+   "ment": {
+    "biz": 0,
+    "reddit": 0,
+    "news": 0,
+    "w": 0.0,
+    "heads": [],
+    "n": 0
+   },
+   "themes": [],
+   "metas": [
+    [
+     "Elon Musk",
+     0.8496426223312082
+    ]
+   ],
+   "culture": null,
+   "cg_rank": null,
+   "on_cb": null,
+   "sec": {
+    "by": "GoPlus",
+    "bad": [],
+    "warn": [],
+    "verdict": "pass",
+    "t": 1792399572.5441015
+   },
+   "src": {
+    "dex_meta": 1
+   },
+   "links": [
+    "https://asteroideth.io/",
+    "https://x.com/Asteroidcto",
+    "https://t.me/AsteroidShibaCTO",
+    "https://x.com/Asteroidfan"
+   ],
+   "desc": null,
+   "score_6h": null,
+   "copy_note": "1 other coin use this name; this is NOT the oldest: check the contract"
+  },
+  {
+   "key": "robinhood:0x42afa2124ca5a2b83898e46b2da9a190995b1e18",
+   "symbol": "SCHIFFY",
+   "name": "SCHIFFY",
+   "chain": "robinhood",
+   "address": "0x42afa2124ca5a2b83898e46b2da9a190995b1e18",
+   "pair_url": "https://dexscreener.com/robinhood/0xc749412e31087a6e6f9210af575bc9100159fbc9f45da3ca8b26b31f3bf5777e",
+   "price": 0.003754,
+   "mcap": 3715640.0,
+   "liq": 520297.33,
+   "vol": {
+    "m5": 7085.83,
+    "h1": 16699.86,
+    "h6": 28651.28,
+    "h24": 139178.95
+   },
+   "chg": {
+    "m5": 5.62,
+    "h1": 11.93,
+    "h6": 18.74,
+    "h24": 10.91
+   },
+   "txns": {
+    "m5": [
+     1,
+     2
+    ],
+    "h1": [
+     20,
+     28
+    ],
+    "h6": [
+     54,
+     72
+    ],
+    "h24": [
+     258,
+     312
+    ]
+   },
+   "created": 1788027863.0,
+   "score": 30,
+   "pts": {
+    "momentum": 16.5,
+    "buyers": 0,
+    "chatter": 3,
+    "narrative": 0,
+    "room": 10,
+    "liquidity": 6
+   },
+   "pen": 6,
+   "why": [
+    "volume 2.9x its normal pace",
+    "still accelerating (last 5 min)",
+    "trending on GeckoTerminal"
+   ],
+   "warn": [
+    "Trading can be paused"
+   ],
+   "ment": {
+    "biz": 0,
+    "reddit": 0,
+    "news": 0,
+    "w": 0.0,
+    "heads": [],
+    "n": 0
+   },
+   "themes": [
+    "robinhood"
+   ],
+   "metas": [],
+   "culture": null,
+   "cg_rank": null,
+   "on_cb": null,
+   "sec": {
+    "by": "GoPlus",
+    "bad": [],
+    "warn": [
+     "Trading can be paused"
+    ],
+    "verdict": "caution",
+    "t": 1792398721.0281591
+   },
+   "src": {
+    "gt_trending": 1
+   },
+   "links": [
+    "https://t.co/8zv22DgJl8",
+    "https://x.com/schiffygld"
+   ],
+   "desc": null,
+   "score_6h": null,
+   "copy_note": null
+  },
+  {
+   "key": "solana:GTBxUiw6wJdmmkCGZgRHLyYxqu1vG4KtRpeox6yDpump",
+   "symbol": "JEANPHIL",
+   "name": "Jean Phil",
+   "chain": "solana",
+   "address": "GTBxUiw6wJdmmkCGZgRHLyYxqu1vG4KtRpeox6yDpump",
+   "pair_url": "https://dexscreener.com/solana/4r8cimnjwdnoes3fqi1ccpfjygpxazahawphrn3rzenj",
+   "price": 0.00617,
+   "mcap": 5982593.0,
+   "liq": 392660.24,
+   "vol": {
+    "m5": 536.92,
+    "h1": 15106.73,
+    "h6": 46314.64,
+    "h24": 295385.13
+   },
+   "chg": {
+    "m5": -0.57,
+    "h1": -1.63,
+    "h6": -5.75,
+    "h24": -12.13
+   },
+   "txns": {
+    "m5": [
+     1,
+     2
+    ],
+    "h1": [
+     44,
+     23
+    ],
+    "h6": [
+     228,
+     159
+    ],
+    "h24": [
+     1247,
+     1024
+    ]
+   },
+   "created": 1789844819.0,
+   "score": 30,
+   "pts": {
+    "momentum": 0.7,
+    "buyers": 10.1,
+    "chatter": 3,
+    "narrative": 0,
+    "room": 10,
+    "liquidity": 6
+   },
+   "pen": 0,
+   "why": [
+    "66% of trades are buys (1h)",
+    "31 unique buyers vs 20 sellers (1h)",
+    "trending on GeckoTerminal"
+   ],
+   "warn": [],
+   "ment": {
+    "biz": 0,
+    "reddit": 0,
+    "news": 0,
+    "w": 0.0,
+    "heads": [],
+    "n": 0
+   },
+   "themes": [],
+   "metas": [],
+   "culture": null,
+   "cg_rank": null,
+   "on_cb": null,
+   "sec": {
+    "by": "GoPlus",
+    "bad": [],
+    "warn": [],
+    "verdict": "pass",
+    "t": 1792382148.209267
+   },
+   "src": {
+    "gt_trending": 2
+   },
+   "links": [
+    "https://jeanphilmadame.com/",
+    "https://x.com/JeanPhilMadame",
+    "https://www.instagram.com/jean_philanthrope/"
+   ],
+   "desc": null,
+   "score_6h": null,
+   "copy_note": null
+  },
+  {
    "key": "bsc:0x4cfaccd32b9ec2f1e5680f63bae2ff198c4f573b",
    "symbol": "Trump",
    "name": "Trump",
    "chain": "bsc",
    "address": "0x4CfaCCd32b9eC2f1e5680f63bae2ff198C4F573b",
    "pair_url": "https://dexscreener.com/bsc/0xa7ae6a2c7cc9104870f764dfea6b74f215c20989",
-   "price": 47.47,
-   "mcap": 47477063.0,
-   "liq": 848764.47,
+   "price": 48.65,
+   "mcap": 48655969.0,
+   "liq": 860446.47,
    "vol": {
-    "m5": 127908.36,
-    "h1": 814507.09,
-    "h6": 22483286.73,
-    "h24": 22483286.73
+    "m5": 161912.24,
+    "h1": 1048040.47,
+    "h6": 22950394.92,
+    "h24": 22950394.92
    },
    "chg": {
-    "m5": 12.54,
-    "h1": 205.0,
-    "h6": 63173.0,
-    "h24": 63173.0
+    "m5": -2.94,
+    "h1": 107.0,
+    "h6": 64744.0,
+    "h24": 64744.0
    },
    "txns": {
     "m5": [
-     168,
-     22
+     181,
+     43
     ],
     "h1": [
-     767,
-     139
+     1206,
+     217
     ],
     "h6": [
-     1790,
-     311
+     2298,
+     401
     ],
     "h24": [
-     1790,
-     311
+     2298,
+     401
     ]
    },
    "created": 1792328513.0,
-   "score": 32,
+   "score": 28,
    "pts": {
-    "momentum": 14,
+    "momentum": 11,
     "buyers": 12,
     "chatter": 1,
     "narrative": 10.5,
@@ -613,13 +979,12 @@
    },
    "pen": 17,
    "why": [
-    "still accelerating (last 5 min)",
     "85% of trades are buys (1h)",
     "US midterms / politics: US midterm elections in 15 days"
    ],
    "warn": [
     "liquidity under 3% of market cap",
-    "already up 63,173% in 24h (late)"
+    "already up 64,744% in 24h (late)"
    ],
    "ment": {
     "biz": 0,
@@ -654,61 +1019,617 @@
    "copy_note": null
   },
   {
-   "key": "bsc:0x7d0443cddfc8e11af105f4fe44dd28c630237777",
-   "symbol": "DAWG",
-   "name": "DAWG",
-   "chain": "bsc",
-   "address": "0x7d0443cddfc8e11af105f4fe44dd28c630237777",
-   "pair_url": "https://dexscreener.com/bsc/0x9e83be1267e9a6d43bb7f3a8c0dc3c092ccae63e",
-   "price": 0.004188,
-   "mcap": 4188443.0,
-   "liq": 214148.14,
+   "key": "solana:DtcicPCKTKeAh7TDEzTym3hXeoHAoMiBdYJhMYxZpump",
+   "symbol": "CBUCKS",
+   "name": "Cartoon Money",
+   "chain": "solana",
+   "address": "DtcicPCKTKeAh7TDEzTym3hXeoHAoMiBdYJhMYxZpump",
+   "pair_url": "https://dexscreener.com/solana/b4cp45pgifvm5faxfh6aev8qz3eunqnqgbw7kuc7mhnb",
+   "price": 0.001321,
+   "mcap": 1246621.0,
+   "liq": 117044.14,
    "vol": {
-    "m5": 1990.11,
-    "h1": 48404.13,
-    "h6": 158578.54,
-    "h24": 536443.62
+    "m5": 576.39,
+    "h1": 5207.32,
+    "h6": 77485.74,
+    "h24": 417687.17
    },
    "chg": {
-    "m5": 0.44,
-    "h1": 11.19,
-    "h6": 9.36,
-    "h24": -6.99
+    "m5": 3.89,
+    "h1": -0.35,
+    "h6": 32.46,
+    "h24": 42.45
    },
    "txns": {
     "m5": [
-     18,
-     13
+     4,
+     0
     ],
     "h1": [
-     1310,
-     1305
+     36,
+     19
     ],
     "h6": [
-     1915,
-     1849
+     263,
+     217
     ],
     "h24": [
-     11819,
-     7423
+     1619,
+     1180
     ]
    },
-   "created": 1792075556.0,
-   "score": 30,
+   "created": 1791311393.0,
+   "score": 28,
    "pts": {
-    "momentum": 11.2,
-    "buyers": 0.2,
-    "chatter": 3,
+    "momentum": 3.0,
+    "buyers": 7.1,
+    "chatter": 2,
     "narrative": 0,
     "room": 10,
     "liquidity": 6
    },
    "pen": 0,
    "why": [
-    "volume 2.2x its normal pace",
-    "trending on GeckoTerminal"
+    "65% of trades are buys (1h)",
+    "paid DexScreener boosts"
    ],
    "warn": [],
+   "ment": {
+    "biz": 0,
+    "reddit": 0,
+    "news": 0,
+    "w": 0.0,
+    "heads": [],
+    "n": 0
+   },
+   "themes": [
+    "ai"
+   ],
+   "metas": [],
+   "culture": null,
+   "cg_rank": null,
+   "on_cb": null,
+   "sec": {
+    "by": "GoPlus",
+    "bad": [],
+    "warn": [],
+    "verdict": "pass",
+    "t": 1792382148.209267
+   },
+   "src": {
+    "dex_boost_top": 1
+   },
+   "links": [
+    "https://cartoon-money.com/",
+    "https://x.com/cartoonmoney_ai"
+   ],
+   "desc": "Someone asked AI to build a game the entire crypto space would love. So it recreated the crypto world for us to own. \ud83e\ude99 Built & controlled by Agentic AI.",
+   "score_6h": null,
+   "copy_note": null
+  },
+  {
+   "key": "solana:Cr8kuNqKwiVVuzqLYKcJhmpSHy767837BwLFr9GDYXUf",
+   "symbol": "b",
+   "name": "buckme",
+   "chain": "solana",
+   "address": "Cr8kuNqKwiVVuzqLYKcJhmpSHy767837BwLFr9GDYXUf",
+   "pair_url": "https://dexscreener.com/solana/44n9abhjkqpvuxs3rkgno3ykqisqu8zdyf9bguyujrqr",
+   "price": 0.0001461,
+   "mcap": 141988.0,
+   "liq": 35045.92,
+   "vol": {
+    "m5": 126.96,
+    "h1": 2993.36,
+    "h6": 13356.51,
+    "h24": 61837.83
+   },
+   "chg": {
+    "m5": 2.29,
+    "h1": 13.21,
+    "h6": 14.08,
+    "h24": 69.81
+   },
+   "txns": {
+    "m5": [
+     2,
+     0
+    ],
+    "h1": [
+     27,
+     18
+    ],
+    "h6": [
+     107,
+     71
+    ],
+    "h24": [
+     436,
+     354
+    ]
+   },
+   "created": 1791459767.0,
+   "score": 27,
+   "pts": {
+    "momentum": 6.0,
+    "buyers": 6.0,
+    "chatter": 3,
+    "narrative": 7.8,
+    "room": 12,
+    "liquidity": 2
+   },
+   "pen": 10,
+   "why": [
+    "60% of trades are buys (1h)",
+    "community takeover",
+    "Gaming / GTA VI: GTA VI launch in 31 days"
+   ],
+   "warn": [
+    "barely trading ($3.0k in the last hour)"
+   ],
+   "ment": {
+    "biz": 0,
+    "reddit": 0,
+    "news": 0,
+    "w": 0.0,
+    "heads": [],
+    "n": 0
+   },
+   "themes": [
+    "gaming"
+   ],
+   "metas": [],
+   "culture": null,
+   "cg_rank": null,
+   "on_cb": null,
+   "sec": {
+    "by": "GoPlus",
+    "bad": [],
+    "warn": [],
+    "verdict": "pass",
+    "t": 1792390278.8637347
+   },
+   "src": {
+    "dex_cto": 1
+   },
+   "links": [
+    "https://x.com/buckme_sol/status/2111518533515620755?s=20"
+   ],
+   "desc": "Buckme - The Digital Currency of Vice City\n\nBuckme is a Solana meme coin capturing the narrative of BuckMe, GTA VI\u2019s in-game digital banking app (the Cash App / Venmo of Leonida).\nMoney deposited into BuckMe survives death, arrest, and robbery, unlike cash on the streets.\nThe domain buckme. app was registered by Take-Two, and the app appears on phones, billboards, and the Vice City skyline.\nWith GTA VI launching November 19, 2026, $b is positioned as the on-chain representation of the game\u2019s fin",
+   "score_6h": null,
+   "copy_note": null
+  },
+  {
+   "key": "robinhood:0x39dbed3a2bd333467115de45665cc57f813c4571",
+   "symbol": "PONS",
+   "name": "Pons",
+   "chain": "robinhood",
+   "address": "0x39dbed3a2bd333467115de45665cc57f813c4571",
+   "pair_url": "https://dexscreener.com/robinhood/0x10cc6bd38112cac182db90b6a71d8bb5939526ba",
+   "price": 0.2646,
+   "mcap": 178446768.0,
+   "liq": 3045980.06,
+   "vol": {
+    "m5": 74.66,
+    "h1": 22418.62,
+    "h6": 101896.5,
+    "h24": 931890.28
+   },
+   "chg": {
+    "m5": 0.1,
+    "h1": 0.91,
+    "h6": 1.67,
+    "h24": -4.83
+   },
+   "txns": {
+    "m5": [
+     3,
+     0
+    ],
+    "h1": [
+     60,
+     2
+    ],
+    "h6": [
+     301,
+     121
+    ],
+    "h24": [
+     1475,
+     670
+    ]
+   },
+   "created": 1783975341.0,
+   "score": 26,
+   "pts": {
+    "momentum": 0.2,
+    "buyers": 12,
+    "chatter": 11,
+    "narrative": 0,
+    "room": 4,
+    "liquidity": 4
+   },
+   "pen": 5,
+   "why": [
+    "97% of trades are buys (1h)",
+    "#13 trending on CoinGecko",
+    "trending on GeckoTerminal"
+   ],
+   "warn": [
+    "liquidity under 3% of market cap"
+   ],
+   "ment": {
+    "biz": 0,
+    "reddit": 0,
+    "news": 0,
+    "w": 0.0,
+    "heads": [],
+    "n": 0
+   },
+   "themes": [
+    "robinhood"
+   ],
+   "metas": [],
+   "culture": null,
+   "cg_rank": 13,
+   "on_cb": true,
+   "sec": {
+    "by": "GoPlus",
+    "bad": [],
+    "warn": [],
+    "verdict": "pass",
+    "t": 1792393661.0521953
+   },
+   "src": {
+    "gt_trending": 3,
+    "cg_search": 1
+   },
+   "links": [
+    "https://ponsfamily.com/launchpad",
+    "https://x.com/ponsdotfamily"
+   ],
+   "desc": null,
+   "score_6h": null,
+   "copy_note": null
+  },
+  {
+   "key": "solana:9g4Pib6AM3oVdP9YA7ZcssAXAuhoUzkjR8w27doYpump",
+   "symbol": "Pepper",
+   "name": "Pepper The Raccoon",
+   "chain": "solana",
+   "address": "9g4Pib6AM3oVdP9YA7ZcssAXAuhoUzkjR8w27doYpump",
+   "pair_url": "https://dexscreener.com/solana/gkvfziv4eunvimrfuejen5qjn29oxgcyk7fy2iuv3bgi",
+   "price": 0.003584,
+   "mcap": 3455988.0,
+   "liq": 343343.63,
+   "vol": {
+    "m5": 99.85,
+    "h1": 9763.11,
+    "h6": 69071.16,
+    "h24": 285176.73
+   },
+   "chg": {
+    "m5": 780.0,
+    "h1": 0.09,
+    "h6": 843.0,
+    "h24": 555.0
+   },
+   "txns": {
+    "m5": [
+     33,
+     1
+    ],
+    "h1": [
+     517,
+     72
+    ],
+    "h6": [
+     1171,
+     436
+    ],
+    "h24": [
+     2619,
+     2405
+    ]
+   },
+   "created": 1791652656.0,
+   "score": 26,
+   "pts": {
+    "momentum": 3.0,
+    "buyers": 12,
+    "chatter": 0,
+    "narrative": 1,
+    "room": 10,
+    "liquidity": 6
+   },
+   "pen": 6,
+   "why": [
+    "88% of trades are buys (1h)",
+    "in hot DexScreener narrative 'Internet Animals'"
+   ],
+   "warn": [
+    "already up 555% in 24h"
+   ],
+   "ment": {
+    "biz": 0,
+    "reddit": 0,
+    "news": 0,
+    "w": 0.0,
+    "heads": [],
+    "n": 0
+   },
+   "themes": [],
+   "metas": [
+    [
+     "Internet Animals",
+     3.560128275957272
+    ]
+   ],
+   "culture": null,
+   "cg_rank": null,
+   "on_cb": null,
+   "sec": {
+    "by": "GoPlus",
+    "bad": [],
+    "warn": [],
+    "verdict": "pass",
+    "t": 1792389426.4666631
+   },
+   "src": {
+    "dex_meta": 1
+   },
+   "links": [
+    "https://peppertheraccoon.com/",
+    "https://x.com/i/communities/1990900319153160387"
+   ],
+   "desc": null,
+   "score_6h": null,
+   "copy_note": null
+  },
+  {
+   "key": "solana:4kjruqGHDsSqkMdFfCjV7Vb62HPFhtXyWc2t6JpQzDnz",
+   "symbol": "GTA6",
+   "name": "GTA VI",
+   "chain": "solana",
+   "address": "4kjruqGHDsSqkMdFfCjV7Vb62HPFhtXyWc2t6JpQzDnz",
+   "pair_url": "https://dexscreener.com/solana/fdamuzyiea7cq1vniqcbhuhpfcmmcjfga6dwqq1hhld2",
+   "price": 0.001595,
+   "mcap": 1595848.0,
+   "liq": 167010.36,
+   "vol": {
+    "m5": 55.769999999999996,
+    "h1": 5802.17,
+    "h6": 53619.009999999995,
+    "h24": 175426.14
+   },
+   "chg": {
+    "m5": -0.16,
+    "h1": -3.13,
+    "h6": 11.71,
+    "h24": 19.59
+   },
+   "txns": {
+    "m5": [
+     1,
+     3
+    ],
+    "h1": [
+     58,
+     58
+    ],
+    "h6": [
+     649,
+     492
+    ],
+    "h24": [
+     1952,
+     1468
+    ]
+   },
+   "created": 1786023355.0,
+   "score": 26,
+   "pts": {
+    "momentum": 3.0,
+    "buyers": 1.4,
+    "chatter": 6.0,
+    "narrative": 7.8,
+    "room": 10,
+    "liquidity": 6
+   },
+   "pen": 8,
+   "why": [
+    "mentioned 1 on /biz/",
+    "Gaming / GTA VI: GTA VI launch in 31 days"
+   ],
+   "warn": [
+    "2 other coins use this name; this is NOT the oldest: check the contract"
+   ],
+   "ment": {
+    "biz": 1,
+    "reddit": 0,
+    "news": 0,
+    "w": 1.0,
+    "heads": [],
+    "n": 1
+   },
+   "themes": [
+    "gaming"
+   ],
+   "metas": [],
+   "culture": null,
+   "cg_rank": null,
+   "on_cb": null,
+   "sec": {
+    "by": "GoPlus",
+    "bad": [],
+    "warn": [],
+    "verdict": "pass",
+    "t": 1792391127.915505
+   },
+   "src": {
+    "theme_search": 2
+   },
+   "links": [
+    "https://www.stonkfun.xyz/token/4kjruqGHDsSqkMdFfCjV7Vb62HPFhtXyWc2t6JpQzDnz",
+    "https://x.com/RockstarGames"
+   ],
+   "desc": null,
+   "score_6h": 36,
+   "copy_note": "2 other coins use this name; this is NOT the oldest: check the contract"
+  },
+  {
+   "key": "solana:EKosQw4oJFbXmeJ4qRnbH1quGFRTc3Eok6nwnFKDpump",
+   "symbol": "startupSI",
+   "name": "startupSI",
+   "chain": "solana",
+   "address": "EKosQw4oJFbXmeJ4qRnbH1quGFRTc3Eok6nwnFKDpump",
+   "pair_url": "https://dexscreener.com/solana/ascpffyzxmnhhfhqqwawtcrmasguzcjtwyu6os6cqd2r",
+   "price": 0.006282,
+   "mcap": 6257941.0,
+   "liq": 233695.84,
+   "vol": {
+    "m5": 19729.25,
+    "h1": 191918.67,
+    "h6": 1246795.25,
+    "h24": 4771620.84
+   },
+   "chg": {
+    "m5": 1.37,
+    "h1": -7.61,
+    "h6": 13.89,
+    "h24": 10532.0
+   },
+   "txns": {
+    "m5": [
+     214,
+     48
+    ],
+    "h1": [
+     3421,
+     643
+    ],
+    "h6": [
+     10086,
+     4855
+    ],
+    "h24": [
+     38034,
+     17535
+    ]
+   },
+   "created": 1792348453.0,
+   "score": 25,
+   "pts": {
+    "momentum": 6.0,
+    "buyers": 12,
+    "chatter": 5,
+    "narrative": 0,
+    "room": 10,
+    "liquidity": 4
+   },
+   "pen": 12,
+   "why": [
+    "still accelerating (last 5 min)",
+    "84% of trades are buys (1h)",
+    "1407 unique buyers vs 192 sellers (1h)",
+    "trending on GeckoTerminal",
+    "paid DexScreener boosts"
+   ],
+   "warn": [
+    "already up 10,532% in 24h (late)"
+   ],
+   "ment": {
+    "biz": 0,
+    "reddit": 0,
+    "news": 0,
+    "w": 0.0,
+    "heads": [],
+    "n": 0
+   },
+   "themes": [
+    "ai"
+   ],
+   "metas": [],
+   "culture": null,
+   "cg_rank": null,
+   "on_cb": null,
+   "sec": {
+    "by": "GoPlus",
+    "bad": [],
+    "warn": [],
+    "verdict": "pass",
+    "t": 1792391127.915505
+   },
+   "src": {
+    "dex_boost": 1,
+    "dex_boost_top": 1,
+    "gt_trending": 3
+   },
+   "links": [
+    "https://startupsi.org/",
+    "https://x.com/startupSI_sol"
+   ],
+   "desc": "Every coin gets one AI founder",
+   "score_6h": null,
+   "copy_note": null
+  },
+  {
+   "key": "solana:HqmFi85adLD8BQA7en1HfajdAfzVFps5REgQaYuw6Ax8",
+   "symbol": "WEFT",
+   "name": "Weft Finance",
+   "chain": "solana",
+   "address": "HqmFi85adLD8BQA7en1HfajdAfzVFps5REgQaYuw6Ax8",
+   "pair_url": "https://dexscreener.com/solana/e5bde27atdteg1zpnfhjnu5fcvkjccq5ifzlax8fscgx",
+   "price": 0.002477,
+   "mcap": 2359305.0,
+   "liq": 134134.51,
+   "vol": {
+    "m5": 19001.9,
+    "h1": 65129.4,
+    "h6": 300157.57,
+    "h24": 1400399.2
+   },
+   "chg": {
+    "m5": 22.64,
+    "h1": 7.66,
+    "h6": 36.97,
+    "h24": 793.0
+   },
+   "txns": {
+    "m5": [
+     5,
+     31
+    ],
+    "h1": [
+     114,
+     106
+    ],
+    "h6": [
+     1066,
+     746
+    ],
+    "h24": [
+     5920,
+     4477
+    ]
+   },
+   "created": 1792259977.0,
+   "score": 24,
+   "pts": {
+    "momentum": 8.8,
+    "buyers": 2.5,
+    "chatter": 3,
+    "narrative": 0,
+    "room": 10,
+    "liquidity": 6
+   },
+   "pen": 6,
+   "why": [
+    "still accelerating (last 5 min)",
+    "trending on GeckoTerminal"
+   ],
+   "warn": [
+    "already up 793% in 24h"
+   ],
    "ment": {
     "biz": 0,
     "reddit": 0,
@@ -727,13 +1648,195 @@
     "bad": [],
     "warn": [],
     "verdict": "pass",
-    "t": 1792396191.3583739
+    "t": 1792398721.0281591
+   },
+   "src": {
+    "gt_trending": 2
+   },
+   "links": [
+    "https://weft.fi/",
+    "https://x.com/weftfinance"
+   ],
+   "desc": null,
+   "score_6h": 36,
+   "copy_note": null
+  },
+  {
+   "key": "robinhood:0x5a75639407d8fcb186fb2cef0ffa50d649a25c00",
+   "symbol": "BOOMER",
+   "name": "Boomer",
+   "chain": "robinhood",
+   "address": "0x5a75639407d8fcb186fb2cef0ffa50d649a25c00",
+   "pair_url": "https://dexscreener.com/robinhood/0xc6c84f52c1d2015b5dad25956fd7cd64cae2b9374438b837d29fa215f3d4df2e",
+   "price": 0.02056,
+   "mcap": 20569738.0,
+   "liq": 445315.75,
+   "vol": {
+    "m5": 6909.24,
+    "h1": 127043.96,
+    "h6": 857668.83,
+    "h24": 8721216.43
+   },
+   "chg": {
+    "m5": 1.25,
+    "h1": 18.11,
+    "h6": 19.48,
+    "h24": 113.0
+   },
+   "txns": {
+    "m5": [
+     9,
+     3
+    ],
+    "h1": [
+     217,
+     142
+    ],
+    "h6": [
+     1363,
+     1093
+    ],
+    "h24": [
+     11505,
+     9640
+    ]
+   },
+   "created": 1792280284.0,
+   "score": 23,
+   "pts": {
+    "momentum": 6.6,
+    "buyers": 7.3,
+    "chatter": 3,
+    "narrative": 0,
+    "room": 7,
+    "liquidity": 4
+   },
+   "pen": 5,
+   "why": [
+    "60% of trades are buys (1h)",
+    "125 unique buyers vs 74 sellers (1h)",
+    "trending on GeckoTerminal"
+   ],
+   "warn": [
+    "liquidity under 3% of market cap"
+   ],
+   "ment": {
+    "biz": 0,
+    "reddit": 0,
+    "news": 0,
+    "w": 0.0,
+    "heads": [],
+    "n": 0
+   },
+   "themes": [
+    "robinhood"
+   ],
+   "metas": [],
+   "culture": null,
+   "cg_rank": null,
+   "on_cb": null,
+   "sec": {
+    "by": "GoPlus",
+    "bad": [],
+    "warn": [],
+    "verdict": "pass",
+    "t": 1792399572.5441015
    },
    "src": {
     "gt_trending": 1
    },
+   "links": [],
+   "desc": null,
+   "score_6h": null,
+   "copy_note": null
+  },
+  {
+   "key": "solana:DFMt2FyLpB6ekPNAzVErLXgpSnJ9CRf1VnxBAkTLpump",
+   "symbol": "FTR",
+   "name": "Flying Tesla Roadster",
+   "chain": "solana",
+   "address": "DFMt2FyLpB6ekPNAzVErLXgpSnJ9CRf1VnxBAkTLpump",
+   "pair_url": "https://dexscreener.com/solana/fk5mugv2h3qpt6axdhs2khgdl2os424bvfeoqfntdv9y",
+   "price": 0.001489,
+   "mcap": 1431199.0,
+   "liq": 157008.47,
+   "vol": {
+    "m5": 714.95,
+    "h1": 47394.82,
+    "h6": 139416.68,
+    "h24": 1171209.1
+   },
+   "chg": {
+    "m5": -0.22,
+    "h1": -16.89,
+    "h6": -27.58,
+    "h24": -41.28
+   },
+   "txns": {
+    "m5": [
+     7,
+     5
+    ],
+    "h1": [
+     302,
+     166
+    ],
+    "h6": [
+     903,
+     716
+    ],
+    "h24": [
+     6056,
+     5040
+    ]
+   },
+   "created": 1792030112.0,
+   "score": 23,
+   "pts": {
+    "momentum": 0.0,
+    "buyers": 9.0,
+    "chatter": 3,
+    "narrative": 0,
+    "room": 10,
+    "liquidity": 6
+   },
+   "pen": 5,
+   "why": [
+    "65% of trades are buys (1h)",
+    "206 unique buyers vs 137 sellers (1h)",
+    "trending on GeckoTerminal"
+   ],
+   "warn": [
+    "dumping now (-17% in 1h)"
+   ],
+   "ment": {
+    "biz": 0,
+    "reddit": 0,
+    "news": 0,
+    "w": 0.0,
+    "heads": [],
+    "n": 0
+   },
+   "themes": [
+    "elon"
+   ],
+   "metas": [],
+   "culture": null,
+   "cg_rank": null,
+   "on_cb": null,
+   "sec": {
+    "by": "GoPlus",
+    "bad": [],
+    "warn": [],
+    "verdict": "pass",
+    "t": 1792398721.0281591
+   },
+   "src": {
+    "gt_trending": 4
+   },
    "links": [
-    "https://x.com/dawgonbnb"
+    "https://otcdesks.cash/coin/DFMt2FyLpB6ekPNAzVErLXgpSnJ9CRf1VnxBAkTLpump",
+    "https://x.com/FTRonPUMP"
    ],
    "desc": null,
    "score_6h": null,
@@ -746,43 +1849,43 @@
    "chain": "base",
    "address": "0xc52aedec3374422d7510e294cfaa90799595cba3",
    "pair_url": "https://dexscreener.com/base/0xfc25fdd217e288d03a877f0b7d49e0bbe52b2288c88de929125062569fc7eb2a",
-   "price": 0.0001725,
-   "mcap": 17257276.0,
-   "liq": 1323245.43,
+   "price": 0.0001729,
+   "mcap": 17295389.0,
+   "liq": 1325744.05,
    "vol": {
-    "m5": 525.79,
-    "h1": 64934.28,
-    "h6": 210635.14,
-    "h24": 571814.97
+    "m5": 296.74,
+    "h1": 26438.01,
+    "h6": 202119.12,
+    "h24": 572326.37
    },
    "chg": {
-    "m5": 0.09,
-    "h1": -4.15,
-    "h6": 7.32,
-    "h24": 54.55
+    "m5": -0.05,
+    "h1": -4.41,
+    "h6": 8.52,
+    "h24": 54.85
    },
    "txns": {
     "m5": [
-     2,
-     1
+     8,
+     2
     ],
     "h1": [
-     92,
-     22
+     94,
+     15
     ],
     "h6": [
-     767,
-     118
+     703,
+     114
     ],
     "h24": [
-     1177,
-     268
+     1195,
+     269
     ]
    },
    "created": 1778944831.0,
-   "score": 28,
+   "score": 23,
    "pts": {
-    "momentum": 5.8,
+    "momentum": 0.6,
     "buyers": 12,
     "chatter": 3,
     "narrative": 0,
@@ -791,9 +1894,8 @@
    },
    "pen": 6,
    "why": [
-    "volume 2.7x its normal pace (but price falling)",
-    "81% of trades are buys (1h)",
-    "42 unique buyers vs 19 sellers (1h)",
+    "86% of trades are buys (1h)",
+    "38 unique buyers vs 9 sellers (1h)",
     "trending on GeckoTerminal"
    ],
    "warn": [
@@ -839,850 +1941,43 @@
    "copy_note": null
   },
   {
-   "key": "solana:6iA73gWCKkLWKbVr8rgibV57MMRxzsaqS9cWpgKBpump",
-   "symbol": "\u6211\u7684\u5200\u76fe",
-   "name": "what the dog doing?",
-   "chain": "solana",
-   "address": "6iA73gWCKkLWKbVr8rgibV57MMRxzsaqS9cWpgKBpump",
-   "pair_url": "https://dexscreener.com/solana/9rpsv1vwy6itwjihsbjrbpw2z36aeicnaiktyqtnxxcr",
-   "price": 0.0002181,
-   "mcap": 218165.0,
-   "liq": 81172.13,
-   "vol": {
-    "m5": 0.0,
-    "h1": 5728.18,
-    "h6": 5845.6,
-    "h24": 12893.14
-   },
-   "chg": {
-    "m5": 0.0,
-    "h1": 19.69,
-    "h6": 22.15,
-    "h24": 16.55
-   },
-   "txns": {
-    "m5": [
-     0,
-     0
-    ],
-    "h1": [
-     19,
-     92
-    ],
-    "h6": [
-     22,
-     96
-    ],
-    "h24": [
-     136,
-     118
-    ]
-   },
-   "created": 1772029361.0,
-   "score": 28,
-   "pts": {
-    "momentum": 10.6,
-    "buyers": 0,
-    "chatter": 0,
-    "narrative": 1,
-    "room": 12,
-    "liquidity": 4
-   },
-   "pen": 0,
-   "why": [
-    "in hot DexScreener narrative 'TikTok'"
-   ],
-   "warn": [],
-   "ment": {
-    "biz": 0,
-    "reddit": 0,
-    "news": 0,
-    "w": 0.0,
-    "heads": [],
-    "n": 0
-   },
-   "themes": [
-    "animals"
-   ],
-   "metas": [
-    [
-     "TikTok",
-     1.4267010664377076
-    ]
-   ],
-   "culture": null,
-   "cg_rank": null,
-   "on_cb": null,
-   "sec": {
-    "by": "GoPlus",
-    "bad": [],
-    "warn": [],
-    "verdict": "pass",
-    "t": 1792398721.0281591
-   },
-   "src": {
-    "dex_meta": 1
-   },
-   "links": [
-    "https://whatthedogdoing.fun/",
-    "https://x.com/whatthedogdoins",
-    "https://t.me/wtdd_portal"
-   ],
-   "desc": null,
-   "score_6h": null,
-   "copy_note": null
-  },
-  {
-   "key": "solana:Cr8kuNqKwiVVuzqLYKcJhmpSHy767837BwLFr9GDYXUf",
-   "symbol": "b",
-   "name": "buckme",
-   "chain": "solana",
-   "address": "Cr8kuNqKwiVVuzqLYKcJhmpSHy767837BwLFr9GDYXUf",
-   "pair_url": "https://dexscreener.com/solana/44n9abhjkqpvuxs3rkgno3ykqisqu8zdyf9bguyujrqr",
-   "price": 0.0001429,
-   "mcap": 138944.0,
-   "liq": 34652.58,
-   "vol": {
-    "m5": 2231.13,
-    "h1": 3276.74,
-    "h6": 13233.19,
-    "h24": 61781.8
-   },
-   "chg": {
-    "m5": 3.17,
-    "h1": 8.91,
-    "h6": 12.1,
-    "h24": 66.91
-   },
-   "txns": {
-    "m5": [
-     11,
-     10
-    ],
-    "h1": [
-     24,
-     18
-    ],
-    "h6": [
-     102,
-     69
-    ],
-    "h24": [
-     432,
-     356
-    ]
-   },
-   "created": 1791459767.0,
-   "score": 28,
-   "pts": {
-    "momentum": 8.3,
-    "buyers": 4.8,
-    "chatter": 3,
-    "narrative": 7.8,
-    "room": 12,
-    "liquidity": 2
-   },
-   "pen": 10,
-   "why": [
-    "still accelerating (last 5 min)",
-    "community takeover",
-    "Gaming / GTA VI: GTA VI launch in 31 days"
-   ],
-   "warn": [
-    "barely trading ($3.3k in the last hour)"
-   ],
-   "ment": {
-    "biz": 0,
-    "reddit": 0,
-    "news": 0,
-    "w": 0.0,
-    "heads": [],
-    "n": 0
-   },
-   "themes": [
-    "gaming"
-   ],
-   "metas": [],
-   "culture": null,
-   "cg_rank": null,
-   "on_cb": null,
-   "sec": {
-    "by": "GoPlus",
-    "bad": [],
-    "warn": [],
-    "verdict": "pass",
-    "t": 1792390278.8637347
-   },
-   "src": {
-    "dex_cto": 1
-   },
-   "links": [
-    "https://x.com/buckme_sol/status/2111518533515620755?s=20"
-   ],
-   "desc": "Buckme - The Digital Currency of Vice City\n\nBuckme is a Solana meme coin capturing the narrative of BuckMe, GTA VI\u2019s in-game digital banking app (the Cash App / Venmo of Leonida).\nMoney deposited into BuckMe survives death, arrest, and robbery, unlike cash on the streets.\nThe domain buckme. app was registered by Take-Two, and the app appears on phones, billboards, and the Vice City skyline.\nWith GTA VI launching November 19, 2026, $b is positioned as the on-chain representation of the game\u2019s fin",
-   "score_6h": 29,
-   "copy_note": null
-  },
-  {
-   "key": "ethereum:0x8ed97a637a790be1feff5e888d43629dc05408f6",
-   "symbol": "NPC",
-   "name": "Non-Playable Coin",
-   "chain": "ethereum",
-   "address": "0x8eD97a637A790Be1feff5e888d43629dc05408F6",
-   "pair_url": "https://dexscreener.com/ethereum/0x69c7bd26512f52bf6f76fab834140d13dda673ca",
-   "price": 0.01912,
-   "mcap": 153927675.0,
-   "liq": 4681409.92,
-   "vol": {
-    "m5": 12.94,
-    "h1": 28067.76,
-    "h6": 80428.81,
-    "h24": 373044.27
-   },
-   "chg": {
-    "m5": -0.04,
-    "h1": 0.01,
-    "h6": 4.06,
-    "h24": 1.17
-   },
-   "txns": {
-    "m5": [
-     1,
-     0
-    ],
-    "h1": [
-     37,
-     19
-    ],
-    "h6": [
-     163,
-     33
-    ],
-    "h24": [
-     561,
-     168
-    ]
-   },
-   "created": 1690648127.0,
-   "score": 26,
-   "pts": {
-    "momentum": 6.8,
-    "buyers": 10.4,
-    "chatter": 0,
-    "narrative": 1,
-    "room": 4,
-    "liquidity": 4
-   },
-   "pen": 0,
-   "why": [
-    "volume 1.8x its normal pace",
-    "66% of trades are buys (1h)",
-    "in hot DexScreener narrative 'NFT'"
-   ],
-   "warn": [],
-   "ment": {
-    "biz": 0,
-    "reddit": 0,
-    "news": 0,
-    "w": 0.0,
-    "heads": [],
-    "n": 0
-   },
-   "themes": [],
-   "metas": [
-    [
-     "NFT",
-     2.4331274401147844
-    ]
-   ],
-   "culture": null,
-   "cg_rank": null,
-   "on_cb": null,
-   "sec": {
-    "by": "GoPlus",
-    "bad": [],
-    "warn": [],
-    "verdict": "pass",
-    "t": 1792386334.9429545
-   },
-   "src": {
-    "dex_meta": 1
-   },
-   "links": [
-    "https://www.npc.com/",
-    "https://docs.nonplayablecoin.io/",
-    "https://twitter.com/nonplayablecoin",
-    "https://t.me/nonplayablecoin"
-   ],
-   "desc": null,
-   "score_6h": null,
-   "copy_note": null
-  },
-  {
-   "key": "solana:GTBxUiw6wJdmmkCGZgRHLyYxqu1vG4KtRpeox6yDpump",
-   "symbol": "JEANPHIL",
-   "name": "Jean Phil",
-   "chain": "solana",
-   "address": "GTBxUiw6wJdmmkCGZgRHLyYxqu1vG4KtRpeox6yDpump",
-   "pair_url": "https://dexscreener.com/solana/4r8cimnjwdnoes3fqi1ccpfjygpxazahawphrn3rzenj",
-   "price": 0.00613,
-   "mcap": 5943044.0,
-   "liq": 391094.46,
-   "vol": {
-    "m5": 672.02,
-    "h1": 17443.57,
-    "h6": 47112.2,
-    "h24": 296614.96
-   },
-   "chg": {
-    "m5": 0.24,
-    "h1": -1.37,
-    "h6": -5.67,
-    "h24": -13.48
-   },
-   "txns": {
-    "m5": [
-     1,
-     2
-    ],
-    "h1": [
-     46,
-     31
-    ],
-    "h6": [
-     226,
-     161
-    ],
-    "h24": [
-     1247,
-     1028
-    ]
-   },
-   "created": 1789844819.0,
-   "score": 26,
-   "pts": {
-    "momentum": 1.4,
-    "buyers": 5.6,
-    "chatter": 3,
-    "narrative": 0,
-    "room": 10,
-    "liquidity": 6
-   },
-   "pen": 0,
-   "why": [
-    "trending on GeckoTerminal"
-   ],
-   "warn": [],
-   "ment": {
-    "biz": 0,
-    "reddit": 0,
-    "news": 0,
-    "w": 0.0,
-    "heads": [],
-    "n": 0
-   },
-   "themes": [],
-   "metas": [],
-   "culture": null,
-   "cg_rank": null,
-   "on_cb": null,
-   "sec": {
-    "by": "GoPlus",
-    "bad": [],
-    "warn": [],
-    "verdict": "pass",
-    "t": 1792382148.209267
-   },
-   "src": {
-    "gt_trending": 2
-   },
-   "links": [
-    "https://jeanphilmadame.com/",
-    "https://x.com/JeanPhilMadame",
-    "https://www.instagram.com/jean_philanthrope/"
-   ],
-   "desc": null,
-   "score_6h": null,
-   "copy_note": null
-  },
-  {
-   "key": "solana:CbyTNf7UPzvewHh4Zp6umogM2RWahhmGRJWLJnPwpump",
-   "symbol": "biketyson",
-   "name": "BIKE TYSON",
-   "chain": "solana",
-   "address": "CbyTNf7UPzvewHh4Zp6umogM2RWahhmGRJWLJnPwpump",
-   "pair_url": "https://dexscreener.com/solana/41rztmb7jhptymxzrywdqnbecjrhkb8khyajrq9cyxjx",
-   "price": 0.0007804,
-   "mcap": 750726.0,
-   "liq": 126042.06,
-   "vol": {
-    "m5": 2511.32,
-    "h1": 5372.79,
-    "h6": 11103.61,
-    "h24": 37879.12
-   },
-   "chg": {
-    "m5": -7.86,
-    "h1": -2.16,
-    "h6": 1.75,
-    "h24": 15.19
-   },
-   "txns": {
-    "m5": [
-     9,
-     2
-    ],
-    "h1": [
-     20,
-     11
-    ],
-    "h6": [
-     77,
-     101
-    ],
-    "h24": [
-     913,
-     263
-    ]
-   },
-   "created": 1788452170.0,
-   "score": 26,
-   "pts": {
-    "momentum": 1.5,
-    "buyers": 5.8,
-    "chatter": 0,
-    "narrative": 1,
-    "room": 12,
-    "liquidity": 6
-   },
-   "pen": 0,
-   "why": [
-    "65% of trades are buys (1h)",
-    "in hot DexScreener narrative 'Brainrot'"
-   ],
-   "warn": [],
-   "ment": {
-    "biz": 0,
-    "reddit": 0,
-    "news": 0,
-    "w": 0.0,
-    "heads": [],
-    "n": 0
-   },
-   "themes": [],
-   "metas": [
-    [
-     "Brainrot",
-     1.3048269480120518
-    ]
-   ],
-   "culture": null,
-   "cg_rank": null,
-   "on_cb": null,
-   "sec": {
-    "by": "GoPlus",
-    "bad": [],
-    "warn": [],
-    "verdict": "pass",
-    "t": 1792398721.0281591
-   },
-   "src": {
-    "dex_meta": 1
-   },
-   "links": [
-    "https://pump.fun/coin/CbyTNf7UPzvewHh4Zp6umogM2RWahhmGRJWLJnPwpump",
-    "https://x.com/biketysonreal",
-    "https://www.tiktok.com/@biketysonguy"
-   ],
-   "desc": null,
-   "score_6h": null,
-   "copy_note": null
-  },
-  {
-   "key": "solana:DtcicPCKTKeAh7TDEzTym3hXeoHAoMiBdYJhMYxZpump",
-   "symbol": "CBUCKS",
-   "name": "Cartoon Money",
-   "chain": "solana",
-   "address": "DtcicPCKTKeAh7TDEzTym3hXeoHAoMiBdYJhMYxZpump",
-   "pair_url": "https://dexscreener.com/solana/b4cp45pgifvm5faxfh6aev8qz3eunqnqgbw7kuc7mhnb",
-   "price": 0.001358,
-   "mcap": 1281493.0,
-   "liq": 118687.58,
-   "vol": {
-    "m5": 254.96,
-    "h1": 6360.14,
-    "h6": 77765.0,
-    "h24": 417017.01
-   },
-   "chg": {
-    "m5": 2.63,
-    "h1": 4.53,
-    "h6": 44.38,
-    "h24": 53.7
-   },
-   "txns": {
-    "m5": [
-     2,
-     1
-    ],
-    "h1": [
-     35,
-     29
-    ],
-    "h6": [
-     257,
-     219
-    ],
-    "h24": [
-     1630,
-     1180
-    ]
-   },
-   "created": 1791311393.0,
-   "score": 25,
-   "pts": {
-    "momentum": 3.9,
-    "buyers": 2.7,
-    "chatter": 2,
-    "narrative": 0,
-    "room": 10,
-    "liquidity": 6
-   },
-   "pen": 0,
-   "why": [
-    "paid DexScreener boosts"
-   ],
-   "warn": [],
-   "ment": {
-    "biz": 0,
-    "reddit": 0,
-    "news": 0,
-    "w": 0.0,
-    "heads": [],
-    "n": 0
-   },
-   "themes": [
-    "ai"
-   ],
-   "metas": [],
-   "culture": null,
-   "cg_rank": null,
-   "on_cb": null,
-   "sec": {
-    "by": "GoPlus",
-    "bad": [],
-    "warn": [],
-    "verdict": "pass",
-    "t": 1792382148.209267
-   },
-   "src": {
-    "dex_boost_top": 1
-   },
-   "links": [
-    "https://cartoon-money.com/",
-    "https://x.com/cartoonmoney_ai"
-   ],
-   "desc": "Someone asked AI to build a game the entire crypto space would love. So it recreated the crypto world for us to own. \ud83e\ude99 Built & controlled by Agentic AI.",
-   "score_6h": null,
-   "copy_note": null
-  },
-  {
-   "key": "solana:HqmFi85adLD8BQA7en1HfajdAfzVFps5REgQaYuw6Ax8",
-   "symbol": "WEFT",
-   "name": "Weft Finance",
-   "chain": "solana",
-   "address": "HqmFi85adLD8BQA7en1HfajdAfzVFps5REgQaYuw6Ax8",
-   "pair_url": "https://dexscreener.com/solana/e5bde27atdteg1zpnfhjnu5fcvkjccq5ifzlax8fscgx",
-   "price": 0.002182,
-   "mcap": 2078016.0,
-   "liq": 125811.99,
-   "vol": {
-    "m5": 17.16,
-    "h1": 79046.03,
-    "h6": 291727.28,
-    "h24": 1379639.3
-   },
-   "chg": {
-    "m5": 0.16,
-    "h1": 7.94,
-    "h6": 25.18,
-    "h24": 692.0
-   },
-   "txns": {
-    "m5": [
-     1,
-     0
-    ],
-    "h1": [
-     187,
-     169
-    ],
-    "h6": [
-     1127,
-     767
-    ],
-    "h24": [
-     5922,
-     4445
-    ]
-   },
-   "created": 1792259977.0,
-   "score": 24,
-   "pts": {
-    "momentum": 8.3,
-    "buyers": 2.9,
-    "chatter": 3,
-    "narrative": 0,
-    "room": 10,
-    "liquidity": 6
-   },
-   "pen": 6,
-   "why": [
-    "trending on GeckoTerminal"
-   ],
-   "warn": [
-    "already up 692% in 24h"
-   ],
-   "ment": {
-    "biz": 0,
-    "reddit": 0,
-    "news": 0,
-    "w": 0.0,
-    "heads": [],
-    "n": 0
-   },
-   "themes": [],
-   "metas": [],
-   "culture": null,
-   "cg_rank": null,
-   "on_cb": null,
-   "sec": {
-    "by": "GoPlus",
-    "bad": [],
-    "warn": [],
-    "verdict": "pass",
-    "t": 1792398721.0281591
-   },
-   "src": {
-    "gt_trending": 3
-   },
-   "links": [
-    "https://weft.fi/",
-    "https://x.com/weftfinance"
-   ],
-   "desc": null,
-   "score_6h": 53,
-   "copy_note": null
-  },
-  {
-   "key": "near:qtc.omft.near",
-   "symbol": "QTC",
-   "name": "Quantus",
-   "chain": "near",
-   "address": "qtc.omft.near",
-   "pair_url": "https://dexscreener.com/near/refv2-17208628f84f5d6ad33f0da3bbbeb27ffcb398eac501a31bd6ad2011e36133a1:qtc.omft.near:2000",
-   "price": 101.88,
-   "mcap": 316.0,
-   "liq": 12625719.51,
-   "vol": {
-    "m5": 15597.15,
-    "h1": 74515.41,
-    "h6": 181045.75,
-    "h24": 997170.29
-   },
-   "chg": {
-    "m5": 0.07,
-    "h1": -0.37,
-    "h6": -0.54,
-    "h24": -5.71
-   },
-   "txns": {
-    "m5": [
-     1,
-     0
-    ],
-    "h1": [
-     19,
-     46
-    ],
-    "h6": [
-     73,
-     359
-    ],
-    "h24": [
-     323,
-     1903
-    ]
-   },
-   "created": 1791250413.0,
-   "score": 24,
-   "pts": {
-    "momentum": 6.4,
-    "buyers": 0,
-    "chatter": 8,
-    "narrative": 0,
-    "room": 6,
-    "liquidity": 4
-   },
-   "pen": 0,
-   "why": [
-    "still accelerating (last 5 min)",
-    "#7 trending on CoinGecko"
-   ],
-   "warn": [],
-   "ment": {
-    "biz": 0,
-    "reddit": 0,
-    "news": 0,
-    "w": 0.0,
-    "heads": [],
-    "n": 0
-   },
-   "themes": [],
-   "metas": [],
-   "culture": null,
-   "cg_rank": 7,
-   "on_cb": null,
-   "sec": null,
-   "src": {
-    "cg_search": 1
-   },
-   "links": [],
-   "desc": null,
-   "score_6h": null,
-   "copy_note": null
-  },
-  {
-   "key": "solana:5UUH9RTDiSpq6HKS6bp4NdU9PNJpXRXuiw6ShBTBhgH2",
-   "symbol": "TROLL",
-   "name": "TROLL",
-   "chain": "solana",
-   "address": "5UUH9RTDiSpq6HKS6bp4NdU9PNJpXRXuiw6ShBTBhgH2",
-   "pair_url": "https://dexscreener.com/solana/4w2cysotx6czaugmmwg13hdpy4qemg2czekyeqyk9ama",
-   "price": 0.03436,
-   "mcap": 34326052.0,
-   "liq": 2783262.83,
-   "vol": {
-    "m5": 0.0,
-    "h1": 21253.59,
-    "h6": 39060.99,
-    "h24": 475475.6
-   },
-   "chg": {
-    "m5": 0.0,
-    "h1": -1.26,
-    "h6": 0.38,
-    "h24": -2.44
-   },
-   "txns": {
-    "m5": [
-     0,
-     0
-    ],
-    "h1": [
-     26,
-     13
-    ],
-    "h6": [
-     148,
-     86
-    ],
-    "h24": [
-     1195,
-     682
-    ]
-   },
-   "created": 1745173826.0,
-   "score": 24,
-   "pts": {
-    "momentum": 0.3,
-    "buyers": 9.3,
-    "chatter": 0,
-    "narrative": 1,
-    "room": 7,
-    "liquidity": 6
-   },
-   "pen": 0,
-   "why": [
-    "67% of trades are buys (1h)",
-    "in hot DexScreener narrative 'Character'"
-   ],
-   "warn": [],
-   "ment": {
-    "biz": 0,
-    "reddit": 0,
-    "news": 0,
-    "w": 0.0,
-    "heads": [],
-    "n": 0
-   },
-   "themes": [],
-   "metas": [
-    [
-     "Character",
-     1.12714596555576
-    ]
-   ],
-   "culture": null,
-   "cg_rank": null,
-   "on_cb": true,
-   "sec": {
-    "by": "GoPlus",
-    "bad": [],
-    "warn": [],
-    "verdict": "pass",
-    "t": 1792389426.4666631
-   },
-   "src": {
-    "dex_meta": 1
-   },
-   "links": [
-    "https://trololol.io",
-    "https://x.com/troll_",
-    "https://t.me/trollsolog"
-   ],
-   "desc": null,
-   "score_6h": null,
-   "copy_note": null
-  },
-  {
    "key": "near:nearly-993927.nearlytrade.near",
    "symbol": "NEARLY",
    "name": "NEARLY",
    "chain": "near",
    "address": "nearly-993927.nearlytrade.near",
    "pair_url": "https://dexscreener.com/near/refv2-nearly-993927.nearlytrade.near:wrap.near:10000",
-   "price": 0.002785,
-   "mcap": 2616654.0,
-   "liq": 290082.79,
+   "price": 0.002842,
+   "mcap": 2670351.0,
+   "liq": 293352.38,
    "vol": {
-    "m5": 0.0,
-    "h1": 8338.66,
-    "h6": 23902.99,
-    "h24": 96027.46
+    "m5": 39.99,
+    "h1": 8188.79,
+    "h6": 21359.12,
+    "h24": 95354.59
    },
    "chg": {
-    "m5": 0.0,
-    "h1": -0.67,
-    "h6": 17.84,
-    "h24": 11.68
+    "m5": 2.0,
+    "h1": -0.95,
+    "h6": 17.91,
+    "h24": 14.23
    },
    "txns": {
     "m5": [
-     0,
-     0
+     1,
+     1
     ],
     "h1": [
-     7,
-     17
+     6,
+     16
     ],
     "h6": [
      45,
-     68
+     65
     ],
     "h24": [
-     262,
-     211
+     260,
+     212
     ]
    },
    "created": 1790037431.0,
@@ -1728,142 +2023,43 @@
    "copy_note": null
   },
   {
-   "key": "solana:69LjZUUzxj3Cb3Fxeo1X4QpYEQTboApkhXTysPpbpump",
-   "symbol": "CODEC",
-   "name": "Codec Flow",
-   "chain": "solana",
-   "address": "69LjZUUzxj3Cb3Fxeo1X4QpYEQTboApkhXTysPpbpump",
-   "pair_url": "https://dexscreener.com/solana/hh4d2z7skbtos2dawzs1xcwsrwybk14knueu1khmzcev",
-   "price": 0.006065,
-   "mcap": 6064849.0,
-   "liq": 367792.8,
-   "vol": {
-    "m5": 0.0,
-    "h1": 8053.92,
-    "h6": 14020.08,
-    "h24": 58221.36
-   },
-   "chg": {
-    "m5": 0.0,
-    "h1": 4.56,
-    "h6": 6.74,
-    "h24": -3.2
-   },
-   "txns": {
-    "m5": [
-     0,
-     0
-    ],
-    "h1": [
-     6,
-     18
-    ],
-    "h6": [
-     28,
-     52
-    ],
-    "h24": [
-     209,
-     131
-    ]
-   },
-   "created": 1745531898.0,
-   "score": 23,
-   "pts": {
-    "momentum": 5.4,
-    "buyers": 0,
-    "chatter": 0,
-    "narrative": 1.2,
-    "room": 10,
-    "liquidity": 6
-   },
-   "pen": 0,
-   "why": [
-    "in hot DexScreener narrative 'x402'"
-   ],
-   "warn": [],
-   "ment": {
-    "biz": 0,
-    "reddit": 0,
-    "news": 0,
-    "w": 0.0,
-    "heads": [],
-    "n": 0
-   },
-   "themes": [
-    "ai"
-   ],
-   "metas": [
-    [
-     "x402",
-     11.662036271946043
-    ]
-   ],
-   "culture": null,
-   "cg_rank": null,
-   "on_cb": null,
-   "sec": {
-    "by": "GoPlus",
-    "bad": [],
-    "warn": [],
-    "verdict": "pass",
-    "t": 1792397031.081899
-   },
-   "src": {
-    "dex_meta": 1
-   },
-   "links": [
-    "https://codecflow.ai/",
-    "https://docs.codecflow.ai/",
-    "https://github.com/codecflow",
-    "https://coingecko.com/en/coins/codec-flow",
-    "https://simarena.ai/",
-    "https://machine.fun/",
-    "https://x.com/codecopenflow",
-    "https://t.me/codecflow"
-   ],
-   "desc": null,
-   "score_6h": null,
-   "copy_note": null
-  },
-  {
    "key": "solana:8RpybikpGLbKsYJ4FXz12ExDz89R7VXAUZ3JXNcKpump",
    "symbol": "DOGESTER",
    "name": "FLYING TESLA DOGESTER",
    "chain": "solana",
    "address": "8RpybikpGLbKsYJ4FXz12ExDz89R7VXAUZ3JXNcKpump",
    "pair_url": "https://dexscreener.com/solana/c1gr6idrfxx3neg8qckak452qtnbiu4orzm13nrzt4i8",
-   "price": 0.0002004,
-   "mcap": 194338.0,
-   "liq": 37375.23,
+   "price": 0.000198,
+   "mcap": 191990.0,
+   "liq": 37172.43,
    "vol": {
-    "m5": 177.77,
-    "h1": 6510.11,
-    "h6": 62547.84,
-    "h24": 325058.05
+    "m5": 573.24,
+    "h1": 7440.38,
+    "h6": 63273.19,
+    "h24": 327605.57
    },
    "chg": {
-    "m5": 2.66,
-    "h1": -3.66,
-    "h6": -3.31,
-    "h24": 367.0
+    "m5": -1.64,
+    "h1": -1.52,
+    "h6": -4.07,
+    "h24": 361.0
    },
    "txns": {
     "m5": [
-     11,
-     0
+     8,
+     6
     ],
     "h1": [
-     166,
-     62
+     159,
+     67
     ],
     "h6": [
-     961,
-     376
+     963,
+     378
     ],
     "h24": [
-     4598,
-     1866
+     4624,
+     1883
     ]
    },
    "created": 1792340914.0,
@@ -1878,12 +2074,12 @@
    },
    "pen": 6,
    "why": [
-    "73% of trades are buys (1h)",
-    "119 unique buyers vs 44 sellers (1h)",
+    "70% of trades are buys (1h)",
+    "124 unique buyers vs 49 sellers (1h)",
     "trending on GeckoTerminal"
    ],
    "warn": [
-    "already up 367% in 24h"
+    "already up 361% in 24h"
    ],
    "ment": {
     "biz": 0,
@@ -1908,7 +2104,7 @@
     "t": 1792390278.8637347
    },
    "src": {
-    "gt_trending": 1
+    "gt_trending": 2
    },
    "links": [
     "https://x.com/dogestersol?s=11"
@@ -1918,142 +2114,50 @@
    "copy_note": null
   },
   {
-   "key": "solana:2gVNeu8dP7XiLoaWfUvUJXUM5AdXY8418aft8xhUpump",
-   "symbol": "GTA6",
-   "name": "GTA VI",
-   "chain": "solana",
-   "address": "2gVNeu8dP7XiLoaWfUvUJXUM5AdXY8418aft8xhUpump",
-   "pair_url": "https://dexscreener.com/solana/88fjjlwfn9dz3ugft8tfxcwjugfgftldqeitpt1urypu",
-   "price": 0.0001573,
-   "mcap": 151917.0,
-   "liq": 34076.21,
-   "vol": {
-    "m5": 30.82,
-    "h1": 3549.53,
-    "h6": 11140.63,
-    "h24": 111741.67
-   },
-   "chg": {
-    "m5": 0.25,
-    "h1": 19.62,
-    "h6": 19.41,
-    "h24": 17.59
-   },
-   "txns": {
-    "m5": [
-     2,
-     0
-    ],
-    "h1": [
-     21,
-     12
-    ],
-    "h6": [
-     74,
-     61
-    ],
-    "h24": [
-     837,
-     758
-    ]
-   },
-   "created": 1792269690.0,
-   "score": 23,
-   "pts": {
-    "momentum": 6.9,
-    "buyers": 6.4,
-    "chatter": 6.0,
-    "narrative": 7.8,
-    "room": 12,
-    "liquidity": 2
-   },
-   "pen": 18,
-   "why": [
-    "64% of trades are buys (1h)",
-    "mentioned 1 on /biz/",
-    "Gaming / GTA VI: GTA VI launch in 31 days"
-   ],
-   "warn": [
-    "barely trading ($3.5k in the last hour)",
-    "2 other coins use this name; this is NOT the oldest: check the contract"
-   ],
-   "ment": {
-    "biz": 1,
-    "reddit": 0,
-    "news": 0,
-    "w": 1.0,
-    "heads": [],
-    "n": 1
-   },
-   "themes": [
-    "gaming"
-   ],
-   "metas": [],
-   "culture": null,
-   "cg_rank": null,
-   "on_cb": null,
-   "sec": {
-    "by": "GoPlus",
-    "bad": [],
-    "warn": [],
-    "verdict": "pass",
-    "t": 1792378735.5873096
-   },
-   "src": {
-    "theme_search": 1
-   },
-   "links": [
-    "https://x.com/Lalosalamx/status/2111502662524924140?s=20"
-   ],
-   "desc": null,
-   "score_6h": 30,
-   "copy_note": "2 other coins use this name; this is NOT the oldest: check the contract"
-  },
-  {
    "key": "solana:3A3qjns31YZA6Ung91ZpoPD7J3p1bDFbTJ4ANFAPpump",
    "symbol": "mucron",
    "name": "imanuel mucron",
    "chain": "solana",
    "address": "3A3qjns31YZA6Ung91ZpoPD7J3p1bDFbTJ4ANFAPpump",
    "pair_url": "https://dexscreener.com/solana/af7w724kw2a7z5pbacas6rnq8ubikewqisa715bxgbfa",
-   "price": 0.0001208,
-   "mcap": 115101.0,
-   "liq": 33205.2,
+   "price": 0.0001185,
+   "mcap": 112989.0,
+   "liq": 32917.22,
    "vol": {
-    "m5": 396.54,
-    "h1": 27946.27,
-    "h6": 132611.14,
-    "h24": 4518243.86
+    "m5": 2866.76,
+    "h1": 30762.24,
+    "h6": 131657.21,
+    "h24": 4522914.77
    },
    "chg": {
-    "m5": -0.6,
-    "h1": 8.46,
-    "h6": -10.81,
-    "h24": 181.0
+    "m5": 1.59,
+    "h1": 5.32,
+    "h6": -17.82,
+    "h24": 176.0
    },
    "txns": {
     "m5": [
-     6,
-     8
+     42,
+     24
     ],
     "h1": [
-     259,
-     249
+     298,
+     267
     ],
     "h6": [
-     1471,
-     1196
+     1487,
+     1190
     ],
     "h24": [
-     43263,
-     34527
+     43329,
+     34571
     ]
    },
    "created": 1792314943.0,
    "score": 22,
    "pts": {
-    "momentum": 1.7,
-    "buyers": 1.4,
+    "momentum": 1.1,
+    "buyers": 2.2,
     "chatter": 5,
     "narrative": 0,
     "room": 12,
@@ -2097,50 +2201,143 @@
    "copy_note": null
   },
   {
+   "key": "solana:5UUH9RTDiSpq6HKS6bp4NdU9PNJpXRXuiw6ShBTBhgH2",
+   "symbol": "TROLL",
+   "name": "TROLL",
+   "chain": "solana",
+   "address": "5UUH9RTDiSpq6HKS6bp4NdU9PNJpXRXuiw6ShBTBhgH2",
+   "pair_url": "https://dexscreener.com/solana/4w2cysotx6czaugmmwg13hdpy4qemg2czekyeqyk9ama",
+   "price": 0.03459,
+   "mcap": 34548565.0,
+   "liq": 2793724.71,
+   "vol": {
+    "m5": 1429.63,
+    "h1": 22990.7,
+    "h6": 41256.08,
+    "h24": 477382.02
+   },
+   "chg": {
+    "m5": 0.65,
+    "h1": -1.1,
+    "h6": 0.97,
+    "h24": -1.73
+   },
+   "txns": {
+    "m5": [
+     1,
+     1
+    ],
+    "h1": [
+     23,
+     15
+    ],
+    "h6": [
+     149,
+     89
+    ],
+    "h24": [
+     1189,
+     686
+    ]
+   },
+   "created": 1745173826.0,
+   "score": 22,
+   "pts": {
+    "momentum": 0.8,
+    "buyers": 6.7,
+    "chatter": 0,
+    "narrative": 1,
+    "room": 7,
+    "liquidity": 6
+   },
+   "pen": 0,
+   "why": [
+    "61% of trades are buys (1h)",
+    "in hot DexScreener narrative 'Character'"
+   ],
+   "warn": [],
+   "ment": {
+    "biz": 0,
+    "reddit": 0,
+    "news": 0,
+    "w": 0.0,
+    "heads": [],
+    "n": 0
+   },
+   "themes": [],
+   "metas": [
+    [
+     "Character",
+     1.0070288807281198
+    ]
+   ],
+   "culture": null,
+   "cg_rank": null,
+   "on_cb": true,
+   "sec": {
+    "by": "GoPlus",
+    "bad": [],
+    "warn": [],
+    "verdict": "pass",
+    "t": 1792389426.4666631
+   },
+   "src": {
+    "dex_meta": 1
+   },
+   "links": [
+    "https://trololol.io",
+    "https://x.com/troll_",
+    "https://t.me/trollsolog"
+   ],
+   "desc": null,
+   "score_6h": null,
+   "copy_note": null
+  },
+  {
    "key": "solana:4qH8A5GxvRMZgpRFjXASc6U9HAoEzKeUqxY2dPB7pump",
    "symbol": "Groklet",
    "name": "Grok Mascot",
    "chain": "solana",
    "address": "4qH8A5GxvRMZgpRFjXASc6U9HAoEzKeUqxY2dPB7pump",
    "pair_url": "https://dexscreener.com/solana/7odjba4hzozvnwboksrwfetstnm4ia5witkwfr1lsy8t",
-   "price": 0.0002249,
-   "mcap": 220694.0,
-   "liq": 48851.29,
+   "price": 0.0002389,
+   "mcap": 234403.0,
+   "liq": 50380.71,
    "vol": {
-    "m5": 324.53,
-    "h1": 8540.83,
-    "h6": 28189.21,
-    "h24": 448975.99
+    "m5": 176.86,
+    "h1": 15770.65,
+    "h6": 33368.09,
+    "h24": 455978.15
    },
    "chg": {
-    "m5": -0.62,
-    "h1": 17.32,
-    "h6": -9.15,
-    "h24": 19.31
+    "m5": -2.19,
+    "h1": 14.93,
+    "h6": 6.94,
+    "h24": 39.1
    },
    "txns": {
     "m5": [
-     6,
-     2
+     3,
+     4
     ],
     "h1": [
-     87,
-     88
+     119,
+     106
     ],
     "h6": [
      314,
-     296
+     314
     ],
     "h24": [
-     3406,
-     3201
+     3421,
+     3230
     ]
    },
    "created": 1750018382.0,
    "score": 22,
    "pts": {
-    "momentum": 3.5,
-    "buyers": 0.3,
+    "momentum": 3.0,
+    "buyers": 1.2,
     "chatter": 2,
     "narrative": 0,
     "room": 12,
@@ -2190,58 +2387,150 @@
    "copy_note": null
   },
   {
-   "key": "solana:HgTGdc29D5bDMrDvsCLnorxz899VyDj7ZN7FPa6vpump",
-   "symbol": "VEIL",
-   "name": "Veil",
+   "key": "solana:2gVNeu8dP7XiLoaWfUvUJXUM5AdXY8418aft8xhUpump",
+   "symbol": "GTA6",
+   "name": "GTA VI",
    "chain": "solana",
-   "address": "HgTGdc29D5bDMrDvsCLnorxz899VyDj7ZN7FPa6vpump",
-   "pair_url": "https://dexscreener.com/solana/4mwjp1abqqe9y6ic5cd3nrvvwwchsn2lgpjwymdk7u7e",
-   "price": 0.003629,
-   "mcap": 3541999.0,
-   "liq": 189733.42,
+   "address": "2gVNeu8dP7XiLoaWfUvUJXUM5AdXY8418aft8xhUpump",
+   "pair_url": "https://dexscreener.com/solana/88fjjlwfn9dz3ugft8tfxcwjugfgftldqeitpt1urypu",
+   "price": 0.0001535,
+   "mcap": 148258.0,
+   "liq": 33635.81,
    "vol": {
-    "m5": 733.4,
-    "h1": 8464.52,
-    "h6": 235597.33,
-    "h24": 646133.4
+    "m5": 0.0,
+    "h1": 3505.85,
+    "h6": 10701.59,
+    "h24": 110545.13
    },
    "chg": {
-    "m5": 1.33,
-    "h1": -4.79,
-    "h6": 0.43,
-    "h24": 18.37
+    "m5": 0.0,
+    "h1": 14.62,
+    "h6": 13.32,
+    "h24": 2.37
    },
    "txns": {
     "m5": [
-     5,
-     5
+     0,
+     0
     ],
     "h1": [
-     103,
-     89
+     21,
+     12
     ],
     "h6": [
-     1592,
-     1285
+     70,
+     60
     ],
     "h24": [
-     5604,
-     4105
+     827,
+     753
     ]
    },
-   "created": 1791831681.0,
+   "created": 1792269690.0,
    "score": 22,
    "pts": {
-    "momentum": 0.0,
-    "buyers": 2.5,
-    "chatter": 3,
+    "momentum": 5.9,
+    "buyers": 6.2,
+    "chatter": 6.0,
+    "narrative": 7.8,
+    "room": 12,
+    "liquidity": 2
+   },
+   "pen": 18,
+   "why": [
+    "64% of trades are buys (1h)",
+    "mentioned 1 on /biz/",
+    "Gaming / GTA VI: GTA VI launch in 31 days"
+   ],
+   "warn": [
+    "barely trading ($3.5k in the last hour)",
+    "2 other coins use this name; this is NOT the oldest: check the contract"
+   ],
+   "ment": {
+    "biz": 1,
+    "reddit": 0,
+    "news": 0,
+    "w": 1.0,
+    "heads": [],
+    "n": 1
+   },
+   "themes": [
+    "gaming"
+   ],
+   "metas": [],
+   "culture": null,
+   "cg_rank": null,
+   "on_cb": null,
+   "sec": {
+    "by": "GoPlus",
+    "bad": [],
+    "warn": [],
+    "verdict": "pass",
+    "t": 1792378735.5873096
+   },
+   "src": {
+    "theme_search": 1
+   },
+   "links": [
+    "https://x.com/Lalosalamx/status/2111502662524924140?s=20"
+   ],
+   "desc": null,
+   "score_6h": 25,
+   "copy_note": "2 other coins use this name; this is NOT the oldest: check the contract"
+  },
+  {
+   "key": "near:qtc.omft.near",
+   "symbol": "QTC",
+   "name": "Quantus",
+   "chain": "near",
+   "address": "qtc.omft.near",
+   "pair_url": "https://dexscreener.com/near/refv2-17208628f84f5d6ad33f0da3bbbeb27ffcb398eac501a31bd6ad2011e36133a1:qtc.omft.near:2000",
+   "price": 101.54,
+   "mcap": 315.0,
+   "liq": 12594792.59,
+   "vol": {
+    "m5": 277.49,
+    "h1": 71271.08,
+    "h6": 179096.09,
+    "h24": 996902.71
+   },
+   "chg": {
+    "m5": -0.4,
+    "h1": -0.33,
+    "h6": -0.85,
+    "h24": -6.4
+   },
+   "txns": {
+    "m5": [
+     0,
+     1
+    ],
+    "h1": [
+     9,
+     38
+    ],
+    "h6": [
+     73,
+     338
+    ],
+    "h24": [
+     324,
+     1890
+    ]
+   },
+   "created": 1791250413.0,
+   "score": 21,
+   "pts": {
+    "momentum": 3.1,
+    "buyers": 0,
+    "chatter": 8,
     "narrative": 0,
-    "room": 10,
-    "liquidity": 6
+    "room": 6,
+    "liquidity": 4
    },
    "pen": 0,
    "why": [
-    "trending on GeckoTerminal"
+    "#7 trending on CoinGecko"
    ],
    "warn": [],
    "ment": {
@@ -2255,114 +2544,14 @@
    "themes": [],
    "metas": [],
    "culture": null,
-   "cg_rank": null,
+   "cg_rank": 7,
    "on_cb": null,
-   "sec": {
-    "by": "GoPlus",
-    "bad": [],
-    "warn": [],
-    "verdict": "pass",
-    "t": 1792398721.0281591
-   },
+   "sec": null,
    "src": {
-    "gt_trending": 2
+    "cg_search": 1
    },
-   "links": [
-    "https://veilit.xyz/",
-    "https://x.com/veilzk"
-   ],
+   "links": [],
    "desc": null,
-   "score_6h": 34,
-   "copy_note": null
-  },
-  {
-   "key": "robinhood:0x354c460f99b0439e8058cb456185ad5707a20b09",
-   "symbol": "NILLIONAIRE",
-   "name": "Nillionaire",
-   "chain": "robinhood",
-   "address": "0x354c460f99B0439E8058cb456185ad5707a20b09",
-   "pair_url": "https://dexscreener.com/robinhood/0x7cf65b76a75f59ce17603b98501bacab8c9955e6",
-   "price": 0.0002077,
-   "mcap": 207726.0,
-   "liq": 80249.47,
-   "vol": {
-    "m5": 27340.07,
-    "h1": 168947.4,
-    "h6": 625007.64,
-    "h24": 625007.64
-   },
-   "chg": {
-    "m5": 20.81,
-    "h1": 140.0,
-    "h6": 2037.0,
-    "h24": 2037.0
-   },
-   "txns": {
-    "m5": [
-     61,
-     34
-    ],
-    "h1": [
-     590,
-     409
-    ],
-    "h6": [
-     1761,
-     1091
-    ],
-    "h24": [
-     1761,
-     1091
-    ]
-   },
-   "created": 1792389858.0,
-   "score": 21,
-   "pts": {
-    "momentum": 14,
-    "buyers": 6.0,
-    "chatter": 1,
-    "narrative": 0,
-    "room": 12,
-    "liquidity": 4
-   },
-   "pen": 16,
-   "why": [
-    "still accelerating (last 5 min)"
-   ],
-   "warn": [
-    "only 2h old",
-    "already up 2,037% in 24h (late)"
-   ],
-   "ment": {
-    "biz": 0,
-    "reddit": 0,
-    "news": 0,
-    "w": 0.0,
-    "heads": [],
-    "n": 0
-   },
-   "themes": [
-    "robinhood"
-   ],
-   "metas": [],
-   "culture": null,
-   "cg_rank": null,
-   "on_cb": null,
-   "sec": {
-    "by": "GoPlus",
-    "bad": [],
-    "warn": [],
-    "verdict": "pass",
-    "t": 1792393661.0521953
-   },
-   "src": {
-    "dex_profile": 1
-   },
-   "links": [
-    "https://nillionaire.site",
-    "https://x.com/NillionaireHood"
-   ],
-   "desc": "No money. No status.\n\nJust a cult with one shared goal.\n\nASSEMBLE THE NILLIONAIRES.",
    "score_6h": null,
    "copy_note": null
   },
@@ -2373,43 +2562,43 @@
    "chain": "robinhood",
    "address": "0x18e674231a58c239dc7daedcffe15ec3a24cff5c",
    "pair_url": "https://dexscreener.com/robinhood/0x590dcb6a87828bf688b48089a62239b693378f1fb64d2286e6a399ed8c005fdf",
-   "price": 0.02516,
-   "mcap": 25004470.0,
-   "liq": 1220245.47,
+   "price": 0.02586,
+   "mcap": 25700339.0,
+   "liq": 1238253.11,
    "vol": {
-    "m5": 3117.62,
-    "h1": 58145.19,
-    "h6": 164405.15,
-    "h24": 769953.66
+    "m5": 373.73,
+    "h1": 55413.49,
+    "h6": 174120.7,
+    "h24": 775083.23
    },
    "chg": {
-    "m5": -0.27,
-    "h1": 2.81,
-    "h6": 6.1,
-    "h24": -2.81
+    "m5": -0.02,
+    "h1": 4.06,
+    "h6": 8.9,
+    "h24": -1.56
    },
    "txns": {
     "m5": [
-     7,
+     0,
      4
     ],
     "h1": [
      66,
-     80
+     71
     ],
     "h6": [
-     218,
-     274
+     225,
+     287
     ],
     "h24": [
-     1151,
-     1030
+     1153,
+     1044
     ]
    },
    "created": 1785990057.0,
    "score": 21,
    "pts": {
-    "momentum": 7.4,
+    "momentum": 7.0,
     "buyers": 0,
     "chatter": 3,
     "narrative": 0,
@@ -2418,7 +2607,6 @@
    },
    "pen": 0,
    "why": [
-    "volume 1.8x its normal pace",
     "trending on GeckoTerminal"
    ],
    "warn": [],
@@ -2457,63 +2645,60 @@
    "copy_note": null
   },
   {
-   "key": "solana:DFMt2FyLpB6ekPNAzVErLXgpSnJ9CRf1VnxBAkTLpump",
-   "symbol": "FTR",
-   "name": "Flying Tesla Roadster",
+   "key": "solana:HgTGdc29D5bDMrDvsCLnorxz899VyDj7ZN7FPa6vpump",
+   "symbol": "VEIL",
+   "name": "Veil",
    "chain": "solana",
-   "address": "DFMt2FyLpB6ekPNAzVErLXgpSnJ9CRf1VnxBAkTLpump",
-   "pair_url": "https://dexscreener.com/solana/fk5mugv2h3qpt6axdhs2khgdl2os424bvfeoqfntdv9y",
-   "price": 0.001496,
-   "mcap": 1438044.0,
-   "liq": 157326.91,
+   "address": "HgTGdc29D5bDMrDvsCLnorxz899VyDj7ZN7FPa6vpump",
+   "pair_url": "https://dexscreener.com/solana/4mwjp1abqqe9y6ic5cd3nrvvwwchsn2lgpjwymdk7u7e",
+   "price": 0.003641,
+   "mcap": 3553088.0,
+   "liq": 190158.78,
    "vol": {
-    "m5": 1943.83,
-    "h1": 42404.01,
-    "h6": 133863.62,
-    "h24": 1168593.93
+    "m5": 80.71,
+    "h1": 8954.66,
+    "h6": 235043.54,
+    "h24": 644495.07
    },
    "chg": {
-    "m5": 0.28,
-    "h1": -16.91,
-    "h6": -27.97,
-    "h24": -40.57
+    "m5": -0.24,
+    "h1": -3.07,
+    "h6": 3.59,
+    "h24": 17.33
    },
    "txns": {
     "m5": [
-     20,
-     9
+     3,
+     3
     ],
     "h1": [
-     277,
-     151
+     97,
+     92
     ],
     "h6": [
-     866,
-     711
+     1566,
+     1259
     ],
     "h24": [
-     6036,
-     5042
+     5582,
+     4099
     ]
    },
-   "created": 1792030112.0,
+   "created": 1791831681.0,
    "score": 21,
    "pts": {
     "momentum": 0.0,
-    "buyers": 6.9,
+    "buyers": 1.6,
     "chatter": 3,
     "narrative": 0,
     "room": 10,
     "liquidity": 6
    },
-   "pen": 5,
+   "pen": 0,
    "why": [
-    "65% of trades are buys (1h)",
     "trending on GeckoTerminal"
    ],
-   "warn": [
-    "dumping now (-17% in 1h)"
-   ],
+   "warn": [],
    "ment": {
     "biz": 0,
     "reddit": 0,
@@ -2522,9 +2707,7 @@
     "heads": [],
     "n": 0
    },
-   "themes": [
-    "elon"
-   ],
+   "themes": [],
    "metas": [],
    "culture": null,
    "cg_rank": null,
@@ -2537,203 +2720,13 @@
     "t": 1792398721.0281591
    },
    "src": {
-    "gt_trending": 2
-   },
-   "links": [
-    "https://otcdesks.cash/coin/DFMt2FyLpB6ekPNAzVErLXgpSnJ9CRf1VnxBAkTLpump",
-    "https://x.com/FTRonPUMP"
-   ],
-   "desc": null,
-   "score_6h": null,
-   "copy_note": null
-  },
-  {
-   "key": "robinhood:0xaa07a0e9209e16ac99708c3ec70159c6ef3128a3",
-   "symbol": "ORBIO",
-   "name": "Orbio.so",
-   "chain": "robinhood",
-   "address": "0xaa07a0e9209e16ac99708c3ec70159c6ef3128a3",
-   "pair_url": "https://dexscreener.com/robinhood/0xea9f200e13055b82f175f44f592c4c13dd8c9d9320a66487d3c5cd90d68550ef",
-   "price": 0.02627,
-   "mcap": 24965195.0,
-   "liq": 468532.12,
-   "vol": {
-    "m5": 5019.81,
-    "h1": 24040.05,
-    "h6": 63780.59,
-    "h24": 262152.24
-   },
-   "chg": {
-    "m5": 2.74,
-    "h1": 9.46,
-    "h6": 19.33,
-    "h24": 12.35
-   },
-   "txns": {
-    "m5": [
-     1,
-     10
-    ],
-    "h1": [
-     25,
-     41
-    ],
-    "h6": [
-     88,
-     112
-    ],
-    "h24": [
-     463,
-     882
-    ]
-   },
-   "created": 1789888014.0,
-   "score": 20,
-   "pts": {
-    "momentum": 16.6,
-    "buyers": 0,
-    "chatter": 3,
-    "narrative": 0,
-    "room": 7,
-    "liquidity": 4
-   },
-   "pen": 11,
-   "why": [
-    "volume 2.2x its normal pace",
-    "still accelerating (last 5 min)",
-    "trending on GeckoTerminal"
-   ],
-   "warn": [
-    "liquidity under 3% of market cap",
-    "Top wallets hold 57%"
-   ],
-   "ment": {
-    "biz": 0,
-    "reddit": 0,
-    "news": 0,
-    "w": 0.0,
-    "heads": [],
-    "n": 0
-   },
-   "themes": [
-    "robinhood"
-   ],
-   "metas": [],
-   "culture": null,
-   "cg_rank": null,
-   "on_cb": null,
-   "sec": {
-    "by": "GoPlus",
-    "bad": [],
-    "warn": [
-     "Top wallets hold 57%"
-    ],
-    "verdict": "caution",
-    "t": 1792378735.5873096
-   },
-   "src": {
     "gt_trending": 1
    },
    "links": [
-    "https://orbio.so/",
-    "https://x.com/orbiodotso"
+    "https://veilit.xyz/",
+    "https://x.com/veilzk"
    ],
    "desc": null,
-   "score_6h": null,
-   "copy_note": null
-  },
-  {
-   "key": "solana:EKosQw4oJFbXmeJ4qRnbH1quGFRTc3Eok6nwnFKDpump",
-   "symbol": "startupSI",
-   "name": "startupSI",
-   "chain": "solana",
-   "address": "EKosQw4oJFbXmeJ4qRnbH1quGFRTc3Eok6nwnFKDpump",
-   "pair_url": "https://dexscreener.com/solana/ascpffyzxmnhhfhqqwawtcrmasguzcjtwyu6os6cqd2r",
-   "price": 0.006269,
-   "mcap": 6245755.0,
-   "liq": 233166.06,
-   "vol": {
-    "m5": 4119.98,
-    "h1": 168098.26,
-    "h6": 1219627.75,
-    "h24": 4698532.71
-   },
-   "chg": {
-    "m5": 7.16,
-    "h1": -3.62,
-    "h6": 0.76,
-    "h24": 10511.0
-   },
-   "txns": {
-    "m5": [
-     240,
-     4
-    ],
-    "h1": [
-     3215,
-     633
-    ],
-    "h6": [
-     9570,
-     4972
-    ],
-    "h24": [
-     37345,
-     17351
-    ]
-   },
-   "created": 1792348453.0,
-   "score": 19,
-   "pts": {
-    "momentum": 0.0,
-    "buyers": 12,
-    "chatter": 5,
-    "narrative": 0,
-    "room": 10,
-    "liquidity": 4
-   },
-   "pen": 12,
-   "why": [
-    "84% of trades are buys (1h)",
-    "1271 unique buyers vs 157 sellers (1h)",
-    "trending on GeckoTerminal",
-    "paid DexScreener boosts"
-   ],
-   "warn": [
-    "already up 10,511% in 24h (late)"
-   ],
-   "ment": {
-    "biz": 0,
-    "reddit": 0,
-    "news": 0,
-    "w": 0.0,
-    "heads": [],
-    "n": 0
-   },
-   "themes": [
-    "ai"
-   ],
-   "metas": [],
-   "culture": null,
-   "cg_rank": null,
-   "on_cb": null,
-   "sec": {
-    "by": "GoPlus",
-    "bad": [],
-    "warn": [],
-    "verdict": "pass",
-    "t": 1792391127.915505
-   },
-   "src": {
-    "dex_boost": 1,
-    "dex_boost_top": 1,
-    "gt_trending": 3
-   },
-   "links": [
-    "https://startupsi.org/",
-    "https://x.com/startupSI_sol"
-   ],
-   "desc": "Every coin gets one AI founder",
    "score_6h": null,
    "copy_note": null
   },
@@ -2744,44 +2737,44 @@
    "chain": "robinhood",
    "address": "0x94641b97010608C3827fB058074889f19868FF33",
    "pair_url": "https://dexscreener.com/robinhood/0x435ea42b2792a22de296bee4e8013f4fa102f0cc04983443ff79549f847db577",
-   "price": 0.005219,
-   "mcap": 5219529.0,
-   "liq": 266587.99,
+   "price": 0.005021,
+   "mcap": 5021594.0,
+   "liq": 262829.91,
    "vol": {
-    "m5": 518.7,
-    "h1": 48294.439999999995,
-    "h6": 210249.62000000002,
-    "h24": 879951.7800000001
+    "m5": 14667.829999999998,
+    "h1": 60385.28999999999,
+    "h6": 218554.63,
+    "h24": 897663.1000000001
    },
    "chg": {
-    "m5": -0.11,
-    "h1": -1.63,
-    "h6": 8.88,
-    "h24": 13.97
+    "m5": -3.26,
+    "h1": -5.78,
+    "h6": 4.75,
+    "h24": 9.65
    },
    "txns": {
     "m5": [
-     2,
-     6
+     18,
+     22
     ],
     "h1": [
-     84,
-     83
+     83,
+     106
     ],
     "h6": [
-     592,
-     490
+     591,
+     507
     ],
     "h24": [
-     2142,
-     2291
+     2157,
+     2325
     ]
    },
    "created": 1790724563.0,
-   "score": 19,
+   "score": 20,
    "pts": {
-    "momentum": 1.6,
-    "buyers": 1.1,
+    "momentum": 2.8,
+    "buyers": 0.8,
     "chatter": 0,
     "narrative": 0,
     "room": 10,
@@ -2826,61 +2819,244 @@
    "copy_note": "4 other coins use this name; this is the oldest one"
   },
   {
-   "key": "robinhood:0xffb390e5b6136704905e2635afc3e5150e768a26",
-   "symbol": "PING",
-   "name": "PingApp",
-   "chain": "robinhood",
-   "address": "0xFFB390e5B6136704905E2635afC3E5150E768a26",
-   "pair_url": "https://dexscreener.com/robinhood/0xcc9eeef5bd199a30b4405862ef59204366d613d6c6f4a6a516fbc90c3a44a40c",
-   "price": 8.109e-05,
-   "mcap": 77036.0,
-   "liq": 26001.27,
+   "key": "base:0xb2000000000000000000004c27f6523082f41d01",
+   "symbol": "Basecat",
+   "name": "Basecat",
+   "chain": "base",
+   "address": "0xB2000000000000000000004c27f6523082f41D01",
+   "pair_url": "https://dexscreener.com/base/0x215b2146c3164aba3f5b18e8619b737c7f7dd11e5ba693646dcd9a336c5a30ba",
+   "price": 0.01232,
+   "mcap": 12320180.0,
+   "liq": 512213.24,
    "vol": {
-    "m5": 2083.76,
-    "h1": 44988.44,
-    "h6": 136648.8,
-    "h24": 136648.8
+    "m5": 0.0,
+    "h1": 40897.240000000005,
+    "h6": 61805.92,
+    "h24": 247977.44999999998
    },
    "chg": {
-    "m5": 4.5,
-    "h1": 29.9,
-    "h6": 44.55,
-    "h24": 44.55
+    "m5": 0.0,
+    "h1": -1.44,
+    "h6": -3.91,
+    "h24": -5.04
    },
    "txns": {
     "m5": [
-     16,
-     36
+     0,
+     0
     ],
     "h1": [
-     356,
-     289
+     13,
+     187
     ],
     "h6": [
-     880,
-     736
+     28,
+     291
     ],
     "h24": [
-     880,
+     590,
      736
     ]
    },
-   "created": 1792393568.0,
-   "score": 19,
+   "created": 1786817029.0,
+   "score": 20,
    "pts": {
-    "momentum": 9.0,
-    "buyers": 3.0,
+    "momentum": 7.9,
+    "buyers": 0,
+    "chatter": 0,
+    "narrative": 1,
+    "room": 7,
+    "liquidity": 4
+   },
+   "pen": 0,
+   "why": [
+    "volume 4.0x its normal pace (but price falling)",
+    "in hot DexScreener narrative 'Cat'"
+   ],
+   "warn": [],
+   "ment": {
+    "biz": 0,
+    "reddit": 0,
+    "news": 0,
+    "w": 0.0,
+    "heads": [],
+    "n": 0
+   },
+   "themes": [],
+   "metas": [
+    [
+     "Cat",
+     1.6023545835862605
+    ]
+   ],
+   "culture": null,
+   "cg_rank": null,
+   "on_cb": true,
+   "sec": {
+    "by": "GoPlus",
+    "bad": [],
+    "warn": [],
+    "verdict": "pass",
+    "t": 1792397031.081899
+   },
+   "src": {
+    "dex_meta": 1
+   },
+   "links": [
+    "https://basecatonbase.com/",
+    "https://x.com/i/chat/group_join/g2089742168302784872/buAWC54kPw",
+    "https://x.com/BasecatOnBase",
+    "https://t.me/basecatonbase",
+    "https://discord.gg/WSRRKSsYf"
+   ],
+   "desc": null,
+   "score_6h": null,
+   "copy_note": null
+  },
+  {
+   "key": "solana:D3S6J9s1byrNBt3ZKwEDiPsNRqHtoEP8zQKdhyBdpump",
+   "symbol": "PIERRE",
+   "name": "French Goku Hero",
+   "chain": "solana",
+   "address": "D3S6J9s1byrNBt3ZKwEDiPsNRqHtoEP8zQKdhyBdpump",
+   "pair_url": "https://dexscreener.com/solana/hrmcdd9xawgtxh6qkbzs1mtiwyjtfg4bdmrl5dcjwxnb",
+   "price": 0.002276,
+   "mcap": 2160901.0,
+   "liq": 149150.75,
+   "vol": {
+    "m5": 99630.48,
+    "h1": 295692.96,
+    "h6": 907350.41,
+    "h24": 5968951.71
+   },
+   "chg": {
+    "m5": 29.16,
+    "h1": 21.49,
+    "h6": 77.15,
+    "h24": 4926.0
+   },
+   "txns": {
+    "m5": [
+     218,
+     278
+    ],
+    "h1": [
+     1198,
+     1162
+    ],
+    "h6": [
+     4444,
+     4114
+    ],
+    "h24": [
+     36717,
+     30407
+    ]
+   },
+   "created": 1792341530.0,
+   "score": 18,
+   "pts": {
+    "momentum": 10.3,
+    "buyers": 0.7,
     "chatter": 3,
     "narrative": 0,
-    "room": 6,
-    "liquidity": 2
+    "room": 10,
+    "liquidity": 6
    },
-   "pen": 4,
+   "pen": 12,
    "why": [
-    "paid DexScreener boosts"
+    "still accelerating (last 5 min)",
+    "trending on GeckoTerminal"
    ],
    "warn": [
-    "only 1h old"
+    "already up 4,926% in 24h (late)"
+   ],
+   "ment": {
+    "biz": 0,
+    "reddit": 0,
+    "news": 0,
+    "w": 0.0,
+    "heads": [],
+    "n": 0
+   },
+   "themes": [],
+   "metas": [],
+   "culture": null,
+   "cg_rank": null,
+   "on_cb": null,
+   "sec": {
+    "by": "GoPlus",
+    "bad": [],
+    "warn": [],
+    "verdict": "pass",
+    "t": 1792397877.2916996
+   },
+   "src": {
+    "gt_trending": 3
+   },
+   "links": [
+    "https://embernewssol.com/",
+    "https://x.com/LBleuBlancRouge/status/2111560577659371836"
+   ],
+   "desc": null,
+   "score_6h": null,
+   "copy_note": null
+  },
+  {
+   "key": "robinhood:0x354c460f99b0439e8058cb456185ad5707a20b09",
+   "symbol": "NILLIONAIRE",
+   "name": "Nillionaire",
+   "chain": "robinhood",
+   "address": "0x354c460f99B0439E8058cb456185ad5707a20b09",
+   "pair_url": "https://dexscreener.com/robinhood/0x7cf65b76a75f59ce17603b98501bacab8c9955e6",
+   "price": 0.0001955,
+   "mcap": 195523.0,
+   "liq": 77630.76,
+   "vol": {
+    "m5": 12101.04,
+    "h1": 199161.68,
+    "h6": 686958.53,
+    "h24": 686958.53
+   },
+   "chg": {
+    "m5": -2.56,
+    "h1": 84.2,
+    "h6": 1911.0,
+    "h24": 1911.0
+   },
+   "txns": {
+    "m5": [
+     35,
+     19
+    ],
+    "h1": [
+     615,
+     418
+    ],
+    "h6": [
+     1908,
+     1180
+    ],
+    "h24": [
+     1908,
+     1180
+    ]
+   },
+   "created": 1792389858.0,
+   "score": 18,
+   "pts": {
+    "momentum": 11,
+    "buyers": 6.2,
+    "chatter": 1,
+    "narrative": 0,
+    "room": 12,
+    "liquidity": 4
+   },
+   "pen": 16,
+   "why": [],
+   "warn": [
+    "only 3h old",
+    "already up 1,911% in 24h (late)"
    ],
    "ment": {
     "biz": 0,
@@ -2902,122 +3078,16 @@
     "bad": [],
     "warn": [],
     "verdict": "pass",
-    "t": 1792397877.2916996
+    "t": 1792393661.0521953
    },
    "src": {
-    "dex_profile": 1,
-    "dex_boost": 1,
-    "dex_boost_top": 1
+    "dex_profile": 1
    },
    "links": [
-    "https://getping.tech/",
-    "https://github.com/pingappdev/pingapp",
-    "https://x.com/pingapp_bank",
-    "https://t.me/pingapportal"
+    "https://nillionaire.site",
+    "https://x.com/NillionaireHood"
    ],
-   "desc": "The crypto reloadable card without KYC.\nSend crypto by phone number from your own wallet.",
-   "score_6h": null,
-   "copy_note": null
-  },
-  {
-   "key": "solana:2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv",
-   "symbol": "PENGU",
-   "name": "Pudgy Penguins",
-   "chain": "solana",
-   "address": "2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv",
-   "pair_url": "https://dexscreener.com/solana/faqh648xeeatql7du49sztp9nfj5pjrqrfvamccyd9cz",
-   "price": 0.007546,
-   "mcap": 474403302.0,
-   "liq": 3437266.62,
-   "vol": {
-    "m5": 1461.1,
-    "h1": 7026.67,
-    "h6": 44844.62,
-    "h24": 319606.94
-   },
-   "chg": {
-    "m5": -0.11,
-    "h1": -0.06,
-    "h6": 0.37,
-    "h24": 2.49
-   },
-   "txns": {
-    "m5": [
-     0,
-     8
-    ],
-    "h1": [
-     29,
-     16
-    ],
-    "h6": [
-     86,
-     263
-    ],
-    "h24": [
-     746,
-     854
-    ]
-   },
-   "created": 1734440426.0,
-   "score": 19,
-   "pts": {
-    "momentum": 0.0,
-    "buyers": 5.8,
-    "chatter": 11,
-    "narrative": 1,
-    "room": 2,
-    "liquidity": 4
-   },
-   "pen": 5,
-   "why": [
-    "64% of trades are buys (1h)",
-    "#3 trending on CoinGecko",
-    "trending on GeckoTerminal",
-    "in hot DexScreener narrative 'NFT'"
-   ],
-   "warn": [
-    "liquidity under 3% of market cap"
-   ],
-   "ment": {
-    "biz": 0,
-    "reddit": 0,
-    "news": 0,
-    "w": 0.0,
-    "heads": [],
-    "n": 0
-   },
-   "themes": [],
-   "metas": [
-    [
-     "Character",
-     1.12714596555576
-    ],
-    [
-     "NFT",
-     2.4331274401147844
-    ]
-   ],
-   "culture": null,
-   "cg_rank": 3,
-   "on_cb": true,
-   "sec": {
-    "by": "GoPlus",
-    "bad": [],
-    "warn": [],
-    "verdict": "pass",
-    "t": 1792388570.9333868
-   },
-   "src": {
-    "dex_meta": 2,
-    "gt_trending": 3
-   },
-   "links": [
-    "https://www.pudgypenguins.com",
-    "https://x.com/pudgypenguins",
-    "https://discord.gg/pudgypenguins"
-   ],
-   "desc": null,
+   "desc": "No money. No status.\n\nJust a cult with one shared goal.\n\nASSEMBLE THE NILLIONAIRES.",
    "score_6h": null,
    "copy_note": null
   },
@@ -3028,37 +3098,37 @@
    "chain": "solana",
    "address": "HKZDfZnkHZxd9agRDNPyDv4iT6LmAurJnpRtj9wpump",
    "pair_url": "https://dexscreener.com/solana/867dkvaccyrrudp66bqnxbujxfjaxsnb9wtpc4cmbdad",
-   "price": 0.004627,
-   "mcap": 4456008.0,
-   "liq": 246425.71,
+   "price": 0.004653,
+   "mcap": 4481057.0,
+   "liq": 247292.26,
    "vol": {
-    "m5": 985.02,
-    "h1": 22310.7,
-    "h6": 88917.21,
-    "h24": 1347064.8
+    "m5": 1498.23,
+    "h1": 19803.23,
+    "h6": 89074.7,
+    "h24": 1349460.25
    },
    "chg": {
-    "m5": -1.14,
-    "h1": -2.87,
-    "h6": 0.51,
-    "h24": -7.24
+    "m5": 0.83,
+    "h1": 0.22,
+    "h6": 2.32,
+    "h24": -7.25
    },
    "txns": {
     "m5": [
-     3,
-     14
+     8,
+     6
     ],
     "h1": [
-     80,
-     107
+     81,
+     98
     ],
     "h6": [
-     397,
-     488
+     405,
+     485
     ],
     "h24": [
-     5101,
-     4918
+     5111,
+     4930
     ]
    },
    "created": 1789093171.0,
@@ -3104,556 +3174,7 @@
     "https://mistakes.fun/"
    ],
    "desc": null,
-   "score_6h": null,
-   "copy_note": null
-  },
-  {
-   "key": "robinhood:0x39dbed3a2bd333467115de45665cc57f813c4571",
-   "symbol": "PONS",
-   "name": "Pons",
-   "chain": "robinhood",
-   "address": "0x39dbed3a2bd333467115de45665cc57f813c4571",
-   "pair_url": "https://dexscreener.com/robinhood/0x10cc6bd38112cac182db90b6a71d8bb5939526ba",
-   "price": 0.2641,
-   "mcap": 178108175.0,
-   "liq": 3040426.17,
-   "vol": {
-    "m5": 74.34,
-    "h1": 22054.78,
-    "h6": 101528.32,
-    "h24": 931756.17
-   },
-   "chg": {
-    "m5": -0.06,
-    "h1": 0.78,
-    "h6": 1.58,
-    "h24": -4.83
-   },
-   "txns": {
-    "m5": [
-     3,
-     0
-    ],
-    "h1": [
-     52,
-     2
-    ],
-    "h6": [
-     294,
-     125
-    ],
-    "h24": [
-     1470,
-     672
-    ]
-   },
-   "created": 1783975341.0,
-   "score": 18,
-   "pts": {
-    "momentum": 0.2,
-    "buyers": 12,
-    "chatter": 3,
-    "narrative": 0,
-    "room": 4,
-    "liquidity": 4
-   },
-   "pen": 5,
-   "why": [
-    "96% of trades are buys (1h)",
-    "trending on GeckoTerminal"
-   ],
-   "warn": [
-    "liquidity under 3% of market cap"
-   ],
-   "ment": {
-    "biz": 0,
-    "reddit": 0,
-    "news": 0,
-    "w": 0.0,
-    "heads": [],
-    "n": 0
-   },
-   "themes": [
-    "robinhood"
-   ],
-   "metas": [],
-   "culture": null,
-   "cg_rank": null,
-   "on_cb": true,
-   "sec": {
-    "by": "GoPlus",
-    "bad": [],
-    "warn": [],
-    "verdict": "pass",
-    "t": 1792393661.0521953
-   },
-   "src": {
-    "gt_trending": 4
-   },
-   "links": [
-    "https://ponsfamily.com/launchpad",
-    "https://x.com/ponsdotfamily"
-   ],
-   "desc": null,
-   "score_6h": null,
-   "copy_note": null
-  },
-  {
-   "key": "bsc:0x0a092e544da31150b439a1aaa1a3a2214a867f46",
-   "symbol": "CT",
-   "name": "Concrete Token",
-   "chain": "bsc",
-   "address": "0x0a092e544da31150b439a1aaa1a3a2214a867f46",
-   "pair_url": "https://dexscreener.com/bsc/0x4f1c8be4685db434e645f04b811780a82b2331bc",
-   "price": 0.3953,
-   "mcap": 5901773.0,
-   "liq": 22064.23,
-   "vol": {
-    "m5": 2928.32,
-    "h1": 98817.33,
-    "h6": 98819.1,
-    "h24": 99008.31
-   },
-   "chg": {
-    "m5": 0.6,
-    "h1": 30.93,
-    "h6": 30.77,
-    "h24": 23.66
-   },
-   "txns": {
-    "m5": [
-     5,
-     9
-    ],
-    "h1": [
-     272,
-     326
-    ],
-    "h6": [
-     273,
-     327
-    ],
-    "h24": [
-     293,
-     354
-    ]
-   },
-   "created": 1790750332.0,
-   "score": 17,
-   "pts": {
-    "momentum": 25.2,
-    "buyers": 0,
-    "chatter": 3,
-    "narrative": 0,
-    "room": 10,
-    "liquidity": 0
-   },
-   "pen": 21,
-   "why": [
-    "volume 24.0x its normal pace",
-    "trending on GeckoTerminal"
-   ],
-   "warn": [
-    "thin liquidity ($22,064): hard to sell",
-    "Top wallets hold 87%"
-   ],
-   "ment": {
-    "biz": 0,
-    "reddit": 0,
-    "news": 0,
-    "w": 0.0,
-    "heads": [],
-    "n": 0
-   },
-   "themes": [],
-   "metas": [],
-   "culture": null,
-   "cg_rank": null,
-   "on_cb": true,
-   "sec": {
-    "by": "GoPlus",
-    "bad": [],
-    "warn": [
-     "Top wallets hold 87%"
-    ],
-    "verdict": "caution",
-    "t": 1792396191.3583739
-   },
-   "src": {
-    "gt_trending": 1
-   },
-   "links": [],
-   "desc": null,
-   "score_6h": null,
-   "copy_note": null
-  },
-  {
-   "key": "solana:GaPbQwLDPjSXGR9JxxG1aJLNthuxG58dM2XukBi8pump",
-   "symbol": "Doomsday",
-   "name": "The French Doomsday",
-   "chain": "solana",
-   "address": "GaPbQwLDPjSXGR9JxxG1aJLNthuxG58dM2XukBi8pump",
-   "pair_url": "https://dexscreener.com/solana/5u57wosvaf9uyvbtw1pzyueseu2sqnqiqut1bcd5mjdl",
-   "price": 0.0006977,
-   "mcap": 689242.0,
-   "liq": 74197.74,
-   "vol": {
-    "m5": 8397.2,
-    "h1": 96624.2,
-    "h6": 673349.36,
-    "h24": 1431041.71
-   },
-   "chg": {
-    "m5": -6.54,
-    "h1": 20.52,
-    "h6": 52.64,
-    "h24": 1502.0
-   },
-   "txns": {
-    "m5": [
-     26,
-     110
-    ],
-    "h1": [
-     429,
-     1522
-    ],
-    "h6": [
-     12092,
-     4095
-    ],
-    "h24": [
-     24883,
-     12136
-    ]
-   },
-   "created": 1792359916.0,
-   "score": 17,
-   "pts": {
-    "momentum": 7.1,
-    "buyers": 4,
-    "chatter": 2,
-    "narrative": 0,
-    "room": 12,
-    "liquidity": 4
-   },
-   "pen": 12,
-   "why": [
-    "paid DexScreener boosts"
-   ],
-   "warn": [
-    "already up 1,502% in 24h (late)"
-   ],
-   "ment": {
-    "biz": 0,
-    "reddit": 0,
-    "news": 0,
-    "w": 0.0,
-    "heads": [],
-    "n": 0
-   },
-   "themes": [],
-   "metas": [],
-   "culture": null,
-   "cg_rank": null,
-   "on_cb": null,
-   "sec": {
-    "by": "GoPlus",
-    "bad": [],
-    "warn": [],
-    "verdict": "pass",
-    "t": 1792386334.9429545
-   },
-   "src": {
-    "dex_boost": 1,
-    "dex_boost_top": 1
-   },
-   "links": [
-    "https://thefrenchdoomsday.lol/",
-    "https://x.com/french_doomsday"
-   ],
-   "desc": "Avengers-level protests in France, live and unhinged.",
-   "score_6h": null,
-   "copy_note": null
-  },
-  {
-   "key": "robinhood:0x42afa2124ca5a2b83898e46b2da9a190995b1e18",
-   "symbol": "SCHIFFY",
-   "name": "SCHIFFY",
-   "chain": "robinhood",
-   "address": "0x42afa2124ca5a2b83898e46b2da9a190995b1e18",
-   "pair_url": "https://dexscreener.com/robinhood/0xc749412e31087a6e6f9210af575bc9100159fbc9f45da3ca8b26b31f3bf5777e",
-   "price": 0.003496,
-   "mcap": 3460561.0,
-   "liq": 501050.33,
-   "vol": {
-    "m5": 0.0,
-    "h1": 6637.03,
-    "h6": 18559.86,
-    "h24": 131501.57
-   },
-   "chg": {
-    "m5": 0.0,
-    "h1": 4.16,
-    "h6": 10.53,
-    "h24": 4.94
-   },
-   "txns": {
-    "m5": [
-     0,
-     0
-    ],
-    "h1": [
-     17,
-     22
-    ],
-    "h6": [
-     51,
-     66
-    ],
-    "h24": [
-     255,
-     309
-    ]
-   },
-   "created": 1788027863.0,
-   "score": 17,
-   "pts": {
-    "momentum": 4.4,
-    "buyers": 0,
-    "chatter": 3,
-    "narrative": 0,
-    "room": 10,
-    "liquidity": 6
-   },
-   "pen": 6,
-   "why": [
-    "trending on GeckoTerminal"
-   ],
-   "warn": [
-    "Trading can be paused"
-   ],
-   "ment": {
-    "biz": 0,
-    "reddit": 0,
-    "news": 0,
-    "w": 0.0,
-    "heads": [],
-    "n": 0
-   },
-   "themes": [
-    "robinhood"
-   ],
-   "metas": [],
-   "culture": null,
-   "cg_rank": null,
-   "on_cb": null,
-   "sec": {
-    "by": "GoPlus",
-    "bad": [],
-    "warn": [
-     "Trading can be paused"
-    ],
-    "verdict": "caution",
-    "t": 1792398721.0281591
-   },
-   "src": {
-    "gt_trending": 1
-   },
-   "links": [
-    "https://t.co/8zv22DgJl8",
-    "https://x.com/schiffygld"
-   ],
-   "desc": null,
-   "score_6h": null,
-   "copy_note": null
-  },
-  {
-   "key": "solana:4kjruqGHDsSqkMdFfCjV7Vb62HPFhtXyWc2t6JpQzDnz",
-   "symbol": "GTA6",
-   "name": "GTA VI",
-   "chain": "solana",
-   "address": "4kjruqGHDsSqkMdFfCjV7Vb62HPFhtXyWc2t6JpQzDnz",
-   "pair_url": "https://dexscreener.com/solana/fdamuzyiea7cq1vniqcbhuhpfcmmcjfga6dwqq1hhld2",
-   "price": 0.001655,
-   "mcap": 1655142.0,
-   "liq": 169965.08,
-   "vol": {
-    "m5": 266.76,
-    "h1": 3445.72,
-    "h6": 50977.200000000004,
-    "h24": 173263.80000000002
-   },
-   "chg": {
-    "m5": -0.05,
-    "h1": 0.47,
-    "h6": 15.86,
-    "h24": 24.03
-   },
-   "txns": {
-    "m5": [
-     3,
-     6
-    ],
-    "h1": [
-     56,
-     52
-    ],
-    "h6": [
-     655,
-     489
-    ],
-    "h24": [
-     1936,
-     1453
-    ]
-   },
-   "created": 1786023355.0,
-   "score": 17,
-   "pts": {
-    "momentum": 3.1,
-    "buyers": 2.2,
-    "chatter": 6.0,
-    "narrative": 7.8,
-    "room": 10,
-    "liquidity": 6
-   },
-   "pen": 18,
-   "why": [
-    "mentioned 1 on /biz/",
-    "Gaming / GTA VI: GTA VI launch in 31 days"
-   ],
-   "warn": [
-    "barely trading ($3.4k in the last hour)",
-    "2 other coins use this name; this is NOT the oldest: check the contract"
-   ],
-   "ment": {
-    "biz": 1,
-    "reddit": 0,
-    "news": 0,
-    "w": 1.0,
-    "heads": [],
-    "n": 1
-   },
-   "themes": [
-    "gaming"
-   ],
-   "metas": [],
-   "culture": null,
-   "cg_rank": null,
-   "on_cb": null,
-   "sec": {
-    "by": "GoPlus",
-    "bad": [],
-    "warn": [],
-    "verdict": "pass",
-    "t": 1792391127.915505
-   },
-   "src": {
-    "theme_search": 2
-   },
-   "links": [
-    "https://www.stonkfun.xyz/token/4kjruqGHDsSqkMdFfCjV7Vb62HPFhtXyWc2t6JpQzDnz",
-    "https://x.com/RockstarGames"
-   ],
-   "desc": null,
-   "score_6h": 39,
-   "copy_note": "2 other coins use this name; this is NOT the oldest: check the contract"
-  },
-  {
-   "key": "solana:7GCihgDB8fe6KNjn2MYtkzZcRjQy3t9GHdC8uHYmW2hr",
-   "symbol": "POPCAT",
-   "name": "Popcat",
-   "chain": "solana",
-   "address": "7GCihgDB8fe6KNjn2MYtkzZcRjQy3t9GHdC8uHYmW2hr",
-   "pair_url": "https://dexscreener.com/solana/frhb8l7y9qq41qzxyltc2nw8an1rjfllxrf2x9rwllmo",
-   "price": 0.04435,
-   "mcap": 43462899.0,
-   "liq": 3532098.87,
-   "vol": {
-    "m5": 0.0,
-    "h1": 2644.78,
-    "h6": 16192.98,
-    "h24": 124291.08
-   },
-   "chg": {
-    "m5": 0.0,
-    "h1": 0.08,
-    "h6": 0.85,
-    "h24": -0.78
-   },
-   "txns": {
-    "m5": [
-     0,
-     0
-    ],
-    "h1": [
-     25,
-     0
-    ],
-    "h6": [
-     87,
-     39
-    ],
-    "h24": [
-     411,
-     404
-    ]
-   },
-   "created": 1702415044.0,
-   "score": 16,
-   "pts": {
-    "momentum": 0.0,
-    "buyers": 11.8,
-    "chatter": 0,
-    "narrative": 1,
-    "room": 7,
-    "liquidity": 6
-   },
-   "pen": 10,
-   "why": [
-    "100% of trades are buys (1h)",
-    "in hot DexScreener narrative 'Character'"
-   ],
-   "warn": [
-    "barely trading ($2.6k in the last hour)"
-   ],
-   "ment": {
-    "biz": 0,
-    "reddit": 0,
-    "news": 0,
-    "w": 0.0,
-    "heads": [],
-    "n": 0
-   },
-   "themes": [],
-   "metas": [
-    [
-     "Character",
-     1.12714596555576
-    ]
-   ],
-   "culture": null,
-   "cg_rank": null,
-   "on_cb": true,
-   "sec": {
-    "by": "GoPlus",
-    "bad": [],
-    "warn": [],
-    "verdict": "pass",
-    "t": 1792397877.2916996
-   },
-   "src": {
-    "dex_meta": 1
-   },
-   "links": [
-    "https://www.popcatsolana.xyz/",
-    "https://x.com/popcatworld",
-    "https://t.me/popcatsolana",
-    "https://instagram.com/popcatonsolana"
-   ],
-   "desc": null,
-   "score_6h": null,
+   "score_6h": 27,
    "copy_note": null
   },
   {
@@ -3663,44 +3184,44 @@
    "chain": "solana",
    "address": "8NfX91yvHXyHKn8cnMjg9Q4bCeRLKFDoVtEomXstpump",
    "pair_url": "https://dexscreener.com/solana/9cbefgu7crlytn7tfdr52o5yn4ppj8vy1wvdszk9gzsg",
-   "price": 0.0003609,
-   "mcap": 335450.0,
-   "liq": 55795.01,
+   "price": 0.0004248,
+   "mcap": 394790.0,
+   "liq": 60681.37,
    "vol": {
-    "m5": 18725.35,
-    "h1": 258399.86,
-    "h6": 1950646.24,
-    "h24": 1950646.24
+    "m5": 5721.76,
+    "h1": 247171.5,
+    "h6": 1984648.38,
+    "h24": 1984648.38
    },
    "chg": {
-    "m5": -10.27,
-    "h1": -8.72,
-    "h6": 636.0,
-    "h24": 636.0
+    "m5": 4.86,
+    "h1": 2.08,
+    "h6": 766.0,
+    "h24": 766.0
    },
    "txns": {
     "m5": [
      121,
-     97
+     62
     ],
     "h1": [
-     2074,
-     1781
+     1920,
+     1627
     ],
     "h6": [
-     18931,
-     14120
+     19263,
+     14331
     ],
     "h24": [
-     18931,
-     14120
+     19263,
+     14331
     ]
    },
    "created": 1792383532.0,
-   "score": 15,
+   "score": 16,
    "pts": {
-    "momentum": 3.0,
-    "buyers": 3.0,
+    "momentum": 3.4,
+    "buyers": 3.1,
     "chatter": 3,
     "narrative": 0,
     "room": 12,
@@ -3712,7 +3233,7 @@
    ],
    "warn": [
     "only 4h old",
-    "already up 636% in 24h"
+    "already up 766% in 24h"
    ],
    "ment": {
     "biz": 0,
@@ -3745,42 +3266,134 @@
    "copy_note": null
   },
   {
+   "key": "solana:BsbsB3WLq7vbY5En3MBCAsTrcwaCxNKY2Mp5pGuLpump",
+   "symbol": "GTA",
+   "name": "GTA memes",
+   "chain": "solana",
+   "address": "BsbsB3WLq7vbY5En3MBCAsTrcwaCxNKY2Mp5pGuLpump",
+   "pair_url": "https://dexscreener.com/solana/5isvs31h7hmdggmyuvzmhdsywv7cydd6czjtbqzctlii",
+   "price": 0.00126,
+   "mcap": 1221108.0,
+   "liq": 128926.65,
+   "vol": {
+    "m5": 0.0,
+    "h1": 1985.44,
+    "h6": 10016.63,
+    "h24": 91445.22
+   },
+   "chg": {
+    "m5": 0.0,
+    "h1": 2.06,
+    "h6": 3.79,
+    "h24": -13.05
+   },
+   "txns": {
+    "m5": [
+     0,
+     0
+    ],
+    "h1": [
+     18,
+     17
+    ],
+    "h6": [
+     111,
+     104
+    ],
+    "h24": [
+     706,
+     733
+    ]
+   },
+   "created": 1787756308.0,
+   "score": 15,
+   "pts": {
+    "momentum": 0.4,
+    "buyers": 0.9,
+    "chatter": 0,
+    "narrative": 7.8,
+    "room": 10,
+    "liquidity": 6
+   },
+   "pen": 10,
+   "why": [
+    "Gaming / GTA VI: GTA VI launch in 31 days"
+   ],
+   "warn": [
+    "barely trading ($2.0k in the last hour)",
+    "5 other coins use this name; this is the oldest one"
+   ],
+   "ment": {
+    "biz": 0,
+    "reddit": 0,
+    "news": 0,
+    "w": 0.0,
+    "heads": [],
+    "n": 0
+   },
+   "themes": [
+    "gaming"
+   ],
+   "metas": [],
+   "culture": null,
+   "cg_rank": null,
+   "on_cb": null,
+   "sec": {
+    "by": "GoPlus",
+    "bad": [],
+    "warn": [],
+    "verdict": "pass",
+    "t": 1792387730.8068337
+   },
+   "src": {
+    "theme_search": 4
+   },
+   "links": [
+    "https://gtamemes.xyz/",
+    "https://x.com/GTAmemesSOL",
+    "https://t.me/GTAbagwork"
+   ],
+   "desc": null,
+   "score_6h": 22,
+   "copy_note": "5 other coins use this name; this is the oldest one"
+  },
+  {
    "key": "robinhood:0x6adb9cd443f4653572101e2f91b35ea1ed5f6b69",
    "symbol": "SEED",
    "name": "RobinSeed",
    "chain": "robinhood",
    "address": "0x6adb9cd443f4653572101e2f91b35ea1ed5f6b69",
    "pair_url": "https://dexscreener.com/robinhood/0x574596ca78e0ec91044f9c72d3a07c952892ee3219e6a2fb0f85d4e424d62237",
-   "price": 7.775e-05,
-   "mcap": 77575.0,
-   "liq": 30618.01,
+   "price": 7.781e-05,
+   "mcap": 77638.0,
+   "liq": 30642.03,
    "vol": {
-    "m5": 50.1,
-    "h1": 613.8,
-    "h6": 2227.38,
-    "h24": 7832.53
+    "m5": 0.0,
+    "h1": 600.41,
+    "h6": 2325.27,
+    "h24": 7609.02
    },
    "chg": {
-    "m5": -0.06,
-    "h1": 0.82,
-    "h6": 7.23,
-    "h24": 5.95
+    "m5": 0.0,
+    "h1": 0.67,
+    "h6": 7.32,
+    "h24": 6.16
    },
    "txns": {
     "m5": [
-     3,
-     1
+     0,
+     0
     ],
     "h1": [
      24,
      10
     ],
     "h6": [
-     81,
-     33
+     85,
+     35
     ],
     "h24": [
-     158,
+     157,
      69
     ]
    },
@@ -3797,11 +3410,11 @@
    "pen": 10,
    "why": [
     "71% of trades are buys (1h)",
-    "25 unique buyers vs 10 sellers (1h)",
+    "24 unique buyers vs 10 sellers (1h)",
     "trending on GeckoTerminal"
    ],
    "warn": [
-    "barely trading ($614 in the last hour)"
+    "barely trading ($600 in the last hour)"
    ],
    "ment": {
     "biz": 0,
@@ -3852,13 +3465,13 @@
    "vol": {
     "m5": 0.0,
     "h1": 23.6,
-    "h6": 2962.99,
+    "h6": 2360.11,
     "h24": 16152.77
    },
    "chg": {
     "m5": 0.0,
     "h1": 0.06,
-    "h6": 2.29,
+    "h6": 7.67,
     "h24": -14.78
    },
    "txns": {
@@ -3871,8 +3484,8 @@
      0
     ],
     "h6": [
-     13,
-     11
+     11,
+     9
     ],
     "h24": [
      147,
@@ -3932,138 +3545,50 @@
    "copy_note": null
   },
   {
-   "key": "solana:D3S6J9s1byrNBt3ZKwEDiPsNRqHtoEP8zQKdhyBdpump",
-   "symbol": "PIERRE",
-   "name": "French Goku Hero",
-   "chain": "solana",
-   "address": "D3S6J9s1byrNBt3ZKwEDiPsNRqHtoEP8zQKdhyBdpump",
-   "pair_url": "https://dexscreener.com/solana/hrmcdd9xawgtxh6qkbzs1mtiwyjtfg4bdmrl5dcjwxnb",
-   "price": 0.00179,
-   "mcap": 1700162.0,
-   "liq": 131621.52,
-   "vol": {
-    "m5": 20183.5,
-    "h1": 251310.83,
-    "h6": 837058.29,
-    "h24": 5848628.15
-   },
-   "chg": {
-    "m5": 8.16,
-    "h1": 12.68,
-    "h6": 22.8,
-    "h24": 3854.0
-   },
-   "txns": {
-    "m5": [
-     62,
-     66
-    ],
-    "h1": [
-     1189,
-     1038
-    ],
-    "h6": [
-     4433,
-     4009
-    ],
-    "h24": [
-     36393,
-     30040
-    ]
-   },
-   "created": 1792341530.0,
-   "score": 14,
-   "pts": {
-    "momentum": 5.5,
-    "buyers": 1.9,
-    "chatter": 3,
-    "narrative": 0,
-    "room": 10,
-    "liquidity": 6
-   },
-   "pen": 12,
-   "why": [
-    "trending on GeckoTerminal"
-   ],
-   "warn": [
-    "already up 3,854% in 24h (late)"
-   ],
-   "ment": {
-    "biz": 0,
-    "reddit": 0,
-    "news": 0,
-    "w": 0.0,
-    "heads": [],
-    "n": 0
-   },
-   "themes": [],
-   "metas": [],
-   "culture": null,
-   "cg_rank": null,
-   "on_cb": null,
-   "sec": {
-    "by": "GoPlus",
-    "bad": [],
-    "warn": [],
-    "verdict": "pass",
-    "t": 1792397877.2916996
-   },
-   "src": {
-    "gt_trending": 3
-   },
-   "links": [
-    "https://embernewssol.com/",
-    "https://x.com/LBleuBlancRouge/status/2111560577659371836"
-   ],
-   "desc": null,
-   "score_6h": null,
-   "copy_note": null
-  },
-  {
    "key": "solana:4k3Dyjzvzp8eMZWUXbBCjEvwSkkk59S5iCNLY3QrkX6R",
    "symbol": "RAY",
    "name": "Raydium",
    "chain": "solana",
    "address": "4k3Dyjzvzp8eMZWUXbBCjEvwSkkk59S5iCNLY3QrkX6R",
    "pair_url": "https://dexscreener.com/solana/2axxcn6on9bbt5owwmth53c7qhuxvhleu718kqt8rvy2",
-   "price": 1.9,
-   "mcap": 515259483.0,
-   "liq": 2285388.56,
+   "price": 1.92,
+   "mcap": 518383646.0,
+   "liq": 2292975.48,
    "vol": {
-    "m5": 33952.36,
-    "h1": 249864.35,
-    "h6": 1271439.01,
-    "h24": 3970672.0
+    "m5": 13096.02,
+    "h1": 230795.21,
+    "h6": 1249165.94,
+    "h24": 3988470.48
    },
    "chg": {
-    "m5": 0.03,
-    "h1": -1.35,
-    "h6": 0.88,
-    "h24": 6.33
+    "m5": 0.01,
+    "h1": 0.07,
+    "h6": 0.41,
+    "h24": 7.24
    },
    "txns": {
     "m5": [
-     46,
-     33
+     22,
+     23
     ],
     "h1": [
-     776,
-     604
+     716,
+     469
     ],
     "h6": [
-     4320,
-     4256
+     4248,
+     4126
     ],
     "h24": [
-     13900,
-     13210
+     13955,
+     13199
     ]
    },
    "created": 1723699296.0,
    "score": 14,
    "pts": {
-    "momentum": 5.4,
-    "buyers": 4.6,
+    "momentum": 3.8,
+    "buyers": 6.3,
     "chatter": 3,
     "narrative": 0,
     "room": 2,
@@ -4071,8 +3596,8 @@
    },
    "pen": 5,
    "why": [
-    "still accelerating (last 5 min)",
-    "135 unique buyers vs 34 sellers (1h)",
+    "60% of trades are buys (1h)",
+    "119 unique buyers vs 67 sellers (1h)",
     "trending on GeckoTerminal"
    ],
    "warn": [
@@ -4103,62 +3628,236 @@
    "copy_note": null
   },
   {
-   "key": "solana:BsbsB3WLq7vbY5En3MBCAsTrcwaCxNKY2Mp5pGuLpump",
-   "symbol": "GTA",
-   "name": "GTA memes",
+   "key": "solana:6yMZv1NgnQWBeocyfCNKmdqGr3Enu3Lrdpz3TJRvpump",
+   "symbol": "CATONICE",
+   "name": "catonthinice",
    "chain": "solana",
-   "address": "BsbsB3WLq7vbY5En3MBCAsTrcwaCxNKY2Mp5pGuLpump",
-   "pair_url": "https://dexscreener.com/solana/5isvs31h7hmdggmyuvzmhdsywv7cydd6czjtbqzctlii",
-   "price": 0.001249,
-   "mcap": 1210809.0,
-   "liq": 128299.58,
+   "address": "6yMZv1NgnQWBeocyfCNKmdqGr3Enu3Lrdpz3TJRvpump",
+   "pair_url": "https://dexscreener.com/solana/2aegstad7cztrd536xtxkjky88hvthvwsda5tuctqd6v",
+   "price": 0.0004422,
+   "mcap": 438852.0,
+   "liq": 61778.72,
    "vol": {
-    "m5": 0.99,
-    "h1": 797.71,
-    "h6": 9181.07,
-    "h24": 90904.49
+    "m5": 10163.91,
+    "h1": 109778.97,
+    "h6": 719362.44,
+    "h24": 3988388.34
    },
    "chg": {
-    "m5": 1.89,
-    "h1": 0.04,
-    "h6": 3.64,
-    "h24": -12.56
+    "m5": 5.22,
+    "h1": -1.24,
+    "h6": -56.7,
+    "h24": 604.0
    },
    "txns": {
     "m5": [
-     1,
-     0
+     35,
+     34
     ],
     "h1": [
-     12,
-     21
+     380,
+     424
     ],
     "h6": [
-     106,
-     112
+     6355,
+     4174
     ],
     "h24": [
-     711,
-     730
+     74760,
+     22629
     ]
    },
-   "created": 1787756308.0,
+   "created": 1792337753.0,
    "score": 14,
    "pts": {
     "momentum": 0.0,
+    "buyers": 2.1,
+    "chatter": 2,
+    "narrative": 0,
+    "room": 12,
+    "liquidity": 4
+   },
+   "pen": 6,
+   "why": [
+    "paid DexScreener boosts"
+   ],
+   "warn": [
+    "already up 604% in 24h"
+   ],
+   "ment": {
+    "biz": 0,
+    "reddit": 0,
+    "news": 0,
+    "w": 0.0,
+    "heads": [],
+    "n": 0
+   },
+   "themes": [],
+   "metas": [],
+   "culture": null,
+   "cg_rank": null,
+   "on_cb": null,
+   "sec": {
+    "by": "GoPlus",
+    "bad": [],
+    "warn": [],
+    "verdict": "pass",
+    "t": 1792395349.4958756
+   },
+   "src": {
+    "dex_boost_top": 1
+   },
+   "links": [
+    "https://catonthinice.fun",
+    "https://x.com/catonice_meme"
+   ],
+   "desc": "Four wheels. One frozen pond. Zero good ideas. A ginger kitten lines up his next kickflip. The ice is already cracking under the pressure.",
+   "score_6h": null,
+   "copy_note": null
+  },
+  {
+   "key": "solana:J4dyfXc8EY3TXAeFdpAKZqWyW4S8XpdoABib7JMnpump",
+   "symbol": "HOOT",
+   "name": "Hoot",
+   "chain": "solana",
+   "address": "J4dyfXc8EY3TXAeFdpAKZqWyW4S8XpdoABib7JMnpump",
+   "pair_url": "https://dexscreener.com/solana/2nnjpuwnyhr22w5uqfmp3cehqkm8sjnljkzaw5dmegjt",
+   "price": 8.228e-05,
+   "mcap": 79794.0,
+   "liq": 25669.14,
+   "vol": {
+    "m5": 508.43,
+    "h1": 17887.6,
+    "h6": 255421.26,
+    "h24": 1710029.8
+   },
+   "chg": {
+    "m5": -4.88,
+    "h1": 6.41,
+    "h6": -4.78,
+    "h24": 95.45
+   },
+   "txns": {
+    "m5": [
+     11,
+     10
+    ],
+    "h1": [
+     192,
+     185
+    ],
+    "h6": [
+     2603,
+     2133
+    ],
+    "h24": [
+     16972,
+     14772
+    ]
+   },
+   "created": 1792370059.0,
+   "score": 14,
+   "pts": {
+    "momentum": 1.3,
+    "buyers": 1.4,
+    "chatter": 3,
+    "narrative": 0,
+    "room": 6,
+    "liquidity": 2
+   },
+   "pen": 0,
+   "why": [
+    "trending on GeckoTerminal"
+   ],
+   "warn": [],
+   "ment": {
+    "biz": 0,
+    "reddit": 0,
+    "news": 0,
+    "w": 0.0,
+    "heads": [],
+    "n": 0
+   },
+   "themes": [],
+   "metas": [],
+   "culture": null,
+   "cg_rank": null,
+   "on_cb": null,
+   "sec": {
+    "by": "GoPlus",
+    "bad": [],
+    "warn": [],
+    "verdict": "pass",
+    "t": 1792376212.0347066
+   },
+   "src": {
+    "gt_trending": 1
+   },
+   "links": [
+    "https://hoothoot.fun",
+    "https://github.com/SauersML",
+    "https://x.com/iamhoot_"
+   ],
+   "desc": null,
+   "score_6h": null,
+   "copy_note": null
+  },
+  {
+   "key": "robinhood:0xa01ff10774cfe53c3fbc1d7d124c42e19f6afcbd",
+   "symbol": "OWOWO",
+   "name": "OWO",
+   "chain": "robinhood",
+   "address": "0xa01fF10774CFe53C3FBC1D7D124c42e19F6AfcBD",
+   "pair_url": "https://dexscreener.com/robinhood/0x383947b7d40a42354119700a2f4097debd50e61bb7c868fc5f9ff5c7aafa0c79",
+   "price": 0.0002134,
+   "mcap": 213438.0,
+   "liq": 42199.73,
+   "vol": {
+    "m5": 0.0,
+    "h1": 2611.78,
+    "h6": 7421.89,
+    "h24": 60982.99
+   },
+   "chg": {
+    "m5": 0.0,
+    "h1": 27.24,
+    "h6": -0.26,
+    "h24": 62.24
+   },
+   "txns": {
+    "m5": [
+     0,
+     0
+    ],
+    "h1": [
+     6,
+     6
+    ],
+    "h6": [
+     40,
+     45
+    ],
+    "h24": [
+     346,
+     267
+    ]
+   },
+   "created": 1792187689.0,
+   "score": 14,
+   "pts": {
+    "momentum": 5.5,
     "buyers": 0,
-    "chatter": 0,
-    "narrative": 7.8,
-    "room": 10,
-    "liquidity": 6
+    "chatter": 2,
+    "narrative": 0,
+    "room": 12,
+    "liquidity": 4
    },
    "pen": 10,
    "why": [
-    "Gaming / GTA VI: GTA VI launch in 31 days"
+    "paid DexScreener boosts"
    ],
    "warn": [
-    "barely trading ($798 in the last hour)",
-    "5 other coins use this name; this is the oldest one"
+    "barely trading ($2.6k in the last hour)"
    ],
    "ment": {
     "biz": 0,
@@ -4169,7 +3868,7 @@
     "n": 0
    },
    "themes": [
-    "gaming"
+    "robinhood"
    ],
    "metas": [],
    "culture": null,
@@ -4180,19 +3879,20 @@
     "bad": [],
     "warn": [],
     "verdict": "pass",
-    "t": 1792387730.8068337
+    "t": 1792359883.061651
    },
    "src": {
-    "theme_search": 4
+    "dex_boost": 1,
+    "dex_boost_top": 1
    },
    "links": [
-    "https://gtamemes.xyz/",
-    "https://x.com/GTAmemesSOL",
-    "https://t.me/GTAbagwork"
+    "https://owocat.xyz/",
+    "https://x.com/OWOCATRH",
+    "https://t.me/OWOWOCAT"
    ],
-   "desc": null,
-   "score_6h": 27,
-   "copy_note": "5 other coins use this name; this is the oldest one"
+   "desc": "Nobody knows where OWOWO came from.\n\nNo roadmap. No promises. Just vibes and a stare you can\u2019t unsee.",
+   "score_6h": null,
+   "copy_note": null
   },
   {
    "key": "solana:EaxAUcXxNnVwcqm2BBocbows7D1XVY2Q63V38NEypump",
@@ -4201,20 +3901,20 @@
    "chain": "solana",
    "address": "EaxAUcXxNnVwcqm2BBocbows7D1XVY2Q63V38NEypump",
    "pair_url": "https://dexscreener.com/solana/9kgswjrkczs3ebukvbkbgdwj8bwtdwzzqxkufdhaps2a",
-   "price": 0.001075,
-   "mcap": 1073467.0,
-   "liq": 150320.56,
+   "price": 0.001074,
+   "mcap": 1072851.0,
+   "liq": 150355.95,
    "vol": {
     "m5": 0.0,
-    "h1": 70.05,
-    "h6": 1175.95,
-    "h24": 6605.43
+    "h1": 93.0,
+    "h6": 1248.63,
+    "h24": 6393.31
    },
    "chg": {
     "m5": 0.0,
-    "h1": -0.5,
-    "h6": -0.44,
-    "h24": -3.79
+    "h1": -0.42,
+    "h6": -1.31,
+    "h24": -4.22
    },
    "txns": {
     "m5": [
@@ -4223,15 +3923,15 @@
     ],
     "h1": [
      1,
-     2
+     3
     ],
     "h6": [
-     18,
-     13
+     16,
+     15
     ],
     "h24": [
-     101,
-     68
+     100,
+     70
     ]
    },
    "created": 1738111507.0,
@@ -4249,7 +3949,7 @@
     "Gaming / GTA VI: GTA VI launch in 31 days"
    ],
    "warn": [
-    "barely trading ($70 in the last hour)",
+    "barely trading ($93 in the last hour)",
     "2 other coins use this name; this is the oldest one"
    ],
    "ment": {
@@ -4281,62 +3981,152 @@
    "copy_note": "2 other coins use this name; this is the oldest one"
   },
   {
-   "key": "solana:ApaBcYvNMACofNdurMCgp8tRAZWsc5AhysABLsLDpump",
-   "symbol": "KAHO",
-   "name": "KAHO",
-   "chain": "solana",
-   "address": "ApaBcYvNMACofNdurMCgp8tRAZWsc5AhysABLsLDpump",
-   "pair_url": "https://dexscreener.com/solana/dqnx6tiw9cbxtub59iny4wt8nxii8rehn8gjdnvapruq",
-   "price": 0.0001275,
-   "mcap": 123363.0,
-   "liq": 30981.8,
+   "key": "robinhood:0xd68a04bc598383cd399ba9188dec5c5df7808701",
+   "symbol": "UHI",
+   "name": "Universal High Income",
+   "chain": "robinhood",
+   "address": "0xD68a04Bc598383cd399bA9188DEc5C5Df7808701",
+   "pair_url": "https://dexscreener.com/robinhood/0x33e6c26a15119015697ce3954a43068e4389a292",
+   "price": 0.0003136,
+   "mcap": 313699.0,
+   "liq": 106531.77,
    "vol": {
-    "m5": 24098.18,
-    "h1": 465551.38,
-    "h6": 1135326.7,
-    "h24": 1135326.7
+    "m5": 40841.5,
+    "h1": 499896.55,
+    "h6": 929492.9,
+    "h24": 929492.9
    },
    "chg": {
-    "m5": 2.7,
-    "h1": -48.78,
-    "h6": 193.0,
-    "h24": 193.0
+    "m5": -20.24,
+    "h1": 82.2,
+    "h6": 2768.0,
+    "h24": 2768.0
    },
    "txns": {
     "m5": [
-     77,
-     86
+     89,
+     49
     ],
     "h1": [
-     1516,
-     1576
+     1038,
+     644
     ],
     "h6": [
-     7269,
-     8090
+     1942,
+     1379
     ],
     "h24": [
-     7269,
-     8090
+     1942,
+     1379
     ]
    },
-   "created": 1792382945.0,
+   "created": 1792392416.0,
    "score": 13,
    "pts": {
-    "momentum": 6.4,
-    "buyers": 0,
+    "momentum": 11.8,
+    "buyers": 6.4,
+    "chatter": 1,
+    "narrative": 0,
+    "room": 12,
+    "liquidity": 6
+   },
+   "pen": 24,
+   "why": [
+    "62% of trades are buys (1h)"
+   ],
+   "warn": [
+    "only 2h old",
+    "already up 2,768% in 24h (late)",
+    "1 other coin use this name; this is NOT the oldest: check the contract"
+   ],
+   "ment": {
+    "biz": 0,
+    "reddit": 0,
+    "news": 0,
+    "w": 0.0,
+    "heads": [],
+    "n": 0
+   },
+   "themes": [
+    "robinhood"
+   ],
+   "metas": [],
+   "culture": null,
+   "cg_rank": null,
+   "on_cb": null,
+   "sec": {
+    "by": "GoPlus",
+    "bad": [],
+    "warn": [],
+    "verdict": "pass",
+    "t": 1792397877.2916996
+   },
+   "src": {
+    "dex_profile": 1
+   },
+   "links": [
+    "https://x.com/elonmusk/status/2013751975960035393?s=46&t=-c-jVksqjHX4rkSxpYkpKQ"
+   ],
+   "desc": "Universal high income",
+   "score_6h": null,
+   "copy_note": "1 other coin use this name; this is NOT the oldest: check the contract"
+  },
+  {
+   "key": "solana:GaPbQwLDPjSXGR9JxxG1aJLNthuxG58dM2XukBi8pump",
+   "symbol": "Doomsday",
+   "name": "The French Doomsday",
+   "chain": "solana",
+   "address": "GaPbQwLDPjSXGR9JxxG1aJLNthuxG58dM2XukBi8pump",
+   "pair_url": "https://dexscreener.com/solana/5u57wosvaf9uyvbtw1pzyueseu2sqnqiqut1bcd5mjdl",
+   "price": 0.0006109,
+   "mcap": 603473.0,
+   "liq": 69400.11,
+   "vol": {
+    "m5": 7807.24,
+    "h1": 96881.51,
+    "h6": 664951.63,
+    "h24": 1454979.95
+   },
+   "chg": {
+    "m5": 0.6,
+    "h1": -11.23,
+    "h6": 71.91,
+    "h24": 1303.0
+   },
+   "txns": {
+    "m5": [
+     42,
+     108
+    ],
+    "h1": [
+     442,
+     1514
+    ],
+    "h6": [
+     11504,
+     4296
+    ],
+    "h24": [
+     24998,
+     12494
+    ]
+   },
+   "created": 1792359916.0,
+   "score": 13,
+   "pts": {
+    "momentum": 3.0,
+    "buyers": 4,
     "chatter": 2,
     "narrative": 0,
     "room": 12,
-    "liquidity": 2
+    "liquidity": 4
    },
-   "pen": 9,
+   "pen": 12,
    "why": [
     "paid DexScreener boosts"
    ],
    "warn": [
-    "only 4h old",
-    "dumping now (-49% in 1h)"
+    "already up 1,303% in 24h (late)"
    ],
    "ment": {
     "biz": 0,
@@ -4356,16 +4146,111 @@
     "bad": [],
     "warn": [],
     "verdict": "pass",
-    "t": 1792387730.8068337
+    "t": 1792386334.9429545
    },
    "src": {
+    "dex_boost": 1,
     "dex_boost_top": 1
    },
    "links": [
-    "https://kahohorn.fun/",
-    "https://x.com/thekaho_horn"
+    "https://thefrenchdoomsday.lol/",
+    "https://x.com/french_doomsday"
    ],
-   "desc": "$KAHO is a legendary meme coin forged in golden mystique, embodying rarity, elite identity, and a community destined to leave its mark on the crypto realm.",
+   "desc": "Avengers-level protests in France, live and unhinged.",
+   "score_6h": null,
+   "copy_note": null
+  },
+  {
+   "key": "robinhood:0xaa07a0e9209e16ac99708c3ec70159c6ef3128a3",
+   "symbol": "ORBIO",
+   "name": "Orbio.so",
+   "chain": "robinhood",
+   "address": "0xaa07a0e9209e16ac99708c3ec70159c6ef3128a3",
+   "pair_url": "https://dexscreener.com/robinhood/0xea9f200e13055b82f175f44f592c4c13dd8c9d9320a66487d3c5cd90d68550ef",
+   "price": 0.02517,
+   "mcap": 23920317.0,
+   "liq": 442431.24,
+   "vol": {
+    "m5": 5725.34,
+    "h1": 21412.81,
+    "h6": 64133.19,
+    "h24": 268859.49
+   },
+   "chg": {
+    "m5": -4.01,
+    "h1": 0.99,
+    "h6": 12.71,
+    "h24": 7.9
+   },
+   "txns": {
+    "m5": [
+     1,
+     6
+    ],
+    "h1": [
+     16,
+     38
+    ],
+    "h6": [
+     81,
+     111
+    ],
+    "h24": [
+     467,
+     883
+    ]
+   },
+   "created": 1789888014.0,
+   "score": 13,
+   "pts": {
+    "momentum": 9.6,
+    "buyers": 0,
+    "chatter": 3,
+    "narrative": 0,
+    "room": 7,
+    "liquidity": 4
+   },
+   "pen": 11,
+   "why": [
+    "volume 1.9x its normal pace",
+    "trending on GeckoTerminal"
+   ],
+   "warn": [
+    "liquidity under 3% of market cap",
+    "Top wallets hold 57%"
+   ],
+   "ment": {
+    "biz": 0,
+    "reddit": 0,
+    "news": 0,
+    "w": 0.0,
+    "heads": [],
+    "n": 0
+   },
+   "themes": [
+    "robinhood"
+   ],
+   "metas": [],
+   "culture": null,
+   "cg_rank": null,
+   "on_cb": null,
+   "sec": {
+    "by": "GoPlus",
+    "bad": [],
+    "warn": [
+     "Top wallets hold 57%"
+    ],
+    "verdict": "caution",
+    "t": 1792378735.5873096
+   },
+   "src": {
+    "gt_trending": 1
+   },
+   "links": [
+    "https://orbio.so/",
+    "https://x.com/orbiodotso"
+   ],
+   "desc": null,
    "score_6h": null,
    "copy_note": null
   },
@@ -4376,20 +4261,20 @@
    "chain": "ethereum",
    "address": "0xaaeE1A9723aaDB7afA2810263653A34bA2C21C7a",
    "pair_url": "https://dexscreener.com/ethereum/0xc2eab7d33d3cb97692ecb231a5d0e4a649cb539d",
-   "price": 1.026e-07,
-   "mcap": 40107750.0,
-   "liq": 5235459.58,
+   "price": 1.025e-07,
+   "mcap": 40050469.0,
+   "liq": 5233135.98,
    "vol": {
     "m5": 0.0,
-    "h1": 13203.11,
-    "h6": 25129.8,
-    "h24": 142783.49
+    "h1": 12786.59,
+    "h6": 27639.59,
+    "h24": 144786.0
    },
    "chg": {
     "m5": 0.0,
-    "h1": 0.75,
-    "h6": 1.1,
-    "h24": 2.0
+    "h1": 0.4,
+    "h6": 0.85,
+    "h24": 1.49
    },
    "txns": {
     "m5": [
@@ -4397,22 +4282,22 @@
      0
     ],
     "h1": [
-     10,
-     6
+     3,
+     14
     ],
     "h6": [
      16,
-     20
+     27
     ],
     "h24": [
-     94,
-     114
+     93,
+     122
     ]
    },
    "created": 1689822407.0,
    "score": 13,
    "pts": {
-    "momentum": 5.0,
+    "momentum": 4.5,
     "buyers": 0,
     "chatter": 0,
     "narrative": 1,
@@ -4421,7 +4306,7 @@
    },
    "pen": 6,
    "why": [
-    "volume 2.2x its normal pace",
+    "volume 2.1x its normal pace",
     "in hot DexScreener narrative 'Slang'"
    ],
    "warn": [
@@ -4439,7 +4324,7 @@
    "metas": [
     [
      "Slang",
-     1.1392718590509545
+     0.9396465076836736
     ]
    ],
    "culture": null,
@@ -4467,62 +4352,63 @@
    "copy_note": null
   },
   {
-   "key": "bsc:0x5dbde81fce337ff4bcaaee4ca3466c00aecae274",
-   "symbol": "AGT",
-   "name": "Alaya Governance Token",
-   "chain": "bsc",
-   "address": "0x5dbde81fce337ff4bcaaee4ca3466c00aecae274",
-   "pair_url": "https://dexscreener.com/bsc/0xd3cffc6b02a34dfc72f1350339031043a854599f",
-   "price": 0.09852,
-   "mcap": 297469646.0,
-   "liq": 3064714.4,
+   "key": "solana:2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv",
+   "symbol": "PENGU",
+   "name": "Pudgy Penguins",
+   "chain": "solana",
+   "address": "2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv",
+   "pair_url": "https://dexscreener.com/solana/faqh648xeeatql7du49sztp9nfj5pjrqrfvamccyd9cz",
+   "price": 0.007548,
+   "mcap": 474515843.0,
+   "liq": 3440028.56,
    "vol": {
-    "m5": 405851.18,
-    "h1": 5269437.65,
-    "h6": 34651826.79,
-    "h24": 71002228.03
+    "m5": 1897.92,
+    "h1": 8713.38,
+    "h6": 48576.26,
+    "h24": 325213.95
    },
    "chg": {
-    "m5": 1.2,
-    "h1": 17.24,
-    "h6": 56.06,
-    "h24": 26.57
+    "m5": -0.06,
+    "h1": -0.63,
+    "h6": 0.22,
+    "h24": 2.52
    },
    "txns": {
     "m5": [
-     318,
-     285
+     0,
+     7
     ],
     "h1": [
-     3857,
-     3682
+     9,
+     36
     ],
     "h6": [
-     24436,
-     25507
+     86,
+     278
     ],
     "h24": [
-     58501,
-     63262
+     746,
+     874
     ]
    },
-   "created": 1747313413.0,
-   "score": 12,
+   "created": 1734440426.0,
+   "score": 13,
    "pts": {
-    "momentum": 13.1,
-    "buyers": 0.5,
-    "chatter": 3,
-    "narrative": 0,
+    "momentum": 0.0,
+    "buyers": 0,
+    "chatter": 11,
+    "narrative": 1,
     "room": 2,
     "liquidity": 4
    },
-   "pen": 11,
+   "pen": 5,
    "why": [
-    "trending on GeckoTerminal"
+    "#2 trending on CoinGecko",
+    "trending on GeckoTerminal",
+    "in hot DexScreener narrative 'NFT'"
    ],
    "warn": [
-    "liquidity under 3% of market cap",
-    "Top wallets hold 57%"
+    "liquidity under 3% of market cap"
    ],
    "ment": {
     "biz": 0,
@@ -4533,24 +4419,34 @@
     "n": 0
    },
    "themes": [],
-   "metas": [],
+   "metas": [
+    [
+     "Character",
+     1.0070288807281198
+    ],
+    [
+     "NFT",
+     1.9435174099177943
+    ]
+   ],
    "culture": null,
-   "cg_rank": null,
-   "on_cb": null,
+   "cg_rank": 2,
+   "on_cb": true,
    "sec": {
     "by": "GoPlus",
     "bad": [],
-    "warn": [
-     "Top wallets hold 57%"
-    ],
-    "verdict": "caution",
-    "t": 1792385502.0147643
+    "warn": [],
+    "verdict": "pass",
+    "t": 1792388570.9333868
    },
    "src": {
-    "gt_trending": 2
+    "dex_meta": 2,
+    "gt_trending": 3
    },
    "links": [
-    "https://www.aialaya.net/"
+    "https://www.pudgypenguins.com",
+    "https://x.com/pudgypenguins",
+    "https://discord.gg/pudgypenguins"
    ],
    "desc": null,
    "score_6h": null,
@@ -4563,37 +4459,37 @@
    "chain": "robinhood",
    "address": "0xcd2c8ca6789ccec87b7358e916878e2a2a57de79",
    "pair_url": "https://dexscreener.com/robinhood/0x5173d3f6f3da7b41ac7904223a4e1d7cd62bd4f8426bfd568bc77d1b35d8f549",
-   "price": 0.02778,
-   "mcap": 27783388.0,
-   "liq": 517496.21,
+   "price": 0.02637,
+   "mcap": 26371148.0,
+   "liq": 504540.85,
    "vol": {
-    "m5": 44217.65,
-    "h1": 670845.81,
-    "h6": 3927611.28,
-    "h24": 16664571.87
+    "m5": 53958.42,
+    "h1": 667128.98,
+    "h6": 3949794.35,
+    "h24": 16664293.49
    },
    "chg": {
-    "m5": 0.39,
-    "h1": -6.07,
-    "h6": 6.37,
-    "h24": 55.16
+    "m5": 0.07,
+    "h1": -2.84,
+    "h6": -1.04,
+    "h24": 58.74
    },
    "txns": {
     "m5": [
-     109,
-     89
+     87,
+     66
     ],
     "h1": [
-     1418,
-     1179
+     1422,
+     1182
     ],
     "h6": [
-     7325,
-     5806
+     7413,
+     5891
     ],
     "h24": [
-     30437,
-     19693
+     30606,
+     19865
     ]
    },
    "created": 1792247667.0,
@@ -4644,150 +4540,63 @@
    "copy_note": null
   },
   {
-   "key": "robinhood:0xd68a04bc598383cd399ba9188dec5c5df7808701",
-   "symbol": "UHI",
-   "name": "Universal High Income",
-   "chain": "robinhood",
-   "address": "0xD68a04Bc598383cd399bA9188DEc5C5Df7808701",
-   "pair_url": "https://dexscreener.com/robinhood/0x33e6c26a15119015697ce3954a43068e4389a292",
-   "price": 0.0004319,
-   "mcap": 431906.0,
-   "liq": 126796.65,
+   "key": "bsc:0x0a092e544da31150b439a1aaa1a3a2214a867f46",
+   "symbol": "CT",
+   "name": "Concrete Token",
+   "chain": "bsc",
+   "address": "0x0a092e544da31150b439a1aaa1a3a2214a867f46",
+   "pair_url": "https://dexscreener.com/bsc/0x4f1c8be4685db434e645f04b811780a82b2331bc",
+   "price": 0.4122,
+   "mcap": 6153378.0,
+   "liq": 22025.55,
    "vol": {
-    "m5": 42086.55,
-    "h1": 499263.34,
-    "h6": 808165.84,
-    "h24": 808165.84
+    "m5": 3402.5,
+    "h1": 62846.08,
+    "h6": 108246.76,
+    "h24": 108435.96
    },
    "chg": {
-    "m5": 3.13,
-    "h1": 465.0,
-    "h6": 3849.0,
-    "h24": 3849.0
+    "m5": -1.71,
+    "h1": 4.09,
+    "h6": 36.34,
+    "h24": 28.93
    },
    "txns": {
     "m5": [
-     75,
-     59
+     7,
+     38
     ],
     "h1": [
-     1023,
-     683
+     169,
+     261
     ],
     "h6": [
-     1688,
-     1236
+     313,
+     399
     ],
     "h24": [
-     1688,
-     1236
+     333,
+     426
     ]
    },
-   "created": 1792392416.0,
+   "created": 1790750332.0,
    "score": 12,
    "pts": {
-    "momentum": 11.9,
-    "buyers": 5.5,
-    "chatter": 1,
-    "narrative": 0,
-    "room": 12,
-    "liquidity": 6
-   },
-   "pen": 24,
-   "why": [],
-   "warn": [
-    "only 2h old",
-    "already up 3,849% in 24h (late)",
-    "1 other coin use this name; this is NOT the oldest: check the contract"
-   ],
-   "ment": {
-    "biz": 0,
-    "reddit": 0,
-    "news": 0,
-    "w": 0.0,
-    "heads": [],
-    "n": 0
-   },
-   "themes": [
-    "robinhood"
-   ],
-   "metas": [],
-   "culture": null,
-   "cg_rank": null,
-   "on_cb": null,
-   "sec": {
-    "by": "GoPlus",
-    "bad": [],
-    "warn": [],
-    "verdict": "pass",
-    "t": 1792397877.2916996
-   },
-   "src": {
-    "dex_profile": 1
-   },
-   "links": [
-    "https://x.com/elonmusk/status/2013751975960035393?s=46&t=-c-jVksqjHX4rkSxpYkpKQ"
-   ],
-   "desc": "Universal high income",
-   "score_6h": null,
-   "copy_note": "1 other coin use this name; this is NOT the oldest: check the contract"
-  },
-  {
-   "key": "robinhood:0x5a75639407d8fcb186fb2cef0ffa50d649a25c00",
-   "symbol": "BOOMER",
-   "name": "Boomer",
-   "chain": "robinhood",
-   "address": "0x5a75639407d8fcb186fb2cef0ffa50d649a25c00",
-   "pair_url": "https://dexscreener.com/robinhood/0xc6c84f52c1d2015b5dad25956fd7cd64cae2b9374438b837d29fa215f3d4df2e",
-   "price": 0.01865,
-   "mcap": 18650117.0,
-   "liq": 423548.79,
-   "vol": {
-    "m5": 12297.86,
-    "h1": 139779.6,
-    "h6": 870524.49,
-    "h24": 8743317.54
-   },
-   "chg": {
-    "m5": -2.43,
-    "h1": 2.37,
-    "h6": 8.14,
-    "h24": 91.39
-   },
-   "txns": {
-    "m5": [
-     15,
-     14
-    ],
-    "h1": [
-     233,
-     192
-    ],
-    "h6": [
-     1373,
-     1124
-    ],
-    "h24": [
-     11530,
-     9675
-    ]
-   },
-   "created": 1792280284.0,
-   "score": 12,
-   "pts": {
-    "momentum": 0.5,
-    "buyers": 2.9,
+    "momentum": 19.8,
+    "buyers": 0,
     "chatter": 3,
     "narrative": 0,
-    "room": 7,
-    "liquidity": 4
+    "room": 10,
+    "liquidity": 0
    },
-   "pen": 5,
+   "pen": 21,
    "why": [
+    "volume 13.9x its normal pace",
     "trending on GeckoTerminal"
    ],
    "warn": [
-    "liquidity under 3% of market cap"
+    "thin liquidity ($22,026): hard to sell",
+    "Top wallets hold 87%"
    ],
    "ment": {
     "biz": 0,
@@ -4797,24 +4606,303 @@
     "heads": [],
     "n": 0
    },
-   "themes": [
-    "robinhood"
-   ],
+   "themes": [],
    "metas": [],
    "culture": null,
    "cg_rank": null,
-   "on_cb": null,
+   "on_cb": true,
    "sec": {
     "by": "GoPlus",
     "bad": [],
-    "warn": [],
-    "verdict": "pass",
-    "t": 1792370320.5322917
+    "warn": [
+     "Top wallets hold 87%"
+    ],
+    "verdict": "caution",
+    "t": 1792396191.3583739
    },
    "src": {
     "gt_trending": 1
    },
    "links": [],
+   "desc": null,
+   "score_6h": null,
+   "copy_note": null
+  },
+  {
+   "key": "bsc:0x6894cde390a3f51155ea41ed24a33a4827d3063d",
+   "symbol": "CAT",
+   "name": "Simons Cat",
+   "chain": "bsc",
+   "address": "0x6894CDe390a3f51155ea41Ed24a33A4827d3063D",
+   "pair_url": "https://dexscreener.com/bsc/0x6df9adc1837bf37e0b1b943d59a7e50d9678c81b",
+   "price": 1.833e-06,
+   "mcap": 13755749.0,
+   "liq": 5234781.46,
+   "vol": {
+    "m5": 73.52,
+    "h1": 24719.809999999998,
+    "h6": 360388.74,
+    "h24": 418121.82999999996
+   },
+   "chg": {
+    "m5": 0.0,
+    "h1": 0.19,
+    "h6": 0.99,
+    "h24": 1.86
+   },
+   "txns": {
+    "m5": [
+     2,
+     0
+    ],
+    "h1": [
+     63,
+     84
+    ],
+    "h6": [
+     879,
+     977
+    ],
+    "h24": [
+     1236,
+     1293
+    ]
+   },
+   "created": 1724335961.0,
+   "score": 12,
+   "pts": {
+    "momentum": 4.0,
+    "buyers": 0,
+    "chatter": 0,
+    "narrative": 1,
+    "room": 7,
+    "liquidity": 6
+   },
+   "pen": 6,
+   "why": [
+    "in hot DexScreener narrative 'Cat'"
+   ],
+   "warn": [
+    "Top wallets hold 54%"
+   ],
+   "ment": {
+    "biz": 0,
+    "reddit": 0,
+    "news": 0,
+    "w": 0.0,
+    "heads": [],
+    "n": 0
+   },
+   "themes": [
+    "animals"
+   ],
+   "metas": [
+    [
+     "Cat",
+     1.6023545835862605
+    ]
+   ],
+   "culture": null,
+   "cg_rank": null,
+   "on_cb": null,
+   "sec": {
+    "by": "GoPlus",
+    "bad": [],
+    "warn": [
+     "Top wallets hold 54%"
+    ],
+    "verdict": "caution",
+    "t": 1792386859.356558
+   },
+   "src": {
+    "dex_meta": 1
+   },
+   "links": [
+    "https://simons.cat/",
+    "https://bscscan.com/tx/0x660e79aa847242a9e0189274fda15159f188aa57ad94f9a46659d07ac3c9cbad",
+    "https://x.com/SimonsCatMeme",
+    "https://t.me/SimonsCatWorld"
+   ],
+   "desc": null,
+   "score_6h": null,
+   "copy_note": null
+  },
+  {
+   "key": "solana:8Xg89xT8Ve34sKiYqYuMs46mycREsCA2F362UscRpump",
+   "symbol": "GLITCH",
+   "name": "Infinite Money Glitch",
+   "chain": "solana",
+   "address": "8Xg89xT8Ve34sKiYqYuMs46mycREsCA2F362UscRpump",
+   "pair_url": "https://dexscreener.com/solana/em6rvzgxhd35pz7cvujctpenv4jaztscavhaxbxcbcg7",
+   "price": 0.002082,
+   "mcap": 1944661.0,
+   "liq": 125884.28,
+   "vol": {
+    "m5": 49.69,
+    "h1": 3991.55,
+    "h6": 51821.09,
+    "h24": 344677.07
+   },
+   "chg": {
+    "m5": 1.88,
+    "h1": 2.71,
+    "h6": 13.73,
+    "h24": 94.26
+   },
+   "txns": {
+    "m5": [
+     3,
+     0
+    ],
+    "h1": [
+     26,
+     29
+    ],
+    "h6": [
+     151,
+     160
+    ],
+    "h24": [
+     1113,
+     1008
+    ]
+   },
+   "created": 1792164888.0,
+   "score": 12,
+   "pts": {
+    "momentum": 3.5,
+    "buyers": 0,
+    "chatter": 2,
+    "narrative": 0,
+    "room": 10,
+    "liquidity": 6
+   },
+   "pen": 10,
+   "why": [
+    "paid DexScreener boosts"
+   ],
+   "warn": [
+    "barely trading ($4.0k in the last hour)"
+   ],
+   "ment": {
+    "biz": 0,
+    "reddit": 0,
+    "news": 0,
+    "w": 0.0,
+    "heads": [],
+    "n": 0
+   },
+   "themes": [],
+   "metas": [],
+   "culture": null,
+   "cg_rank": null,
+   "on_cb": null,
+   "sec": {
+    "by": "GoPlus",
+    "bad": [],
+    "warn": [],
+    "verdict": "pass",
+    "t": 1792382987.9237847
+   },
+   "src": {
+    "dex_boost_top": 1
+   },
+   "links": [
+    "https://glitchonsol.com/",
+    "https://glitchonsol.com/docs/",
+    "https://x.com/GlitchOnSolana_",
+    "https://t.me/imglitchonsol",
+    "https://www.tiktok.com/@glitchonsol",
+    "https://www.instagram.com/glitchonsolana"
+   ],
+   "desc": "Glitch is a flamingo who found an ATM that never stops paying. Now everyone wants in. Infinite Money Glitch ($GLITCH) is a 100% fair-launch memecoin on Solana, with no presale and no taxes. The machine is open to everyone.",
+   "score_6h": null,
+   "copy_note": null
+  },
+  {
+   "key": "solana:NV2RYH954cTJ3ckFUpvfqaQXU4ARqqDH3562nFSpump",
+   "symbol": "Punch",
+   "name": "\u30d1\u30f3\u30c1",
+   "chain": "solana",
+   "address": "NV2RYH954cTJ3ckFUpvfqaQXU4ARqqDH3562nFSpump",
+   "pair_url": "https://dexscreener.com/solana/a6khmifzn9am7vkbtvp4fzny9bco2jp63r9dphaw1vrq",
+   "price": 0.0003387,
+   "mcap": 338717.0,
+   "liq": 152759.06,
+   "vol": {
+    "m5": 0.0,
+    "h1": 1123.52,
+    "h6": 1746.61,
+    "h24": 8897.43
+   },
+   "chg": {
+    "m5": 0.0,
+    "h1": 1.49,
+    "h6": 3.12,
+    "h24": 1.5
+   },
+   "txns": {
+    "m5": [
+     0,
+     0
+    ],
+    "h1": [
+     8,
+     7
+    ],
+    "h6": [
+     16,
+     23
+    ],
+    "h24": [
+     73,
+     118
+    ]
+   },
+   "created": 1770282065.0,
+   "score": 12,
+   "pts": {
+    "momentum": 2.9,
+    "buyers": 0,
+    "chatter": 0,
+    "narrative": 1,
+    "room": 12,
+    "liquidity": 6
+   },
+   "pen": 10,
+   "why": [
+    "in hot DexScreener narrative 'Internet Animals'"
+   ],
+   "warn": [
+    "barely trading ($1.1k in the last hour)"
+   ],
+   "ment": {
+    "biz": 0,
+    "reddit": 0,
+    "news": 0,
+    "w": 0.0,
+    "heads": [],
+    "n": 0
+   },
+   "themes": [],
+   "metas": [
+    [
+     "Internet Animals",
+     3.560128275957272
+    ]
+   ],
+   "culture": null,
+   "cg_rank": null,
+   "on_cb": null,
+   "sec": null,
+   "src": {
+    "dex_meta": 1
+   },
+   "links": [
+    "https://punchonsolana.live/",
+    "https://x.com/punch_on_sol",
+    "https://t.me/PUNCHPORTAL"
+   ],
    "desc": null,
    "score_6h": null,
    "copy_note": null
@@ -4826,44 +4914,44 @@
    "chain": "robinhood",
    "address": "0xb2d1fa50508550b3488c0e9860d1f08937a29145",
    "pair_url": "https://dexscreener.com/robinhood/0x8f9952e593923792ffbcbc882dcf9c1112c2351c780e28f54a53abf0e8501f32",
-   "price": 0.0003464,
-   "mcap": 340275.0,
-   "liq": 53742.68,
+   "price": 0.0003467,
+   "mcap": 340564.0,
+   "liq": 53811.8,
    "vol": {
-    "m5": 0.88,
-    "h1": 1354.58,
-    "h6": 14335.94,
-    "h24": 269359.21
+    "m5": 12.62,
+    "h1": 781.14,
+    "h6": 13732.1,
+    "h24": 259582.41
    },
    "chg": {
-    "m5": -0.06,
-    "h1": 2.08,
-    "h6": 11.03,
-    "h24": -60.51
+    "m5": 0.01,
+    "h1": -1.21,
+    "h6": 12.97,
+    "h24": -56.33
    },
    "txns": {
     "m5": [
-     38,
-     36
+     35,
+     38
     ],
     "h1": [
-     533,
-     532
+     528,
+     537
     ],
     "h6": [
-     3212,
-     3277
+     3218,
+     3276
     ],
     "h24": [
-     13886,
-     13630
+     13832,
+     13610
     ]
    },
    "created": 1792177911.0,
    "score": 12,
    "pts": {
-    "momentum": 3.4,
-    "buyers": 0.0,
+    "momentum": 3.0,
+    "buyers": 0,
     "chatter": 3,
     "narrative": 0,
     "room": 12,
@@ -4874,7 +4962,7 @@
     "trending on GeckoTerminal"
    ],
    "warn": [
-    "barely trading ($1.4k in the last hour)"
+    "barely trading ($781 in the last hour)"
    ],
    "ment": {
     "biz": 0,
@@ -4909,149 +4997,63 @@
    "copy_note": null
   },
   {
-   "key": "solana:NV2RYH954cTJ3ckFUpvfqaQXU4ARqqDH3562nFSpump",
-   "symbol": "Punch",
-   "name": "\u30d1\u30f3\u30c1",
-   "chain": "solana",
-   "address": "NV2RYH954cTJ3ckFUpvfqaQXU4ARqqDH3562nFSpump",
-   "pair_url": "https://dexscreener.com/solana/a6khmifzn9am7vkbtvp4fzny9bco2jp63r9dphaw1vrq",
-   "price": 0.0003384,
-   "mcap": 338371.0,
-   "liq": 152601.65,
+   "key": "bsc:0x5dbde81fce337ff4bcaaee4ca3466c00aecae274",
+   "symbol": "AGT",
+   "name": "Alaya Governance Token",
+   "chain": "bsc",
+   "address": "0x5dbde81fce337ff4bcaaee4ca3466c00aecae274",
+   "pair_url": "https://dexscreener.com/bsc/0xd3cffc6b02a34dfc72f1350339031043a854599f",
+   "price": 0.08491,
+   "mcap": 256367086.0,
+   "liq": 2909795.67,
    "vol": {
-    "m5": 0.0,
-    "h1": 1149.83,
-    "h6": 1746.14,
-    "h24": 8896.96
+    "m5": 797197.45,
+    "h1": 7142903.96,
+    "h6": 37417349.89,
+    "h24": 73678406.02
    },
    "chg": {
-    "m5": 0.0,
-    "h1": 2.93,
-    "h6": 3.02,
-    "h24": 1.39
+    "m5": -0.76,
+    "h1": 0.33,
+    "h6": 34.44,
+    "h24": 7.2
    },
    "txns": {
     "m5": [
-     0,
-     0
+     429,
+     487
     ],
     "h1": [
-     8,
-     7
+     4564,
+     4753
     ],
     "h6": [
-     15,
-     22
+     25610,
+     26931
     ],
     "h24": [
-     72,
-     117
+     59559,
+     64847
     ]
    },
-   "created": 1770282065.0,
-   "score": 12,
-   "pts": {
-    "momentum": 3.2,
-    "buyers": 0,
-    "chatter": 0,
-    "narrative": 1,
-    "room": 12,
-    "liquidity": 6
-   },
-   "pen": 10,
-   "why": [
-    "in hot DexScreener narrative 'Internet Animals'"
-   ],
-   "warn": [
-    "barely trading ($1.1k in the last hour)"
-   ],
-   "ment": {
-    "biz": 0,
-    "reddit": 0,
-    "news": 0,
-    "w": 0.0,
-    "heads": [],
-    "n": 0
-   },
-   "themes": [],
-   "metas": [
-    [
-     "Internet Animals",
-     3.795180994058641
-    ]
-   ],
-   "culture": null,
-   "cg_rank": null,
-   "on_cb": null,
-   "sec": null,
-   "src": {
-    "dex_meta": 1
-   },
-   "links": [
-    "https://punchonsolana.live/",
-    "https://x.com/punch_on_sol",
-    "https://t.me/PUNCHPORTAL"
-   ],
-   "desc": null,
-   "score_6h": null,
-   "copy_note": null
-  },
-  {
-   "key": "base:0x07b3d902783c3c12b077508c3b5c00113d1291d0",
-   "symbol": "XDP",
-   "name": "Doppler",
-   "chain": "base",
-   "address": "0x07b3d902783c3c12b077508c3b5c00113d1291d0",
-   "pair_url": "https://dexscreener.com/base/0x2df380544b88adb3ad0a94100dcc45fd705aae2d",
-   "price": 0.01852,
-   "mcap": 18526828.0,
-   "liq": 1758281.81,
-   "vol": {
-    "m5": 188813.67,
-    "h1": 3504101.13,
-    "h6": 21591791.0,
-    "h24": 80220960.93
-   },
-   "chg": {
-    "m5": 0.07,
-    "h1": 0.1,
-    "h6": -1.08,
-    "h24": -0.91
-   },
-   "txns": {
-    "m5": [
-     290,
-     279
-    ],
-    "h1": [
-     4179,
-     4056
-    ],
-    "h6": [
-     26844,
-     26202
-    ],
-    "h24": [
-     104921,
-     104296
-    ]
-   },
-   "created": 1790599925.0,
+   "created": 1747313413.0,
    "score": 11,
    "pts": {
-    "momentum": 0.6,
-    "buyers": 0.4,
+    "momentum": 12.8,
+    "buyers": 0,
     "chatter": 3,
     "narrative": 0,
-    "room": 7,
-    "liquidity": 6
+    "room": 2,
+    "liquidity": 4
    },
-   "pen": 6,
+   "pen": 11,
    "why": [
+    "volume 2.3x its normal pace",
     "trending on GeckoTerminal"
    ],
    "warn": [
-    "Top wallets hold 94%"
+    "liquidity under 3% of market cap",
+    "Top wallets hold 57%"
    ],
    "ment": {
     "biz": 0,
@@ -5070,15 +5072,17 @@
     "by": "GoPlus",
     "bad": [],
     "warn": [
-     "Top wallets hold 94%"
+     "Top wallets hold 57%"
     ],
     "verdict": "caution",
-    "t": 1792396191.3583739
+    "t": 1792385502.0147643
    },
    "src": {
     "gt_trending": 2
    },
-   "links": [],
+   "links": [
+    "https://www.aialaya.net/"
+   ],
    "desc": null,
    "score_6h": null,
    "copy_note": null
@@ -5090,43 +5094,43 @@
    "chain": "robinhood",
    "address": "0x8af9055b92556601eafad472179036fd41bba7f7",
    "pair_url": "https://dexscreener.com/robinhood/0x9f7105c5782f6b92708d42bbd90c48df1c78cf0cb073730eb3568d833905d783",
-   "price": 0.01767,
-   "mcap": 17671829.0,
-   "liq": 412226.07,
+   "price": 0.01768,
+   "mcap": 17689281.0,
+   "liq": 412783.71,
    "vol": {
-    "m5": 21502.12,
-    "h1": 314676.01,
-    "h6": 1749866.53,
-    "h24": 7711340.92
+    "m5": 23191.28,
+    "h1": 314013.74,
+    "h6": 1769639.54,
+    "h24": 7735738.15
    },
    "chg": {
-    "m5": 0.24,
-    "h1": 0.06,
-    "h6": -9.8,
-    "h24": 163.0
+    "m5": 0.73,
+    "h1": 0.38,
+    "h6": -9.64,
+    "h24": 164.0
    },
    "txns": {
     "m5": [
-     74,
-     72
+     81,
+     77
     ],
     "h1": [
-     1061,
-     970
+     1092,
+     1001
     ],
     "h6": [
-     4514,
-     3900
+     4631,
+     3997
     ],
     "h24": [
-     19845,
-     16193
+     19892,
+     16204
     ]
    },
    "created": 1792272824.0,
    "score": 11,
    "pts": {
-    "momentum": 0.0,
+    "momentum": 0.1,
     "buyers": 1.6,
     "chatter": 3,
     "narrative": 0,
@@ -5171,151 +5175,61 @@
    "copy_note": null
   },
   {
-   "key": "bsc:0xeccbb861c0dda7efd964010085488b69317e4444",
-   "symbol": "\u9f99\u867e",
-   "name": "\u9f99\u867e",
-   "chain": "bsc",
-   "address": "0xeccbb861c0dda7efd964010085488b69317e4444",
-   "pair_url": "https://dexscreener.com/bsc/0x22af7297243c4eef12e2d5a4f888b92e56bf127c",
-   "price": 0.02026,
-   "mcap": 20268767.0,
-   "liq": 1413824.81,
+   "key": "ethereum:0x1ae7e1d0ce06364ced9ad58225a1705b3e5db92b",
+   "symbol": "LMEOW",
+   "name": "lmeow",
+   "chain": "ethereum",
+   "address": "0x1aE7e1d0ce06364CED9aD58225a1705b3e5DB92b",
+   "pair_url": "https://dexscreener.com/ethereum/0x6c2b607bf0a8ede629d58ba5e05d0448ff7f890a",
+   "price": 0.001822,
+   "mcap": 1822355.0,
+   "liq": 492365.37,
    "vol": {
-    "m5": 3445.55,
-    "h1": 64268.47,
-    "h6": 743358.5,
-    "h24": 2973548.77
+    "m5": 0.0,
+    "h1": 3287.15,
+    "h6": 4531.22,
+    "h24": 9247.03
    },
    "chg": {
-    "m5": 0.59,
-    "h1": -2.98,
-    "h6": -7.84,
-    "h24": -22.23
+    "m5": 0.0,
+    "h1": 2.6,
+    "h6": 4.39,
+    "h24": 3.73
    },
    "txns": {
     "m5": [
-     13,
-     3
+     0,
+     0
     ],
     "h1": [
-     5155,
-     4971
+     1,
+     1
     ],
     "h6": [
-     6552,
-     6347
+     6,
+     1
     ],
     "h24": [
-     10911,
-     11166
+     15,
+     8
     ]
    },
-   "created": 1772182240.0,
+   "created": 1667313635.0,
    "score": 11,
    "pts": {
-    "momentum": 0.0,
-    "buyers": 0.5,
-    "chatter": 3,
-    "narrative": 0,
-    "room": 7,
-    "liquidity": 6
-   },
-   "pen": 6,
-   "why": [
-    "trending on GeckoTerminal"
-   ],
-   "warn": [
-    "Top wallets hold 87%"
-   ],
-   "ment": {
-    "biz": 0,
-    "reddit": 0,
-    "news": 0,
-    "w": 0.0,
-    "heads": [],
-    "n": 0
-   },
-   "themes": [],
-   "metas": [],
-   "culture": null,
-   "cg_rank": null,
-   "on_cb": null,
-   "sec": {
-    "by": "GoPlus",
-    "bad": [],
-    "warn": [
-     "Top wallets hold 87%"
-    ],
-    "verdict": "caution",
-    "t": 1792371999.9053714
-   },
-   "src": {
-    "gt_trending": 1
-   },
-   "links": [
-    "https://x.com/binancezh/status/2027304629890072818"
-   ],
-   "desc": null,
-   "score_6h": null,
-   "copy_note": null
-  },
-  {
-   "key": "solana:G7vQWurMkMMm2dU3iZpXYFTHT9Biio4F4gZCrwFpKNwG",
-   "symbol": "BIRB",
-   "name": "Moonbirds",
-   "chain": "solana",
-   "address": "G7vQWurMkMMm2dU3iZpXYFTHT9Biio4F4gZCrwFpKNwG",
-   "pair_url": "https://dexscreener.com/solana/guwft7bblphgrcpapnnenbbe1uerv9e6llc2qpx2wzy1",
-   "price": 0.04727,
-   "mcap": 13473854.0,
-   "liq": 1159164.64,
-   "vol": {
-    "m5": 2573.97,
-    "h1": 12650.85,
-    "h6": 47894.27,
-    "h24": 553589.16
-   },
-   "chg": {
-    "m5": 0.13,
-    "h1": 0.13,
-    "h6": 0.28,
-    "h24": -0.29
-   },
-   "txns": {
-    "m5": [
-     14,
-     12
-    ],
-    "h1": [
-     115,
-     130
-    ],
-    "h6": [
-     496,
-     468
-    ],
-    "h24": [
-     3258,
-     3366
-    ]
-   },
-   "created": 1769597565.0,
-   "score": 11,
-   "pts": {
-    "momentum": 3.0,
-    "buyers": 0.3,
+    "momentum": 3.7,
+    "buyers": 0,
     "chatter": 0,
     "narrative": 1,
-    "room": 7,
+    "room": 10,
     "liquidity": 6
    },
-   "pen": 6,
+   "pen": 10,
    "why": [
-    "still accelerating (last 5 min)",
-    "in hot DexScreener narrative 'NFT'"
+    "in hot DexScreener narrative 'Cat'"
    ],
    "warn": [
-    "Top 10 wallets hold 93%"
+    "barely trading ($3.3k in the last hour)"
    ],
    "ment": {
     "biz": 0,
@@ -5328,89 +5242,82 @@
    "themes": [],
    "metas": [
     [
-     "NFT",
-     2.4331274401147844
+     "Cat",
+     1.6023545835862605
     ]
    ],
    "culture": null,
    "cg_rank": null,
-   "on_cb": true,
-   "sec": {
-    "by": "GoPlus",
-    "bad": [],
-    "warn": [
-     "Top 10 wallets hold 93%"
-    ],
-    "verdict": "caution",
-    "t": 1792395349.4958756
-   },
+   "on_cb": null,
+   "sec": null,
    "src": {
     "dex_meta": 1
    },
    "links": [
-    "https://moonbirds.com/",
-    "https://x.com/moonbirds"
+    "https://lmeow.club/",
+    "https://twitter.com/lmeowcoineth",
+    "https://t.me/lmeowcoineth"
    ],
    "desc": null,
    "score_6h": null,
    "copy_note": null
   },
   {
-   "key": "solana:8Xg89xT8Ve34sKiYqYuMs46mycREsCA2F362UscRpump",
-   "symbol": "GLITCH",
-   "name": "Infinite Money Glitch",
-   "chain": "solana",
-   "address": "8Xg89xT8Ve34sKiYqYuMs46mycREsCA2F362UscRpump",
-   "pair_url": "https://dexscreener.com/solana/em6rvzgxhd35pz7cvujctpenv4jaztscavhaxbxcbcg7",
-   "price": 0.002066,
-   "mcap": 1928902.0,
-   "liq": 125286.22,
+   "key": "base:0x07b3d902783c3c12b077508c3b5c00113d1291d0",
+   "symbol": "XDP",
+   "name": "Doppler",
+   "chain": "base",
+   "address": "0x07b3d902783c3c12b077508c3b5c00113d1291d0",
+   "pair_url": "https://dexscreener.com/base/0x2df380544b88adb3ad0a94100dcc45fd705aae2d",
+   "price": 0.01848,
+   "mcap": 18485918.0,
+   "liq": 1756111.41,
    "vol": {
-    "m5": 1328.65,
-    "h1": 4098.74,
-    "h6": 51792.75,
-    "h24": 346042.2
+    "m5": 244917.33,
+    "h1": 3288068.52,
+    "h6": 21374519.22,
+    "h24": 79989079.55
    },
    "chg": {
-    "m5": -2.99,
-    "h1": 2.18,
-    "h6": 13.03,
-    "h24": 80.61
+    "m5": -0.14,
+    "h1": -0.22,
+    "h6": -1.17,
+    "h24": -0.87
    },
    "txns": {
     "m5": [
-     2,
-     6
+     303,
+     299
     ],
     "h1": [
-     26,
-     27
+     4049,
+     4055
     ],
     "h6": [
-     150,
-     157
+     26525,
+     25979
     ],
     "h24": [
-     1109,
-     1009
+     104665,
+     104070
     ]
    },
-   "created": 1792164888.0,
-   "score": 11,
+   "created": 1790599925.0,
+   "score": 10,
    "pts": {
-    "momentum": 3.4,
-    "buyers": 0,
-    "chatter": 2,
+    "momentum": 0.0,
+    "buyers": 0.1,
+    "chatter": 3,
     "narrative": 0,
-    "room": 10,
+    "room": 7,
     "liquidity": 6
    },
-   "pen": 10,
+   "pen": 6,
    "why": [
-    "paid DexScreener boosts"
+    "trending on GeckoTerminal"
    ],
    "warn": [
-    "barely trading ($4.1k in the last hour)"
+    "Top wallets hold 94%"
    ],
    "ment": {
     "biz": 0,
@@ -5428,81 +5335,158 @@
    "sec": {
     "by": "GoPlus",
     "bad": [],
-    "warn": [],
-    "verdict": "pass",
-    "t": 1792382987.9237847
+    "warn": [
+     "Top wallets hold 94%"
+    ],
+    "verdict": "caution",
+    "t": 1792396191.3583739
    },
    "src": {
-    "dex_boost_top": 1
+    "gt_trending": 2
    },
-   "links": [
-    "https://glitchonsol.com/",
-    "https://glitchonsol.com/docs/",
-    "https://x.com/GlitchOnSolana_",
-    "https://t.me/imglitchonsol",
-    "https://www.tiktok.com/@glitchonsol",
-    "https://www.instagram.com/glitchonsolana"
-   ],
-   "desc": "Glitch is a flamingo who found an ATM that never stops paying. Now everyone wants in. Infinite Money Glitch ($GLITCH) is a 100% fair-launch memecoin on Solana, with no presale and no taxes. The machine is open to everyone.",
+   "links": [],
+   "desc": null,
    "score_6h": null,
    "copy_note": null
   },
   {
-   "key": "solana:EfPoo4wWgxKVToit7yX5VtXXBrhao4G8L7vrbKy6pump",
-   "symbol": "DEXTER",
-   "name": "Dexter AI",
-   "chain": "solana",
-   "address": "EfPoo4wWgxKVToit7yX5VtXXBrhao4G8L7vrbKy6pump",
-   "pair_url": "https://dexscreener.com/solana/csqt5axbzlcsd13dpy6ayltrkcu5q1nztapam67elxro",
-   "price": 0.0003076,
-   "mcap": 307570.0,
-   "liq": 87297.77,
+   "key": "anubis:0x2e045e1380f5f5b6e7550328910a7377c9fce59d",
+   "symbol": "RM",
+   "name": "Rome",
+   "chain": "anubis",
+   "address": "0x2e045e1380f5f5b6e7550328910a7377c9fce59d",
+   "pair_url": "https://www.geckoterminal.com/anubis/pools/0x8cbabf4e076baaad295fd32b3249e7f9d812b9c5",
+   "price": 30.3781286266753,
+   "mcap": 0.0,
+   "liq": 69253784.9468,
    "vol": {
-    "m5": 0.0,
-    "h1": 983.27,
-    "h6": 1913.78,
-    "h24": 6664.98
+    "m5": 59368.9264556167,
+    "h1": 650695.172923303,
+    "h6": 3435453.97190307,
+    "h24": 8547299.40880564
    },
    "chg": {
     "m5": 0.0,
-    "h1": 2.54,
-    "h6": 7.32,
-    "h24": -3.66
+    "h1": -2.153,
+    "h6": 3.733,
+    "h24": -0.703
    },
    "txns": {
     "m5": [
-     0,
-     0
+     143,
+     320
     ],
     "h1": [
-     1,
-     0
+     2020,
+     3982
     ],
     "h6": [
-     4,
-     2
+     10721,
+     20613
     ],
     "h24": [
-     18,
-     24
+     27823,
+     53529
     ]
    },
-   "created": 1760658491.0,
-   "score": 11,
+   "created": 1781545512.0,
+   "score": 10,
    "pts": {
-    "momentum": 3.4,
+    "momentum": 3.5,
     "buyers": 0,
-    "chatter": 0,
-    "narrative": 1.2,
-    "room": 12,
+    "chatter": 3,
+    "narrative": 0,
+    "room": 0,
     "liquidity": 4
    },
-   "pen": 10,
+   "pen": 0,
    "why": [
+    "volume 1.8x its normal pace (but price falling)",
+    "trending on GeckoTerminal"
+   ],
+   "warn": [],
+   "ment": {
+    "biz": 0,
+    "reddit": 0,
+    "news": 0,
+    "w": 0.0,
+    "heads": [],
+    "n": 0
+   },
+   "themes": [],
+   "metas": [],
+   "culture": null,
+   "cg_rank": null,
+   "on_cb": null,
+   "sec": null,
+   "src": {
+    "gt_trending": 1
+   },
+   "links": [],
+   "desc": null,
+   "score_6h": null,
+   "copy_note": null
+  },
+  {
+   "key": "bsc:0xc07e1300dc138601fa6b0b59f8d0fa477e690589",
+   "symbol": "Q",
+   "name": "Quack AI Token",
+   "chain": "bsc",
+   "address": "0xc07e1300dc138601FA6B0b59f8D0FA477e690589",
+   "pair_url": "https://dexscreener.com/bsc/0x8bafe0bdd3eb9ae0539f5b32e771c1a72a189b7f",
+   "price": 0.1228,
+   "mcap": 608031135.0,
+   "liq": 1465223.64,
+   "vol": {
+    "m5": 7548.43,
+    "h1": 72321.03,
+    "h6": 2164579.95,
+    "h24": 3601182.78
+   },
+   "chg": {
+    "m5": -1.13,
+    "h1": 0.25,
+    "h6": 10.28,
+    "h24": -9.91
+   },
+   "txns": {
+    "m5": [
+     141,
+     188
+    ],
+    "h1": [
+     1823,
+     1892
+    ],
+    "h6": [
+     35961,
+     37245
+    ],
+    "h24": [
+     60264,
+     61428
+    ]
+   },
+   "created": 1756627647.0,
+   "score": 10,
+   "pts": {
+    "momentum": 3.0,
+    "buyers": 0,
+    "chatter": 11,
+    "narrative": 1,
+    "room": 2,
+    "liquidity": 4
+   },
+   "pen": 11,
+   "why": [
+    "#3 trending on CoinGecko",
+    "trending on GeckoTerminal",
     "in hot DexScreener narrative 'x402'"
    ],
    "warn": [
-    "barely trading ($983 in the last hour)"
+    "liquidity under 3% of market cap",
+    "Owner can mint more tokens",
+    "Top wallets hold 154%"
    ],
    "ment": {
     "biz": 0,
@@ -5518,29 +5502,32 @@
    "metas": [
     [
      "x402",
-     11.662036271946043
+     8.893463715231643
     ]
    ],
    "culture": null,
-   "cg_rank": null,
+   "cg_rank": 3,
    "on_cb": null,
    "sec": {
     "by": "GoPlus",
     "bad": [],
-    "warn": [],
-    "verdict": "pass",
-    "t": 1792397877.2916996
+    "warn": [
+     "Owner can mint more tokens",
+     "Top wallets hold 154%"
+    ],
+    "verdict": "caution",
+    "t": 1792382148.209267
    },
    "src": {
-    "dex_meta": 1
+    "dex_meta": 1,
+    "gt_trending": 2
    },
    "links": [
-    "https://dexter.cash",
-    "https://docs.dexter.cash",
-    "https://dexter.cash/facilitator",
-    "https://dexter.cash/sdk",
-    "https://x.com/dexteraisol",
-    "https://t.me/dexterdao"
+    "https://quackai.ai/",
+    "https://quackai.gitbook.io/docs",
+    "https://medium.com/@quackai",
+    "https://x.com/QuackAI_AI",
+    "https://t.me/QuackAIAnn"
    ],
    "desc": null,
    "score_6h": null,
@@ -5555,44 +5542,44 @@
    "chain": "solana",
    "address": "ApZuxdpzMrbEYTGEzeY9afh5pj9d6qPRJCTgQYiipbKg",
    "pair_url": "https://dexscreener.com/solana/g8kgi7aupex8evr8vmkrth9skev5bietwc33ujaiimgh",
-   "price": 0.002524,
-   "mcap": 1842466.0,
-   "liq": 514589.48,
+   "price": 0.002592,
+   "mcap": 1892528.0,
+   "liq": 521888.9,
    "vol": {
-    "m5": 36.06,
-    "h1": 10397.3,
-    "h6": 166846.33,
-    "h24": 319349.41
+    "m5": 956.34,
+    "h1": 12489.11,
+    "h6": 169334.16999999998,
+    "h24": 323042.00000000006
    },
    "chg": {
-    "m5": -0.08,
-    "h1": -4.59,
-    "h6": 6.48,
-    "h24": 32.63
+    "m5": 0.64,
+    "h1": -1.76,
+    "h6": 9.68,
+    "h24": 35.93
    },
    "txns": {
     "m5": [
-     2,
-     2
+     5,
+     3
     ],
     "h1": [
-     67,
-     74
+     76,
+     69
     ],
     "h6": [
-     700,
-     768
+     709,
+     767
     ],
     "h24": [
-     1584,
-     1733
+     1605,
+     1741
     ]
    },
    "created": 1786828046.0,
    "score": 0,
    "pts": {
     "momentum": 0.0,
-    "buyers": 0,
+    "buyers": 1.0,
     "chatter": 0,
     "narrative": 7.8,
     "room": 10,
@@ -5645,9 +5632,9 @@
    "chg24": -0.59046815689582,
    "chg1h": 0.2034,
    "chg7d": -21.6987,
-   "mcap": 13456029.0,
-   "vol_usd": 16357.5,
-   "volchg24": 30.59739774866984,
+   "mcap": 13442523.0,
+   "vol_usd": 16472.14,
+   "volchg24": 17.44960758281095,
    "spike": 6.842422006186,
    "new": false,
    "ment": {
@@ -5660,7 +5647,7 @@
    },
    "themes": [],
    "cg_rank": null,
-   "heat": 34,
+   "heat": 32,
    "why": [
     "last hour volume 6.8x normal"
    ]
@@ -5669,13 +5656,13 @@
    "symbol": "SHIB",
    "name": "Binance-Peg SHIB",
    "pid": "SHIB-USD",
-   "price": 5.02e-06,
-   "chg24": 1.41414141414141,
+   "price": 5.03e-06,
+   "chg24": 1.61616161616162,
    "chg1h": 0.1589,
    "chg7d": -8.7783,
-   "mcap": 46203279.0,
-   "vol_usd": 345049.21,
-   "volchg24": 100.62454058259534,
+   "mcap": 46270414.0,
+   "vol_usd": 346907.53,
+   "volchg24": 107.80521870302282,
    "spike": 2.0351772529213252,
    "new": false,
    "ment": {
@@ -5693,20 +5680,20 @@
    "heat": 27,
    "why": [
     "last hour volume 2.0x normal",
-    "24h volume +101% vs prior day"
+    "24h volume +108% vs prior day"
    ]
   },
   {
    "symbol": "FLOKI",
    "name": "FLOKI",
    "pid": "FLOKI-USD",
-   "price": 2.362e-05,
-   "chg24": 1.15631691648822,
+   "price": 2.367e-05,
+   "chg24": 0.89514066496164,
    "chg1h": 0.8427,
    "chg7d": -13.9542,
-   "mcap": 227717158.0,
-   "vol_usd": 116155.15,
-   "volchg24": 94.90989127224007,
+   "mcap": 228074057.0,
+   "vol_usd": 120822.9,
+   "volchg24": 101.11597895576858,
    "spike": 1.859310569369813,
    "new": false,
    "ment": {
@@ -5719,22 +5706,22 @@
    },
    "themes": [],
    "cg_rank": null,
-   "heat": 26,
+   "heat": 27,
    "why": [
-    "24h volume +95% vs prior day"
+    "24h volume +101% vs prior day"
    ]
   },
   {
    "symbol": "PUMP",
    "name": "Pump.fun",
    "pid": "PUMP-USD",
-   "price": 0.00448,
-   "chg24": 4.91803278688525,
+   "price": 0.004474,
+   "chg24": 4.97419052088221,
    "chg1h": -0.4045,
    "chg7d": -23.9409,
-   "mcap": 2068594075.0,
-   "vol_usd": 10177100.91,
-   "volchg24": 165.6503269789412,
+   "mcap": 2071263816.0,
+   "vol_usd": 10188230.35,
+   "volchg24": 166.76513632245667,
    "spike": 0.5669724424850824,
    "new": false,
    "ment": {
@@ -5749,7 +5736,7 @@
    "cg_rank": null,
    "heat": 25,
    "why": [
-    "24h volume +166% vs prior day",
+    "24h volume +167% vs prior day",
     "1 mentions in chatter"
    ]
   },
@@ -5757,13 +5744,13 @@
    "symbol": "PEPE",
    "name": "Pepe",
    "pid": "PEPE-USD",
-   "price": 4.1e-06,
-   "chg24": 6.21761658031088,
+   "price": 4.11e-06,
+   "chg24": 6.47668393782383,
    "chg1h": 0.6592,
    "chg7d": -3.8683,
-   "mcap": 1725998444.0,
-   "vol_usd": 1688506.63,
-   "volchg24": 32.73642005331832,
+   "mcap": 1725143073.0,
+   "vol_usd": 1725966.37,
+   "volchg24": 34.92677852004292,
    "spike": 2.1084274627689488,
    "new": false,
    "ment": {
@@ -5787,13 +5774,13 @@
    "symbol": "PENGU",
    "name": "Pudgy Penguins",
    "pid": "PENGU-USD",
-   "price": 0.007553,
-   "chg24": 2.19185495873359,
+   "price": 0.007545,
+   "chg24": 2.20807369276619,
    "chg1h": 0.0205,
    "chg7d": -7.7327,
-   "mcap": 475366815.0,
-   "vol_usd": 743159.83,
-   "volchg24": -33.23753177891082,
+   "mcap": 474551338.0,
+   "vol_usd": 749502.02,
+   "volchg24": -32.67126324716226,
    "spike": 1.8392681638292054,
    "new": false,
    "ment": {
@@ -5805,10 +5792,10 @@
     "n": 0
    },
    "themes": [],
-   "cg_rank": 3,
+   "cg_rank": 2,
    "heat": 24,
    "why": [
-    "#3 trending on CoinGecko"
+    "#2 trending on CoinGecko"
    ]
   },
   {
@@ -5816,12 +5803,12 @@
    "name": "SPX6900",
    "pid": "SPX-USD",
    "price": 0.3593,
-   "chg24": -0.80066261733849,
+   "chg24": -0.99200881785616,
    "chg1h": 0.2822,
    "chg7d": -6.0867,
-   "mcap": 334002283.0,
-   "vol_usd": 355606.17,
-   "volchg24": -25.79858265396294,
+   "mcap": 333790153.0,
+   "vol_usd": 347555.98,
+   "volchg24": -34.56267339402763,
    "spike": 2.868861181645721,
    "new": false,
    "ment": {
@@ -5847,9 +5834,9 @@
    "chg24": 0.0,
    "chg1h": 1.3225,
    "chg7d": -7.7852,
-   "mcap": 39974228.0,
-   "vol_usd": 131646.84,
-   "volchg24": 167.102514200198,
+   "mcap": 39909457.0,
+   "vol_usd": 132102.19,
+   "volchg24": 163.18276451912533,
    "spike": 0.2142950976332164,
    "new": false,
    "ment": {
@@ -5864,7 +5851,7 @@
    "cg_rank": null,
    "heat": 19,
    "why": [
-    "24h volume +167% vs prior day"
+    "24h volume +163% vs prior day"
    ]
   },
   {
@@ -5872,12 +5859,12 @@
    "name": "Moo Deng",
    "pid": "MOODENG-USD",
    "price": 0.037277,
-   "chg24": 1.21918105789074,
+   "chg24": 0.83585803938541,
    "chg1h": 0.4642,
    "chg7d": -13.4583,
-   "mcap": 36871932.0,
-   "vol_usd": 148528.69,
-   "volchg24": 196.22682792256566,
+   "mcap": 36881758.0,
+   "vol_usd": 152532.88,
+   "volchg24": 184.5206341814214,
    "spike": 0.0622758193436319,
    "new": false,
    "ment": {
@@ -5892,20 +5879,20 @@
    "cg_rank": null,
    "heat": 17,
    "why": [
-    "24h volume +196% vs prior day"
+    "24h volume +185% vs prior day"
    ]
   },
   {
    "symbol": "TURBO",
    "name": "Turbo",
    "pid": "TURBO-USD",
-   "price": 0.0008475,
-   "chg24": -1.73913043478261,
+   "price": 0.000842,
+   "chg24": -2.50115794349236,
    "chg1h": 0.2658,
    "chg7d": -15.6221,
-   "mcap": 58266068.0,
-   "vol_usd": 195546.49,
-   "volchg24": 361.0706368728154,
+   "mcap": 58128802.0,
+   "vol_usd": 193980.9,
+   "volchg24": 336.8494372826951,
    "spike": 0.05742281947899803,
    "new": false,
    "ment": {
@@ -5920,21 +5907,21 @@
    "cg_rank": null,
    "heat": 16,
    "why": [
-    "24h volume +361% vs prior day"
+    "24h volume +337% vs prior day"
    ]
   },
   {
    "symbol": "POPCAT",
    "name": "Popcat",
    "pid": "POPCAT-USD",
-   "price": 0.04437,
-   "chg24": -0.17997750281215,
+   "price": 0.0443,
+   "chg24": -0.42706226118229,
    "chg1h": 0.4139,
    "chg7d": -8.9714,
-   "mcap": 43404948.0,
-   "vol_usd": 158162.88,
-   "volchg24": 225.75227979309793,
-   "spike": 0.04975393189942215,
+   "mcap": 43448464.0,
+   "vol_usd": 157925.74,
+   "volchg24": 213.7804300107135,
+   "spike": 0.06735966172633868,
    "new": false,
    "ment": {
     "biz": 0,
@@ -5948,7 +5935,7 @@
    "cg_rank": null,
    "heat": 16,
    "why": [
-    "24h volume +226% vs prior day"
+    "24h volume +214% vs prior day"
    ]
   },
   {
@@ -5959,9 +5946,9 @@
    "chg24": -1.56605922551253,
    "chg1h": 0.4415,
    "chg7d": -10.7152,
-   "mcap": 34493012.0,
-   "vol_usd": 230436.05,
-   "volchg24": 225.01288928593405,
+   "mcap": 34454216.0,
+   "vol_usd": 231965.12,
+   "volchg24": 215.74912850340314,
    "spike": 0.23501870908683697,
    "new": false,
    "ment": {
@@ -5976,20 +5963,20 @@
    "cg_rank": null,
    "heat": 16,
    "why": [
-    "24h volume +225% vs prior day"
+    "24h volume +216% vs prior day"
    ]
   },
   {
    "symbol": "TRUMP",
    "name": "Official Trump",
    "pid": "TRUMP-USD",
-   "price": 1.7145,
-   "chg24": -0.94176103535937,
+   "price": 1.7134,
+   "chg24": -0.8047241359347,
    "chg1h": 0.7295,
    "chg7d": -11.4756,
-   "mcap": 483546252.0,
-   "vol_usd": 1142916.23,
-   "volchg24": 17.25260351783664,
+   "mcap": 483674814.0,
+   "vol_usd": 1130050.21,
+   "volchg24": 14.0058606294322,
    "spike": 0.5099245377316571,
    "new": false,
    "ment": {
@@ -6010,44 +5997,16 @@
    ]
   },
   {
-   "symbol": "WIF",
-   "name": "dogwifhat",
-   "pid": "WIF-USD",
-   "price": 0.20025,
-   "chg24": 2.16315494107443,
-   "chg1h": -0.0584,
-   "chg7d": -9.5788,
-   "mcap": 200003105.0,
-   "vol_usd": 441438.58,
-   "volchg24": 110.82252347455264,
-   "spike": 0.122733400937337,
-   "new": false,
-   "ment": {
-    "biz": 0,
-    "reddit": 0,
-    "news": 0,
-    "w": 0.0,
-    "heads": [],
-    "n": 0
-   },
-   "themes": [],
-   "cg_rank": null,
-   "heat": 12,
-   "why": [
-    "24h volume +111% vs prior day"
-   ]
-  },
-  {
    "symbol": "USELESS",
    "name": "Useless Coin",
    "pid": "USELESS-USD",
-   "price": 0.14413,
-   "chg24": -2.95583086453003,
+   "price": 0.14433,
+   "chg24": -2.72947836635665,
    "chg1h": -0.5248,
    "chg7d": -28.331,
-   "mcap": 144569010.0,
-   "vol_usd": 3494933.55,
-   "volchg24": 46.53082108459349,
+   "mcap": 144271771.0,
+   "vol_usd": 3505252.19,
+   "volchg24": 45.90902948968713,
    "spike": 0.4400406889907849,
    "new": false,
    "ment": {
@@ -6069,13 +6028,13 @@
    "symbol": "FARTCOIN",
    "name": "Fartcoin",
    "pid": "FARTCOIN-USD",
-   "price": 0.14694,
-   "chg24": 0.46492547518118,
+   "price": 0.14646,
+   "chg24": 0.27386005751061,
    "chg1h": 0.3498,
    "chg7d": -13.1893,
-   "mcap": 146603744.0,
-   "vol_usd": 1534995.45,
-   "volchg24": 82.71000553136955,
+   "mcap": 146502567.0,
+   "vol_usd": 1520171.33,
+   "volchg24": 81.12669731621982,
    "spike": 0.7720116313273031,
    "new": false,
    "ment": {
@@ -6088,51 +6047,23 @@
    },
    "themes": [],
    "cg_rank": null,
-   "heat": 10,
+   "heat": 9,
    "why": [
-    "24h volume +83% vs prior day"
+    "24h volume +81% vs prior day"
    ]
   },
   {
    "symbol": "PNUT",
    "name": "Peanut the Squirrel",
    "pid": "PNUT-USD",
-   "price": 0.04354,
-   "chg24": -0.43448433569632,
+   "price": 0.04363,
+   "chg24": -0.5697356426618,
    "chg1h": 0.2136,
    "chg7d": -15.4003,
-   "mcap": 43621452.0,
-   "vol_usd": 82189.25,
-   "volchg24": 95.48981566116966,
+   "mcap": 43629204.0,
+   "vol_usd": 83036.7,
+   "volchg24": 85.08839858837362,
    "spike": 0.03028904829085815,
-   "new": false,
-   "ment": {
-    "biz": 0,
-    "reddit": 0,
-    "news": 0,
-    "w": 0.0,
-    "heads": [],
-    "n": 0
-   },
-   "themes": [],
-   "cg_rank": null,
-   "heat": 10,
-   "why": [
-    "24h volume +95% vs prior day"
-   ]
-  },
-  {
-   "symbol": "DRB",
-   "name": "DebtReliefBot",
-   "pid": "DRB-USD",
-   "price": 0.0001597,
-   "chg24": -1.23685837971552,
-   "chg1h": 0.098,
-   "chg7d": -20.0582,
-   "mcap": 15928363.0,
-   "vol_usd": 110006.01,
-   "volchg24": 84.52579332064877,
-   "spike": 0.6717728061653078,
    "new": false,
    "ment": {
     "biz": 0,
@@ -6150,6 +6081,34 @@
    ]
   },
   {
+   "symbol": "DRB",
+   "name": "DebtReliefBot",
+   "pid": "DRB-USD",
+   "price": 0.0001597,
+   "chg24": -1.72307692307692,
+   "chg1h": 0.098,
+   "chg7d": -20.0582,
+   "mcap": 16130459.0,
+   "vol_usd": 110179.97,
+   "volchg24": 81.1934089224169,
+   "spike": 0.6717728061653078,
+   "new": false,
+   "ment": {
+    "biz": 0,
+    "reddit": 0,
+    "news": 0,
+    "w": 0.0,
+    "heads": [],
+    "n": 0
+   },
+   "themes": [],
+   "cg_rank": null,
+   "heat": 8,
+   "why": [
+    "24h volume +81% vs prior day"
+   ]
+  },
+  {
    "symbol": "BASECAT",
    "name": "Basecat",
    "pid": "BASECAT-USD",
@@ -6157,9 +6116,9 @@
    "chg24": -6.00461893764434,
    "chg1h": -3.9099,
    "chg7d": -20.5866,
-   "mcap": 12287215.0,
-   "vol_usd": 153111.63,
-   "volchg24": 46.50539126212583,
+   "mcap": 12267791.0,
+   "vol_usd": 153204.83,
+   "volchg24": 44.30670266890887,
    "spike": 1.1978342806584208,
    "new": false,
    "ment": {
@@ -6172,7 +6131,33 @@
    },
    "themes": [],
    "cg_rank": null,
-   "heat": 9,
+   "heat": 8,
+   "why": []
+  },
+  {
+   "symbol": "WIF",
+   "name": "dogwifhat",
+   "pid": "WIF-USD",
+   "price": 0.2004,
+   "chg24": 1.91730661648782,
+   "chg1h": -0.0584,
+   "chg7d": -9.5788,
+   "mcap": 200129591.0,
+   "vol_usd": 443559.42,
+   "volchg24": 46.85525959127831,
+   "spike": 0.122733400937337,
+   "new": false,
+   "ment": {
+    "biz": 0,
+    "reddit": 0,
+    "news": 0,
+    "w": 0.0,
+    "heads": [],
+    "n": 0
+   },
+   "themes": [],
+   "cg_rank": null,
+   "heat": 6,
    "why": []
   },
   {
@@ -6180,12 +6165,12 @@
    "name": "Artificial Inu",
    "pid": "AI-USD",
    "price": 0.01693,
-   "chg24": -2.47695852534562,
+   "chg24": -2.9243119266055,
    "chg1h": -1.9433,
    "chg7d": -22.2856,
-   "mcap": 79544673.0,
-   "vol_usd": 27171.14,
-   "volchg24": 55.38800260640312,
+   "mcap": 79055698.0,
+   "vol_usd": 27179.25,
+   "volchg24": 52.1653412699165,
    "spike": 0.16143594264976682,
    "new": false,
    "ment": {
@@ -6201,22 +6186,22 @@
     "ai"
    ],
    "cg_rank": null,
-   "heat": 6,
+   "heat": 5,
    "why": [
-    "24h volume +55% vs prior day"
+    "24h volume +52% vs prior day"
    ]
   },
   {
    "symbol": "TOSHI",
    "name": "Toshi",
    "pid": "TOSHI-USD",
-   "price": 0.00011,
-   "chg24": 2.16401968979289,
+   "price": 0.00011018,
+   "chg24": 2.24573125463994,
    "chg1h": -0.7026,
    "chg7d": -4.2902,
-   "mcap": 46303462.0,
-   "vol_usd": 234412.66,
-   "volchg24": 21.96709672682704,
+   "mcap": 46333059.0,
+   "vol_usd": 234452.8,
+   "volchg24": 20.01508480663915,
    "spike": 0.49093301602394623,
    "new": false,
    "ment": {
@@ -6236,13 +6221,13 @@
    "symbol": "DOGE",
    "name": "Binance-Peg Dogecoin",
    "pid": "DOGE-USD",
-   "price": 0.07962,
-   "chg24": 0.95093191327501,
+   "price": 0.07979,
+   "chg24": 1.30777044184865,
    "chg1h": 0.1154,
    "chg7d": -9.1365,
-   "mcap": 204167343.0,
-   "vol_usd": 5293706.29,
-   "volchg24": 6.23687460224672,
+   "mcap": 204491456.0,
+   "vol_usd": 5292880.63,
+   "volchg24": 5.72594361559702,
    "spike": 0.59348969627744,
    "new": false,
    "ment": {
@@ -6257,20 +6242,20 @@
     "animals"
    ],
    "cg_rank": null,
-   "heat": 1,
+   "heat": 2,
    "why": []
   },
   {
    "symbol": "BONK",
    "name": "Bonk",
    "pid": "BONK-USD",
-   "price": 2.96e-06,
-   "chg24": 0.33898305084746,
+   "price": 2.97e-06,
+   "chg24": 1.02040816326531,
    "chg1h": 0.1989,
    "chg7d": -14.7185,
-   "mcap": 260622213.0,
-   "vol_usd": 766237.95,
-   "volchg24": -0.70026404565671,
+   "mcap": 260667559.0,
+   "vol_usd": 767532.92,
+   "volchg24": -1.6405806918443,
    "spike": 0.40983601387828783,
    "new": false,
    "ment": {
@@ -6293,12 +6278,12 @@
    "name": "Degen",
    "pid": "DEGEN-USD",
    "price": 0.00098,
-   "chg24": 1.2396694214876,
+   "chg24": 2.08333333333333,
    "chg1h": 0.0401,
    "chg7d": -2.326,
-   "mcap": 35325952.0,
-   "vol_usd": 135547.26,
-   "volchg24": -35.72773098644186,
+   "mcap": 35272338.0,
+   "vol_usd": 133019.77,
+   "volchg24": -38.41706656751534,
    "spike": 0.13441731742922808,
    "new": false,
    "ment": {
@@ -6318,13 +6303,13 @@
    "symbol": "GIGA",
    "name": "Gigachad",
    "pid": "GIGA-USD",
-   "price": 0.001874,
-   "chg24": -1.41511915408491,
+   "price": 0.0018753,
+   "chg24": -1.23762376237624,
    "chg1h": -0.0482,
    "chg7d": -7.2718,
-   "mcap": 17989675.0,
-   "vol_usd": 107374.58,
-   "volchg24": -12.43819350698466,
+   "mcap": 18021547.0,
+   "vol_usd": 107578.91,
+   "volchg24": -13.19919255583067,
    "spike": 0.7136855597253184,
    "new": false,
    "ment": {
@@ -6346,214 +6331,223 @@
    "name": "x402",
    "slug": "x402",
    "desc": "The internet-native payment protocol",
-   "mcap": 655161237.0,
-   "liq": 5756498.12,
-   "vol": 4604579.64,
+   "mcap": 640895245.0,
+   "liq": 5754400.24,
+   "vol": 4625431.04,
    "tokens": 16,
    "chg": {
-    "h1": -0.7694417800535616,
-    "h6": 11.662036271946043,
-    "h24": -7.06408422444567
+    "h1": 0.1423998689989727,
+    "h6": 8.893463715231643,
+    "h24": -10.68199401970214
    }
   },
   {
    "name": "Internet Animals",
    "slug": "internet-animals",
    "desc": "Famous both online and on-chain",
-   "mcap": 91019632.0,
-   "liq": 8166766.69,
-   "vol": 818073.1,
+   "mcap": 91035285.0,
+   "liq": 8167129.52,
+   "vol": 815766.77,
    "tokens": 45,
    "chg": {
-    "h1": 2.4871470002695353,
-    "h6": 3.795180994058641,
-    "h24": 2.711082284637064
+    "h1": -0.7480137596659948,
+    "h6": 3.560128275957272,
+    "h24": 2.8041134548747513
    }
   },
   {
    "name": "NFT",
    "slug": "nft",
    "desc": "JPEGs turned fungible",
-   "mcap": 913599688.0,
-   "liq": 21231275.72,
-   "vol": 9021805.1,
+   "mcap": 911032948.0,
+   "liq": 21183112.62,
+   "vol": 9090986.58,
    "tokens": 9,
    "chg": {
-    "h1": -1.1145978685253197,
-    "h6": 2.4331274401147844,
-    "h24": 3.6087678595074406
-   }
-  },
-  {
-   "name": "TikTok",
-   "slug": "tiktok",
-   "desc": "If it trends, it trades",
-   "mcap": 12311715.0,
-   "liq": 2687022.28,
-   "vol": 308030.81,
-   "tokens": 49,
-   "chg": {
-    "h1": 0.847701451201333,
-    "h6": 1.4267010664377076,
-    "h24": -1.1760919902246803
+    "h1": -0.648757063758671,
+    "h6": 1.9435174099177943,
+    "h24": 3.38920926996889
    }
   },
   {
    "name": "Cat",
    "slug": "cat",
    "desc": "pspspspspsp",
-   "mcap": 590861968.0,
-   "liq": 51898596.28,
-   "vol": 12224970.96,
+   "mcap": 591208275.0,
+   "liq": 51975779.91,
+   "vol": 12238190.06,
    "tokens": 102,
    "chg": {
-    "h1": -0.4639411823307207,
-    "h6": 1.400209945785626,
-    "h24": 1.0805266221361722
-   }
-  },
-  {
-   "name": "Brainrot",
-   "slug": "brainrot",
-   "desc": "Historians will struggle with this",
-   "mcap": 7924060.0,
-   "liq": 1505455.59,
-   "vol": 232734.22,
-   "tokens": 38,
-   "chg": {
-    "h1": 0.43937330361728155,
-    "h6": 1.3048269480120518,
-    "h24": 0.8482649299602338
-   }
-  },
-  {
-   "name": "Slang",
-   "slug": "slang",
-   "desc": "How do you do, fellow kids?",
-   "mcap": 43894876.0,
-   "liq": 6444451.79,
-   "vol": 245709.3,
-   "tokens": 12,
-   "chg": {
-    "h1": 0.7159193416767056,
-    "h6": 1.1392718590509545,
-    "h24": 1.6741435226350212
+    "h1": -0.2602165387407621,
+    "h6": 1.6023545835862605,
+    "h24": 1.1602223600449566
    }
   },
   {
    "name": "Character",
    "slug": "character",
    "desc": "Crypto native characters and mascots",
-   "mcap": 2502442882.0,
-   "liq": 67308096.48,
-   "vol": 3492285.57,
+   "mcap": 2502781599.0,
+   "liq": 67331747.25,
+   "vol": 3503475.69,
    "tokens": 43,
    "chg": {
-    "h1": 0.11125522253160595,
-    "h6": 1.12714596555576,
-    "h24": 4.386637941208202
+    "h1": -0.051493738012816585,
+    "h6": 1.0070288807281198,
+    "h24": 4.418562105177904
    }
   },
   {
-   "name": "Degen",
-   "slug": "degen",
-   "desc": "Chaos, degeneracy and commitment",
-   "mcap": 375623429.0,
-   "liq": 23541809.21,
-   "vol": 3312005.17,
-   "tokens": 34,
+   "name": "Slang",
+   "slug": "slang",
+   "desc": "How do you do, fellow kids?",
+   "mcap": 43845966.0,
+   "liq": 6443654.92,
+   "vol": 247796.31,
+   "tokens": 12,
    "chg": {
-    "h1": -0.11056270454025724,
-    "h6": 0.8878053532890706,
-    "h24": -0.1564969517260386
-   }
-  },
-  {
-   "name": "Meme Hall of Fame",
-   "slug": "meme-hall-of-fame",
-   "desc": "Established memes, enduring communities",
-   "mcap": 3868434569.0,
-   "liq": 175185163.23,
-   "vol": 13404341.88,
-   "tokens": 59,
-   "chg": {
-    "h1": 0.027591750248186338,
-    "h6": 0.8702128809625382,
-    "h24": 2.7683440049208334
-   }
-  },
-  {
-   "name": "Dog",
-   "slug": "dog",
-   "desc": "Furry friends and funny memes",
-   "mcap": 1003153036.0,
-   "liq": 66694675.56,
-   "vol": 12341050.12,
-   "tokens": 72,
-   "chg": {
-    "h1": 0.12890396503575252,
-    "h6": 0.5458662408999609,
-    "h24": 0.7640806305166192
+    "h1": 0.3803083427057224,
+    "h6": 0.9396465076836736,
+    "h24": 1.2521704977768653
    }
   },
   {
    "name": "Elon Musk",
    "slug": "elon-musk",
    "desc": "All roads lead to Rocketman",
-   "mcap": 49337959.0,
-   "liq": 11604095.61,
-   "vol": 189699.74,
+   "mcap": 49640699.0,
+   "liq": 11654419.01,
+   "vol": 215764.39,
    "tokens": 39,
    "chg": {
-    "h1": 0.128278029991709,
-    "h6": 0.1916085681995504,
-    "h24": 1.0692784752383224
+    "h1": 0.6154386655291821,
+    "h6": 0.8496426223312082,
+    "h24": 1.6692852563365628
+   }
+  },
+  {
+   "name": "Meme Hall of Fame",
+   "slug": "meme-hall-of-fame",
+   "desc": "Established memes, enduring communities",
+   "mcap": 3869638106.0,
+   "liq": 175285271.04,
+   "vol": 13426367.5,
+   "tokens": 59,
+   "chg": {
+    "h1": -0.09555783629661589,
+    "h6": 0.7471701541722221,
+    "h24": 2.828624071694578
+   }
+  },
+  {
+   "name": "TikTok",
+   "slug": "tiktok",
+   "desc": "If it trends, it trades",
+   "mcap": 12293060.0,
+   "liq": 2688192.54,
+   "vol": 309534.85,
+   "tokens": 49,
+   "chg": {
+    "h1": 0.09398942536673652,
+    "h6": 0.5013097128547054,
+    "h24": -1.2547722082742696
+   }
+  },
+  {
+   "name": "Dog",
+   "slug": "dog",
+   "desc": "Furry friends and funny memes",
+   "mcap": 1004064062.0,
+   "liq": 66742257.51,
+   "vol": 12401154.2,
+   "tokens": 72,
+   "chg": {
+    "h1": 0.0924098010052489,
+    "h6": 0.4863545808142424,
+    "h24": 0.7912947645123544
+   }
+  },
+  {
+   "name": "Degen",
+   "slug": "degen",
+   "desc": "Chaos, degeneracy and commitment",
+   "mcap": 375082727.0,
+   "liq": 23528488.3,
+   "vol": 3311752.57,
+   "tokens": 34,
+   "chg": {
+    "h1": -0.6337663274522386,
+    "h6": 0.442124737115226,
+    "h24": -0.28581352091356027
    }
   },
   {
    "name": "AI",
    "slug": "ai",
    "desc": "Artificial intelligence and agents",
-   "mcap": 1964283427.0,
-   "liq": 59705699.61,
-   "vol": 15850532.46,
-   "tokens": 66,
+   "mcap": 1968718870.0,
+   "liq": 59736450.24,
+   "vol": 15886422.07,
+   "tokens": 67,
    "chg": {
-    "h1": -0.0424666478804591,
-    "h6": -0.015731298974675553,
-    "h24": -0.4616126613501459
+    "h1": 0.03397733250371097,
+    "h6": 0.13036408418563436,
+    "h24": -0.2517001988600954
    }
   },
   {
-   "name": "Celebrity",
-   "slug": "celebrity",
-   "desc": "This has never backfired",
-   "mcap": 892042354.0,
-   "liq": 71111818.51,
-   "vol": 5421863.81,
-   "tokens": 7,
+   "name": "Knockoff Legends",
+   "slug": "knockoff-legends",
+   "desc": "Temu version, MS Paint edition",
+   "mcap": 3776921.0,
+   "liq": 1440337.85,
+   "vol": 31824.8,
+   "tokens": 33,
    "chg": {
-    "h1": -0.021129202623844764,
-    "h6": -0.36014179456421924,
-    "h24": -0.3367367076611148
+    "h1": -0.5717955203943726,
+    "h6": -0.3582187437780009,
+    "h24": -2.7225223847892077
    }
   },
   {
    "name": "Trump",
    "slug": "trump",
    "desc": "That guy from The Apprentice",
-   "mcap": 6138158097.0,
-   "liq": 38757365.8,
-   "vol": 5458388.63,
+   "mcap": 6137780980.0,
+   "liq": 38757254.96,
+   "vol": 5458877.59,
    "tokens": 6,
    "chg": {
-    "h1": -0.14576746941706137,
-    "h6": -0.42725637191951044,
-    "h24": 0.27401499559865033
+    "h1": -0.036274902573892945,
+    "h6": -0.4748576096194578,
+    "h24": 0.2824137410969435
+   }
+  },
+  {
+   "name": "Brainrot",
+   "slug": "brainrot",
+   "desc": "Historians will struggle with this",
+   "mcap": 7878996.0,
+   "liq": 1503818.4,
+   "vol": 234868.14,
+   "tokens": 38,
+   "chg": {
+    "h1": -0.7859077910609965,
+    "h6": -0.510858901670003,
+    "h24": 0.4129501368336058
    }
   }
  ],
  "trends": [
+  {
+   "term": "va",
+   "traffic": "2000+",
+   "news": [
+    "Social Security Announces 3.6 Percent Benefit Increase for 2027",
+    "The Social Security COLA for 2027 is set. Here's what experts say you need to know"
+   ],
+   "coins": []
+  },
   {
    "term": "ocarina of time remake switch 2",
    "traffic": "1000+",
@@ -6564,20 +6558,20 @@
    "coins": []
   },
   {
-   "term": "what",
-   "traffic": "500+",
+   "term": "katie boulter",
+   "traffic": "1000+",
    "news": [
-    "Here\u2019s What a $10,000 Investment in Nvidia Stock Will Be Worth by 2030",
-    "$3,000 Split Across Nvidia, Broadcom, and TSMC Could Be Worth This Much by 2030"
+    "Tennis bad boy batters racket and cuts hand\u2026 then wins",
+    "Andy Roddick\u2019s Unfiltered Take on Frances Tiafoe and Alexander Bublik\u2019s Angry Meltdowns"
    ],
    "coins": []
   },
   {
-   "term": "katie boulter",
+   "term": "strait of hormuz news",
    "traffic": "200+",
    "news": [
-    "Are Katie Boulter's parents still married? What we know about David and Susan Boulter",
-    "Katie Boulter's Parents Divorced as Family Supports Tennis Career"
+    "Iran urges US to accept proposal to reopen Strait of Hormuz",
+    "Live Updates: Iran says Strait of Hormuz reopening, seven-day ceasefire conditions still on the table"
    ],
    "coins": []
   },
@@ -6586,7 +6580,7 @@
    "traffic": "200+",
    "news": [
     "Rioters loot stores, set fires in central Milan during cost-of-living protest",
-    "Milan police clash with protesters on second day of unrest"
+    "More than 200 arrested in second day of street clashes against cost of living in Milan"
    ],
    "coins": []
   },
@@ -6594,8 +6588,8 @@
    "term": "john j griffin ii",
    "traffic": "200+",
    "news": [
-    "What we know about the investigation into the Bend school shooting",
-    "Bend man who halted Silver Rail Elementary shooter called to tell his mother: 'I shot and killed him, mom'"
+    "Questions about motive remain after Bend school shooting",
+    "What we know about the investigation into the Bend school shooting"
    ],
    "coins": []
   },
@@ -6605,15 +6599,6 @@
    "news": [
     "Kevin Bacon pleads for help recovering missing FedEx package rerouted multiple times around the globe",
     "Kevin Bacon pleads for help after suffering heartbreaking personal loss \u2014 watch emotional new video"
-   ],
-   "coins": []
-  },
-  {
-   "term": "dakorien moore",
-   "traffic": "200+",
-   "news": [
-    "Dylan Raiola, one week after benching, rallies Oregon past former team Nebraska",
-    "Nebraska Comes Up Short in Late Loss at Oregon - University of Nebraska - Official Athletics Website"
    ],
    "coins": []
   },
@@ -6630,8 +6615,8 @@
    "term": "boss",
    "traffic": "100+",
    "news": [
-    "Salman Khan will NOT host Bigg Boss 20's next Weekend Ka Vaar due to prior commitments",
-    "Bigg Boss 20: Salman Khan to skip next Weekend Ka Vaar?"
+    "Rohit Shetty Expected To Host New Bigg Boss 20 Weekend Episode",
+    "Salman Khan will NOT host Bigg Boss 20's next Weekend Ka Vaar due to prior commitments"
    ],
    "coins": []
   },
@@ -6640,7 +6625,7 @@
    "traffic": "100+",
    "news": [
     "Philippines Summons China Envoy Over \u2018Use of Force\u2019 Threat",
-    "Philippines summons China's envoy over remarks conveying 'threat'"
+    "Philippines protests Chinese envoy\u2019s remarks, calling them a \u2018thinly veiled threat\u2019"
    ],
    "coins": []
   }
@@ -6660,7 +6645,7 @@
    "date": "2026-11-03",
    "event": "US midterm elections",
    "days": 15,
-   "heads": 10,
+   "heads": 8,
    "coins": [
     "bsc:0x4cfaccd32b9ec2f1e5680f63bae2ff198c4f573b",
     "solana:DS8nzMM3Mf5j5gWbCUGw9Sx6Q52Aaaw2sbijxsZWc51X"
@@ -6674,8 +6659,8 @@
    "coins": [
     "solana:nxPqZ4F7ux8Vph5NFu25rEP6Kx9Gr1U6Fmj36Rjpump",
     "solana:Cr8kuNqKwiVVuzqLYKcJhmpSHy767837BwLFr9GDYXUf",
-    "solana:2gVNeu8dP7XiLoaWfUvUJXUM5AdXY8418aft8xhUpump",
     "solana:4kjruqGHDsSqkMdFfCjV7Vb62HPFhtXyWc2t6JpQzDnz",
+    "solana:2gVNeu8dP7XiLoaWfUvUJXUM5AdXY8418aft8xhUpump",
     "solana:BsbsB3WLq7vbY5En3MBCAsTrcwaCxNKY2Mp5pGuLpump",
     "solana:EaxAUcXxNnVwcqm2BBocbows7D1XVY2Q63V38NEypump",
     "solana:DKYcjobF7HPtL9RyQBRdeRQ2iWvizpfbgWwPWNXdpump",
@@ -6699,39 +6684,39 @@
  ],
  "cg_trending": [
   {
-   "id": "quack-ai",
-   "symbol": "Q",
-   "name": "Quack AI",
+   "id": "pearl-2",
+   "symbol": "PRL",
+   "name": "Pearl",
    "rank": 1
-  },
-  {
-   "id": "injective-protocol",
-   "symbol": "INJ",
-   "name": "Injective",
-   "rank": 2
   },
   {
    "id": "pudgy-penguins",
    "symbol": "PENGU",
    "name": "Pudgy Penguins",
+   "rank": 2
+  },
+  {
+   "id": "quack-ai",
+   "symbol": "Q",
+   "name": "Quack AI",
    "rank": 3
   },
   {
-   "id": "pearl-2",
-   "symbol": "PRL",
-   "name": "Pearl",
+   "id": "injective-protocol",
+   "symbol": "INJ",
+   "name": "Injective",
    "rank": 4
-  },
-  {
-   "id": "hyperliquid",
-   "symbol": "HYPE",
-   "name": "Hyperliquid",
-   "rank": 5
   },
   {
    "id": "starknet",
    "symbol": "STRK",
    "name": "Starknet",
+   "rank": 5
+  },
+  {
+   "id": "hyperliquid",
+   "symbol": "HYPE",
+   "name": "Hyperliquid",
    "rank": 6
   },
   {
@@ -6747,72 +6732,72 @@
    "rank": 8
   },
   {
-   "id": "sui",
-   "symbol": "SUI",
-   "name": "Sui",
-   "rank": 9
-  },
-  {
    "id": "near",
    "symbol": "NEAR",
    "name": "NEAR Protocol",
-   "rank": 10
+   "rank": 9
   },
   {
    "id": "worldcoin-wld",
    "symbol": "WLD",
    "name": "Worldcoin",
-   "rank": 11
+   "rank": 10
   },
   {
    "id": "celestia",
    "symbol": "TIA",
    "name": "Celestia",
-   "rank": 12
-  },
-  {
-   "id": "uniswap",
-   "symbol": "UNI",
-   "name": "Uniswap",
-   "rank": 13
+   "rank": 11
   },
   {
    "id": "layerzero",
    "symbol": "ZRO",
    "name": "LayerZero",
+   "rank": 12
+  },
+  {
+   "id": "pons",
+   "symbol": "PONS",
+   "name": "Pons",
+   "rank": 13
+  },
+  {
+   "id": "uniswap",
+   "symbol": "UNI",
+   "name": "Uniswap",
    "rank": 14
   },
   {
-   "id": "ripple",
-   "symbol": "XRP",
-   "name": "XRP",
+   "id": "sui",
+   "symbol": "SUI",
+   "name": "Sui",
    "rank": 15
   }
  ],
  "cg_categories": [
   {
    "name": "Optimism Superchain Ecosystem",
-   "chg24": 3.336231252202203
+   "chg24": 3.352141088300885
   },
   {
    "name": "Decentralized Identifier (DID)",
-   "chg24": 2.740619114857609
+   "chg24": 2.775665794459558
   },
   {
-   "name": "Rollup",
-   "chg24": 3.820599089764486
+   "name": "Yield Farming",
+   "chg24": 0.14470233495433538
   },
   {
-   "name": "AI Applications",
-   "chg24": -0.23902567866882887
+   "name": "Base Native",
+   "chg24": 0.36372273152839335
   },
   {
-   "name": "Binance Launchpool",
-   "chg24": 2.811368789411917
+   "name": "Proof of Stake (PoS)",
+   "chg24": 1.173239590134168
   },
   {
-   "name": "SideChain",
-   "chg24": -2.5707720176986735
+   "name": "Binance Alpha Spotlight",
+   "chg24": -0.4737278235675774
   }
  ],
  "cb_new": [
@@ -6830,11 +6815,11 @@
   ]
  ],
  "n_docs": {
-  "biz": 1026,
+  "biz": 1020,
   "reddit": 1,
-  "news": 247
+  "news": 249
  },
- "secs": 50.0,
+ "secs": 41.9,
  "debug": {
   "cashtags": [
    [
@@ -6857,7 +6842,7 @@
    ],
    [
     "GME",
-    6
+    5
    ],
    [
     "DTCC",
@@ -6876,18 +6861,6 @@
     3
    ],
    [
-    "MONDAY",
-    2
-   ],
-   [
-    "ITM",
-    2
-   ],
-   [
-    "FDIC",
-    2
-   ],
-   [
     "DRS",
     2
    ],
@@ -6896,7 +6869,19 @@
     2
    ],
    [
+    "FDIC",
+    2
+   ],
+   [
+    "ITM",
+    2
+   ],
+   [
     "DSPP",
+    2
+   ],
+   [
+    "WOEVY",
     2
    ],
    [
@@ -6908,7 +6893,7 @@
     2
    ],
    [
-    "WOEVY",
+    "MONDAY",
     2
    ],
    [
@@ -6972,10 +6957,6 @@
     2
    ],
    [
-    "BAT",
-    2
-   ],
-   [
     "SOLICITING",
     1
    ],
@@ -6984,19 +6965,35 @@
     1
    ],
    [
-    "EVERYONE",
-    1
-   ],
-   [
-    "WAKE",
-    1
-   ],
-   [
     "TRLV",
     1
    ],
    [
     "JBW",
+    1
+   ],
+   [
+    "BRIGHT",
+    1
+   ],
+   [
+    "PHOENIX",
+    1
+   ],
+   [
+    "MID",
+    1
+   ],
+   [
+    "DECEMBER",
+    1
+   ],
+   [
+    "EVERYONE",
+    1
+   ],
+   [
+    "WAKE",
     1
    ],
    [
@@ -7020,27 +7017,11 @@
     1
    ],
    [
-    "PHOENIX",
-    1
-   ],
-   [
-    "BRIGHT",
-    1
-   ],
-   [
     "WOAT",
     1
    ],
    [
     "X1C",
-    1
-   ],
-   [
-    "MINING",
-    1
-   ],
-   [
-    "WEBSITE",
     1
    ],
    [
@@ -7052,14 +7033,6 @@
     1
    ],
    [
-    "GUI",
-    1
-   ],
-   [
-    "OFFICIAL",
-    1
-   ],
-   [
     "CLI",
     1
    ],
@@ -7068,23 +7041,35 @@
     1
    ],
    [
+    "MINING",
+    1
+   ],
+   [
+    "GUI",
+    1
+   ],
+   [
+    "WEBSITE",
+    1
+   ],
+   [
     "STORAGE",
     1
    ],
    [
-    "REKT",
-    1
-   ],
-   [
-    "DECEMBER",
-    1
-   ],
-   [
-    "MID",
+    "OFFICIAL",
     1
    ],
    [
     "NLCA",
+    1
+   ],
+   [
+    "BRICS",
+    1
+   ],
+   [
+    "CCIP",
     1
    ]
   ],
