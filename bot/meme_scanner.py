@@ -1129,6 +1129,16 @@ def write_page(ctx):
         h.extend(card(i + 1, c) for i, c in enumerate(top))
     else:
         h.append("<p class=muted>No coin scored high enough this scan.</p>")
+    # your positions
+    pos = ctx.get("positions") or []
+    if pos:
+        h.append("<h2>Your positions</h2><p class='muted small'>Entry price and exit plan only (this repo is public, so no amounts). "
+                 "The watcher checks these every minute and pushes the alert when a level is hit.</p>"
+                 "<div class=wrap><table><tr><th>Coin</th><th class=n>Entry</th><th class=n>Now</th><th class=n>High</th><th>Next action</th></tr>")
+        for r in pos:
+            h.append(f"<tr><td><a href='{esc(r['url'])}' target=_blank rel=noopener><b>${esc(r['symbol'])}</b></a></td><td class=n>{price_s(r['entry'])}</td>"
+                     f"<td class=n>{price_s(r['now'])} <span class=muted>({r['mult']:.2f}x)</span></td><td class=n>{r['peak_x']:.2f}x</td><td class=small>{esc(r['next'])}</td></tr>")
+        h.append("</table></div>")
     # alerts
     al, on, wl = ctx.get("alerts") or [], ctx.get("alerts_on"), ctx.get("watch_last")
     h.append("<h2>Phone alerts</h2>")
@@ -1660,8 +1670,20 @@ def main():
         cur = C.get(x.get("coin") or "", {}).get("price") or (cbprods.get((x.get("coin") or "")[3:], {}).get("price") if (x.get("coin") or "").startswith("cb:") else None)
         x["since"] = (cur / x["price"] - 1) * 100 if cur and x.get("price") else None
 
+    positions = []
+    for p in load("my_positions.json", []):
+        k, e = ckey(p["chain"], p["address"]), p["entry"]
+        st = (watchd.get("positions") or {}).get(f"{k}:{e}", {})
+        now_px = C.get(k, {}).get("price") or st.get("last") or e
+        peak = max(st.get("peak", e), now_px)
+        trail, half_x, stop_x = p.get("trail", 0.40), p.get("sell_half_at", 2.0), p.get("stop_at", 1.0)
+        nxt = (f"Half sold at the 2x alert; sell the rest if it drops to {price_s(peak * (1 - trail))} ({trail * 100:.0f}% off the high)" if st.get("half")
+               else f"Sell half at {price_s(e * half_x)} ({half_x:.0f}x); sell all if it falls back to {price_s(e * stop_x)}")
+        positions.append({"symbol": p["symbol"], "url": p.get("url") or f"https://dexscreener.com/{p['chain']}/{p['address']}", "entry": e,
+                          "now": now_px, "mult": now_px / e, "peak_x": peak / e, "next": nxt})
+
     n_ok = sum(1 for v in HEALTH.values() if v["ok"])
-    page_ctx = {"alerts": alog[:12], "alerts_on": bool(notify.TOPIC), "watch_last": watchd.get("last_poll"), "top": top, "cbm": cbm, "metas": metas, "trends": trends, "chat": chat, "ledger": ledger, "flagged": flagged,
+    page_ctx = {"positions": positions, "alerts": alog[:12], "alerts_on": bool(notify.TOPIC), "watch_last": watchd.get("last_poll"), "top": top, "cbm": cbm, "metas": metas, "trends": trends, "chat": chat, "ledger": ledger, "flagged": flagged,
                 "catalysts": cats, "cg_categories": cg_categories, "cb_new": cb_new, "n_scanned": len(live), "n_sources": len(HEALTH),
                 "n_sources_ok": n_ok, "secs": time.time() - START}
     write_page(page_ctx)

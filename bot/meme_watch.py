@@ -51,6 +51,13 @@ def build_watch(scan, picks, ledger, book):
                 "address": p["address"], "url": p.get("url") or f"https://dexscreener.com/{p['chain']}/{p['address']}",
                 "role": "pick", "entry": (t or {}).get("entry"), "entry_t": (t or {}).get("t"), "ref_liq": w.get(k, {}).get("ref_liq", 0),
                 "news_name": re.sub(r"\s*\(.*?\)", "", p.get("name") or p["symbol"]).strip()}
+    # your real positions (docs/meme/my_positions.json): entry price + exit plan, no dollar amounts
+    for p in load("my_positions.json", []):
+        k = ms.ckey(p["chain"], p["address"])
+        cur = w.get(k, {})
+        w[k] = {**cur, "key": k, "symbol": p["symbol"], "name": p.get("name") or p["symbol"], "chain": p["chain"], "address": p["address"],
+                "url": p.get("url") or cur.get("url") or f"https://dexscreener.com/{p['chain']}/{p['address']}", "role": "position",
+                "entry": p["entry"], "plan": p, "ref_liq": cur.get("ref_liq", 0), "news_name": cur.get("news_name") or p.get("news_name")}
     # coins you were alerted on in the last few days: follow them for exits
     for a in book.d["log"] + book.other_log:
         if a.get("kind") in ("breakout", "toppick") and a.get("coin") and a.get("price") and time.time() - a["t"] < FOLLOW_DAYS * 86400:
@@ -59,7 +66,7 @@ def build_watch(scan, picks, ledger, book):
                 continue
             ch, addr = k.split(":", 1)
             cur = w.get(k, {})
-            if cur.get("role") == "pick":
+            if cur.get("role") in ("pick", "position"):
                 continue
             w[k] = {**cur, "key": k, "symbol": cur.get("symbol") or a["title"].split("$")[-1].split(" ")[0], "name": cur.get("name", ""),
                     "chain": ch, "address": cur.get("address") or addr, "url": a.get("url") or cur.get("url"), "role": "followed",
@@ -98,6 +105,37 @@ def chain_name(ch):
     return ms.CHAIN_LABEL.get(ch, ch.title())
 
 
+def check_position(k, v, a, book, base):
+    """Your exit plan, enforced by alerts: sell half at 2x, then a trailing stop on the rest; before that, a stop at your entry."""
+    plan, e, sym, url, px = v["plan"], v["entry"], v["symbol"], v.get("url"), a["price"]
+    half_x, trail, stop_x = plan.get("sell_half_at", 2.0), plan.get("trail", 0.40), plan.get("stop_at", 1.0)
+    st = book.d.setdefault("positions", {}).setdefault(f"{k}:{e}", {"peak": e, "half": None})
+    st["peak"], st["last"], st["t"] = max(st["peak"], px), px, time.time()
+    mult, tag = px / e, f"pos:{k}:{e}"
+    if not st["half"] and mult >= half_x:
+        st["half"] = time.time()
+        book.alert(tag + ":half", "position", f"💰 SELL HALF: ${sym} is {mult:.1f}x your entry",
+                   f"{ms.price_s(e)} → {ms.price_s(px)}. Selling half now gets your original money back and the rest rides for free. "
+                   f"From here you'll get a stop alert if it falls {trail * 100:.0f}% from its high. {base}", url, 5, ["moneybag"], k, px)
+    elif st["half"] and px <= st["peak"] * (1 - trail) and not book.recently(tag + ":trail", 24):
+        book.alert(tag + ":trail", "position", f"🛑 TRAILING STOP: ${sym} is down {(1 - px / st['peak']) * 100:.0f}% from its high",
+                   f"High {ms.price_s(st['peak'])} → now {ms.price_s(px)} ({mult:.1f}x your entry). The plan says sell the rest now. {base}",
+                   url, 5, ["octagonal_sign"], k, px)
+    elif not st["half"] and mult <= stop_x and not book.recently(tag + ":stop", 12):
+        book.alert(tag + ":stop", "position", f"🛑 STOP: ${sym} is back to your entry ({ms.price_s(px)})",
+                   f"It was up to {st['peak'] / e:.1f}x. The plan says sell: don't let a winner turn into a loss. {base}", url, 5, ["octagonal_sign"], k, px)
+    for lvl in (10, 5, 3):
+        if mult >= lvl:
+            if not book.recently(f"{tag}:x{lvl}", 24 * 60):
+                book.alert(f"{tag}:x{lvl}", "position", f"🚀 ${sym} is {lvl}x your entry",
+                           f"{ms.price_s(e)} → {ms.price_s(px)}. Consider selling another chunk; runs like this rarely hold. {base}", url, 5, ["rocket"], k, px)
+            break
+    day = time.strftime("%Y-%m-%d", time.localtime())
+    if plan.get("remind_on") and day >= plan["remind_on"] and not book.recently(tag + ":remind", 24 * 60):
+        book.alert(tag + ":remind", "position", f"⏰ ${sym}: {plan.get('remind_title', 'check your plan')}", plan.get("remind_note", "") + f" Now {mult:.1f}x your entry.",
+                   url, 5, ["alarm_clock"], k, px)
+
+
 def check(watch, agg, book):
     for k, v in watch.items():
         a = agg.get(k)
@@ -113,10 +151,13 @@ def check(watch, agg, book):
                 + f".\nContract: {v['address']}")
         v["ref_liq"] = max(v.get("ref_liq") or 0, a["liq"])
         # liquidity pulled: the classic rug
-        if v["role"] in ("pick", "followed") and v["ref_liq"] > 20000 and a["liq"] < 0.4 * v["ref_liq"] and not book.recently("rug:" + k, 12):
+        if v["role"] in ("pick", "followed", "position") and v["ref_liq"] > 20000 and a["liq"] < 0.4 * v["ref_liq"] and not book.recently("rug:" + k, 12):
             book.alert("rug:" + k, "rug", f"⚠️ ${sym}: liquidity pulled ({ms.usd(v['ref_liq'])} → {ms.usd(a['liq'])})",
                        f"{v['name']} on {chain_name(v['chain'])}. Liquidity dropped over 60%, which is how rugs look. If you hold it, "
                        f"try to sell now. {base}", url, 5, ["warning"], k, a["price"])
+        if v["role"] == "position":
+            check_position(k, v, a, book, base)
+            continue
         # exits for coins you might be holding
         if v.get("entry") and v["role"] in ("pick", "followed"):
             mult = a["price"] / v["entry"]
@@ -154,7 +195,7 @@ NEWS_EXTRA = ['Rockstar "Dacity"', 'Rockstar "meme coin"', '"Take-Two" crypto to
 
 
 def check_news(watch, book):
-    names = sorted({v["news_name"] for v in watch.values() if v.get("role") == "pick" and v.get("news_name")})
+    names = sorted({v["news_name"] for v in watch.values() if v.get("role") in ("pick", "position") and v.get("news_name")})
     queries = [f'"{n}"' for n in names] + NEWS_EXTRA
     first_ever = not book.d["seen_news"]
     seen = set(book.d["seen_news"])
