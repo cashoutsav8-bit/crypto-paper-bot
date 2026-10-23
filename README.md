@@ -8,9 +8,9 @@ Paper-trading research bot for Coinbase nano perpetual futures. **Paper only: it
 |---|---|---|---|
 | A | Trend + ATR stops on BTC, ETH, SOL, XRP. Enter when close > close 20 days ago; stop 2 ATR below entry, trailing 3 ATR below the high. 5% risk per trade, 15% max risk to starting capital. | $2,000 | +0.48R / +0.32R per trade |
 | A2 | Same as A, but when a trade is up 4%, sell half and move the stop on the rest to break-even. 2.5% risk per trade from 2026-10-07 (was 5%). | $5,000 | +0.09R per trade, 71% win rate (8-yr test) |
-| S | Bear-market short: mirror of A on the short side, only while BTC is below its 50-day average. 2.5% risk/trade. | $5,000 | +0.29R / -0.04R per trade |
 | T | Flips with the market: A's longs while BTC is above its 50-day average, S's shorts (and no new longs) while below. 2.5% risk/trade. | $5,000 | +529R vs +393R for A over 8 yrs, worst year -22R vs -47R (with costs) |
-| L | Long or cash: A's longs, but no new longs while BTC is below its 50-day average. 2.5% risk/trade. | $5,000 | +0.68R/+0.72R per trade (2018-22/2023-26) vs +0.51R/+0.38R for A, 4 coins, with costs |
+| L | Long or cash: A's longs, but only while BTC is above its 50-day average and (from 2026-10-23) its 20-day average. 2.5% risk/trade. | $5,000 | +0.62R vs +0.57R per trade with the 20-day rule, better in all 3 periods (10 coins, 8 yrs, with costs) |
+| F | Funding carry: hold LTC and SUI outright and short the same amount on their perps (market-neutral), collecting the hourly funding while the 7-day average is above 10%/yr; exits below 4%/yr. | $5,000 | Live funding Sep 26-Oct 22: LTC 19.7%/yr, SUI 17.8%/yr before costs (~1.1% round trip) |
 | C | Trend basket, volatility-sized, no stops, same 4 coins. | $5,000 | 1.14 / 1.30 |
 | D | Momentum long/short: weekly, long top 3 / short bottom 3 of 10 perps by 56-day return. | $5,000 | 0.71 / 1.38 |
 
@@ -37,3 +37,5 @@ Costs modeled: 0.12% fee + 0.05% slippage per side, hourly funding at Coinbase's
 ### Phone alerts
 
 `bot/meme_watch.py` runs between scans and checks the watchlist every minute; `bot/notify.py` pushes alerts through [ntfy](https://ntfy.sh). Alerts: breakouts (+10% in 5 min on heavy, mostly-buy volume, safety-checked coins only), top picks scoring 60+, new Coinbase meme listings, 2x/5x/10x/-50% and liquidity-pulled on Claude's picks and alerted coins, and news on picks. The ntfy topic lives only in the `NTFY_TOPIC` repo secret; without it alerts are logged on the dashboard but not pushed. Alert logs: `docs/meme/alerts.json` (scanner), `docs/meme/watch.json` (watcher).
+
+Retired: S (bear-market short) on 2026-10-23. It duplicated T's short side and never traded (BTC stayed above its 50-day average). Its files are in `docs/retired/strat_S`.
