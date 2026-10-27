@@ -46,11 +46,13 @@ class AlertBook:
         self.d.setdefault("sent", {})      # dedupe key -> time sent
         self.d.setdefault("log", [])
         self.d.setdefault("seen_news", [])
-        self.other = {}
+        self.other, self.other_log = {}, []
         for p in other_paths:              # read-only view of the other job's sends, so we don't double-alert
             try:
                 with open(p) as f:
-                    self.other.update(json.load(f).get("sent", {}))
+                    od = json.load(f)
+                self.other.update(od.get("sent", {}))
+                self.other_log += od.get("log", [])
             except Exception:
                 pass
         now = time.time()
@@ -62,7 +64,7 @@ class AlertBook:
 
     def count_today(self, kind):
         day = time.strftime("%Y-%m-%d", time.gmtime())
-        return sum(1 for a in self.d["log"] if a.get("kind") == kind and a.get("day") == day)
+        return sum(1 for a in self.d["log"] + self.other_log if a.get("kind") == kind and a.get("day") == day)
 
     def alert(self, key, kind, title, message, url=None, priority=4, tags=None, coin=None, price=None):
         pushed = send(title, message, url, priority, tags)

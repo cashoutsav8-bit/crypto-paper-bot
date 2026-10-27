@@ -21,6 +21,7 @@ OUT = ms.OUT
 MINUTES = float(os.environ.get("MEME_WATCH_MINUTES", "12.5"))
 POLL = 60
 BREAKOUTS_PER_DAY = 6
+EARLY_PER_DAY = 8
 FOLLOW_DAYS = 3
 
 
@@ -40,6 +41,13 @@ def build_watch(scan, picks, ledger, book):
                 and not ms.flag_note(c) and c.get("liq", 0) >= 50000 and c.get("mcap", 0) < 1e9):
             w[c["key"]] = {"key": c["key"], "symbol": c["symbol"], "name": c["name"], "chain": c["chain"], "address": c["address"],
                            "url": c.get("pair_url"), "score": c["score"], "sec": sec, "role": "scan", "ref_liq": c.get("liq", 0)}
+    # radar: every coin with real trading seen in the last 48h, so early moves get caught (safety checked on demand)
+    sec_cache = load("security_cache.json", {})
+    for k, r in load("radar.json", {}).items():
+        if k not in w:
+            w[k] = {"key": k, "symbol": r["symbol"], "name": r.get("name") or r["symbol"], "chain": r["chain"], "address": r["address"],
+                    "url": f"https://dexscreener.com/{r['chain']}/{r['address']}", "role": "radar", "sec": (sec_cache.get(k) or {}).get("verdict"),
+                    "ref_liq": 0}
     # Claude's picks: entry = the paper ticket's entry price
     entries = {t["key"]: t for t in ledger.get("tickets", []) if t["by"] == "claude" and t["status"] == "open"}
     for p in picks:
@@ -60,7 +68,7 @@ def build_watch(scan, picks, ledger, book):
                 "entry": p["entry"], "plan": p, "ref_liq": cur.get("ref_liq", 0), "news_name": cur.get("news_name") or p.get("news_name")}
     # coins you were alerted on in the last few days: follow them for exits
     for a in book.d["log"] + book.other_log:
-        if a.get("kind") in ("breakout", "toppick") and a.get("coin") and a.get("price") and time.time() - a["t"] < FOLLOW_DAYS * 86400:
+        if a.get("kind") in ("breakout", "toppick", "early") and a.get("coin") and a.get("price") and time.time() - a["t"] < FOLLOW_DAYS * 86400:
             k = a["coin"]
             if k.startswith("cb:"):
                 continue
@@ -90,14 +98,21 @@ def poll(watch):
                 vol, tx, pc = p.get("volume") or {}, p.get("txns") or {}, p.get("priceChange") or {}
                 if liq > 2e7 and ms.num(vol.get("h24")) < liq * 0.005:
                     continue
-                a = agg.setdefault(k, {"liq": -1, "vol_m5": 0, "vol_h1": 0, "b5": 0, "s5": 0})
+                a = agg.setdefault(k, {"liq": -1, "vol_m5": 0, "vol_h1": 0, "vol_h6": 0, "b5": 0, "s5": 0, "b1": 0, "s1": 0, "created": None})
                 a["vol_m5"] += ms.num(vol.get("m5"))
                 a["vol_h1"] += ms.num(vol.get("h1"))
+                a["vol_h6"] += ms.num(vol.get("h6"))
                 a["b5"] += int(ms.num((tx.get("m5") or {}).get("buys")))
                 a["s5"] += int(ms.num((tx.get("m5") or {}).get("sells")))
+                a["b1"] += int(ms.num((tx.get("h1") or {}).get("buys")))
+                a["s1"] += int(ms.num((tx.get("h1") or {}).get("sells")))
+                cr = ms.num(p.get("pairCreatedAt")) / 1000 or None
+                if cr and (not a["created"] or cr < a["created"]):
+                    a["created"] = cr
                 if liq > a["liq"]:
                     a.update(liq=liq, price=ms.num(p.get("priceUsd")), mcap=ms.num(p.get("marketCap")) or ms.num(p.get("fdv")),
-                             m5=ms.num(pc.get("m5")), h1=ms.num(pc.get("h1")), h24=ms.num(pc.get("h24")))
+                             m5=ms.num(pc.get("m5")), h1=ms.num(pc.get("h1")), h6=ms.num(pc.get("h6")), h24=ms.num(pc.get("h24")),
+                             name=(p.get("baseToken") or {}).get("name"))
     return agg
 
 
@@ -134,6 +149,28 @@ def check_position(k, v, a, book, base):
     if plan.get("remind_on") and day >= plan["remind_on"] and not book.recently(tag + ":remind", 24 * 60):
         book.alert(tag + ":remind", "position", f"⏰ ${sym}: {plan.get('remind_title', 'check your plan')}", plan.get("remind_note", "") + f" Now {mult:.1f}x your entry.",
                    url, 5, ["alarm_clock"], k, px)
+
+
+SEC_CACHE = {}
+
+
+def safe(k, v):
+    """Safety verdict for a coin, checked on demand (RugCheck / GoPlus) the first time it matters."""
+    if v.get("sec") in ("pass", "caution"):
+        return True
+    if v.get("sec") in ("danger", "unchecked") or v.get("sec_tried"):
+        return False
+    v["sec_tried"] = True
+    if not SEC_CACHE:
+        SEC_CACHE.update(load("security_cache.json", {}))
+    res = ms.security({"key": k, "chain": v["chain"], "address": v["address"]}, SEC_CACHE)
+    v["sec"] = res.get("verdict")
+    return v["sec"] in ("pass", "caution")
+
+
+def base_of(v, a):
+    return (f"Mcap {ms.usd(a['mcap'])}, liquidity {ms.usd(a['liq'])}" + (f", safety {v['sec']}" if v.get("sec") else "")
+            + (f", scanner score {v['score']}" if v.get("score") else "") + f".\nContract: {v['address']}")
 
 
 def check(watch, agg, book):
@@ -181,10 +218,27 @@ def check(watch, agg, book):
             book.alert("wake:" + k, "wake", f"👀 ${sym} waking up: +{a['m5']:.0f}% in 5 min",
                        f"{v['name']} on {chain_name(v['chain'])}: {ms.usd(a['vol_m5'])} traded in 5 min ({surge:.1f}x its hourly pace), "
                        f"{buys * 100:.0f}% buys. {base}", url, 5, ["eyes"], k, a["price"])
-        # breakout on a watchlist coin
-        if (v["role"] == "scan" and a["m5"] >= 10 and a["vol_m5"] >= max(15000, 3 * pace) and n5 >= 30 and buys >= 0.6
+        # peak since each alert on a followed coin (for the "are the alerts any good?" scorecard)
+        if v["role"] == "followed" and v.get("entry_t"):
+            pk = book.d.setdefault("peaks", {})
+            pkey = f"{k}:{int(v['entry_t'])}"
+            pk[pkey] = max(pk.get(pkey, 0), a["price"])
+        if v["role"] not in ("scan", "radar"):
+            continue
+        age = (time.time() - a["created"]) / 3600 if a.get("created") else None
+        # early mover: building before the big candle
+        reason = ms.early_signal({"m5": a["m5"], "h1": a["h1"], "h6": a.get("h6", 0), "h24": a["h24"]},
+                                 {"h1": a["vol_h1"], "h6": a["vol_h6"]}, (a["b1"], a["s1"]), a["liq"], a["mcap"], age)
+        if reason and not book.recently("early:" + k, 12) and book.count_today("early") < EARLY_PER_DAY and safe(k, v):
+            book.alert("early:" + k, "early", f"🌱 Early mover: ${sym} +{a['h1']:.0f}% in 1h",
+                       f"{v.get('name') or a.get('name') or sym} on {chain_name(v['chain'])}: {reason}. {base_of(v, a)}\n"
+                       "Early alerts catch some runs before the big candle, and many that never come. Small size only.",
+                       url, 5, ["seedling"], k, a["price"])
+        # breakout: a sharp 5-minute jump on heavy buying, but not once it has already run (that's chasing)
+        extended = a["h1"] >= 100 or a.get("h6", 0) >= 200
+        if (a["m5"] >= 10 and a["vol_m5"] >= max(15000, 3 * pace) and n5 >= 30 and buys >= 0.6 and not extended
                 and a["liq"] >= 50000 and a["h24"] < 300 and not book.recently("breakout:" + k, 6)
-                and book.count_today("breakout") < BREAKOUTS_PER_DAY):
+                and book.count_today("breakout") < BREAKOUTS_PER_DAY and safe(k, v)):
             book.alert("breakout:" + k, "breakout", f"🚀 Breakout: ${sym} +{a['m5']:.0f}% in 5 min",
                        f"{v['name']} on {chain_name(v['chain'])}: {ms.usd(a['vol_m5'])} traded in 5 min ({surge:.1f}x normal), "
                        f"{buys * 100:.0f}% buys. {base}\nMost breakouts fade within the hour; only money you can lose.",

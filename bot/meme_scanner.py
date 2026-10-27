@@ -45,6 +45,7 @@ PICK_SCORE = 50               # DEX coin needs this score to get a paper ticket
 CB_PICK_HEAT = 70
 ALERT_SCORE = 60              # phone alert when a top pick scores this high (and passes the filters)
 TOPPICK_ALERTS_PER_DAY = 4
+EARLY_ALERTS_PER_DAY = 8
 
 # ------------------------------------------------------------------ narratives
 # Themes are matched against each coin's name, ticker, description and links. A theme with an upcoming
@@ -694,6 +695,21 @@ def catalyst_for(theme, today):
 
 
 # ------------------------------------------------------------------ scoring
+def early_signal(chg, vol, tx1, liq, mcap, age):
+    """A coin quietly building BEFORE the big candle: rising 12-80% over the hour on accelerating, mostly-buy volume,
+    from a small base, not yet extended. Returns a reason string, or None. Shared by the scanner and the 1-minute watcher."""
+    b, s = tx1
+    pace6 = vol.get("h6", 0) / 6 if vol.get("h6", 0) > 0 else 0
+    accel = vol.get("h1", 0) / pace6 if pace6 > 0 else 0
+    if not (12 <= chg.get("h1", 0) <= 80 and chg.get("h6", 0) < 150 and chg.get("h24", 0) < 300 and chg.get("m5", 0) > -3):
+        return None
+    if vol.get("h1", 0) < 8000 or accel < 2.5 or b + s < 40 or b / (b + s) < 0.58:
+        return None
+    if liq < 25000 or not (1e5 <= mcap <= 2e7) or (age is not None and age < 1):
+        return None
+    return f"early momentum: +{chg['h1']:.0f}% in 1h on {accel:.1f}x its 6h volume pace, {b / (b + s) * 100:.0f}% buys"
+
+
 def age_h(c):
     return (NOW - c["created"]) / 3600 if c.get("created") else None
 
@@ -727,6 +743,10 @@ def score(c, ctx):
         R.append("still accelerating (last 5 min)")
     if ch["h6"] > 10:
         m += 3
+    c["early"] = early_signal(ch, v, tx["h1"], max(c["liq"], 0), c["mcap"], a)
+    if c["early"]:
+        m += 6
+        R.insert(0, c["early"])
     pts["momentum"] = min(30, m)
     # 2. buyers (0-12)
     b1, s1 = tx["h1"]
@@ -1148,13 +1168,21 @@ def write_page(ctx):
         status += f" The fast watcher last checked prices {max(0, (NOW - wl) / 60):.0f} min ago (it checks every minute between scans)."
     h.append(f"<p class=small>{status}</p>")
     if al:
-        h.append("<div class=wrap><table><tr><th>When</th><th>Alert</th><th class=n>Since</th></tr>")
+        if ctx.get("alert_card"):
+            h.append("<p class=small><b>Are the alerts any good?</b> Last 14 days. 'Hit +50%' means the price reached at least +50% after the alert "
+                     "at some point (so selling then was possible); 'Typical now' is the middle alert's change since it fired.</p>"
+                     "<div class=wrap><table><tr><th>Alert type</th><th class=n>Alerts</th><th class=n>Hit +50%</th><th class=n>Typical now</th></tr>")
+            for r in ctx["alert_card"]:
+                h.append(f"<tr><td>{r['lbl']}</td><td class=n>{r['n']}</td><td class=n>{r['hit']} ({r['hit'] / r['n'] * 100:.0f}%)</td><td class=n>{pct(r['now'])}</td></tr>")
+            h.append("</table></div>")
+        h.append("<div class=wrap style='margin-top:8px'><table><tr><th>When</th><th>Alert</th><th class=n>Best since</th><th class=n>Now</th></tr>")
         for x in al:
             link = safe_url(x.get("url"))
             title = f"<a href='{esc(link)}' target=_blank rel=noopener>{esc(x['title'])}</a>" if link else esc(x["title"])
             since = pct(x["since"]) if x.get("since") is not None else "–"
+            best = pct(x["best"]) if x.get("best") is not None else "–"
             h.append(f"<tr><td class=n>{datetime.fromtimestamp(x['t'], ET_TZ).strftime('%b %d %I:%M %p')}</td><td>{title}"
-                     f"{'' if x.get('pushed') else ' <span class=pill>logged only</span>'}</td><td class=n>{since}</td></tr>")
+                     f"{'' if x.get('pushed') else ' <span class=pill>logged only</span>'}</td><td class=n>{best}</td><td class=n>{since}</td></tr>")
         h.append("</table></div>")
     else:
         h.append("<p class='muted small'>No alerts yet. The bar is set high on purpose: a noisy alert feed trains you to chase.</p>")
@@ -1477,6 +1505,14 @@ def main():
             if best and num((best.get("liquidity") or {}).get("usd")) >= 10000:
                 take_pair(best, src)
 
+    # radar: coins seen in the last 48h stay tracked even after they drop off the trending lists
+    # (Oct 27: Maxxing was seen at 9:30, fell off every list, and only came back after it had already doubled)
+    radar = load("radar.json", {})
+    for k, r in radar.items():
+        if k not in C:
+            c = cand(r["chain"], r["address"])
+            tag(c, "radar")
+
     # fill every DEX candidate with full pool data (all pools, summed volume)
     by_chain = {}
     for c in C.values():
@@ -1531,6 +1567,7 @@ def main():
     live.sort(key=lambda c: -c["score"])
     # phase 4: safety checks on the top of the list, then final score
     to_check = [c for c in live if c["mcap"] < 2e9][:40]
+    to_check += [c for c in live if c.get("early") and c not in to_check][:20]
     with ThreadPoolExecutor(max_workers=3) as ex:
         sol = [c for c in to_check if c["chain"] == "solana"]
         evm = [c for c in to_check if c["chain"] in EVM_ID]
@@ -1657,6 +1694,13 @@ def main():
                        + f". Mcap {usd(c['mcap'])}, liquidity {usd(c['liq'])}, 1h {c['chg']['h1']:+.0f}%, safety {(c.get('sec') or {}).get('verdict')}."
                        + (f" Watch out: {'; '.join(c['warn'][:2])}." if c["warn"] else "") + f"\nContract: {c['address']}",
                        c.get("pair_url"), 5, ["fire"], c["key"], c["price"])
+    for c in live:
+        if (c.get("early") and (c.get("sec") or {}).get("verdict") in ("pass", "caution") and not c.get("copy_younger") and not flag_note(c)
+                and not book.recently("early:" + c["key"], 12) and book.count_today("early") < EARLY_ALERTS_PER_DAY):
+            book.alert("early:" + c["key"], "early", f"🌱 Early mover: ${c['symbol']} +{c['chg']['h1']:.0f}% in 1h",
+                       f"{c['name']} on {CHAIN_LABEL.get(c['chain'], c['chain'])}: {c['early']}. Mcap {usd(c['mcap'])}, liquidity {usd(c['liq'])}, "
+                       f"safety {(c.get('sec') or {}).get('verdict')}. Early alerts catch some runs before the big candle, and many that never come. "
+                       f"Small size only.\nContract: {c['address']}", c.get("pair_url"), 5, ["seedling"], c["key"], c["price"])
     for e in cbm:
         if (e["symbol"] in cb_newly or e["new"]) and not book.recently("cblist:" + e["symbol"], 24 * 7):
             book.alert("cblist:" + e["symbol"], "listing", f"🆕 Coinbase listed ${e['symbol']}",
@@ -1666,9 +1710,24 @@ def main():
     book.save()
     watchd = load("watch.json", {})
     alog = sorted(book.d["log"] + watchd.get("log", []), key=lambda x: -x["t"])
+    peaks = watchd.get("peaks", {})
     for x in alog:
         cur = C.get(x.get("coin") or "", {}).get("price") or (cbprods.get((x.get("coin") or "")[3:], {}).get("price") if (x.get("coin") or "").startswith("cb:") else None)
         x["since"] = (cur / x["price"] - 1) * 100 if cur and x.get("price") else None
+        pk = peaks.get(f"{x.get('coin')}:{int(x['t'])}")
+        x["best"] = (max(pk, cur or 0) / x["price"] - 1) * 100 if pk and x.get("price") else None
+    card = []
+    for kind, lbl in (("early", "🌱 Early mover"), ("breakout", "🚀 Breakout"), ("toppick", "🔥 Top pick")):
+        xs = [x for x in alog if x.get("kind") == kind and NOW - x["t"] < 14 * 86400 and x.get("best") is not None]
+        if xs:
+            card.append({"lbl": lbl, "n": len(xs), "hit": sum(x["best"] >= 50 for x in xs), "now": sorted(x["since"] or 0 for x in xs)[len(xs) // 2]})
+    # keep the radar: anything with real trading, a small cap and no red flags, for 48h after it was last seen
+    for c in live:
+        if c["liq"] >= 15000 and c["vol"]["h24"] >= 20000 and c["mcap"] < 5e7 and not dangerous(c):
+            radar[c["key"]] = {"symbol": c["symbol"], "chain": c["chain"], "address": c["address"], "seen": NOW,
+                               "first": radar.get(c["key"], {}).get("first", NOW)}
+    radar = dict(sorted(((k, r) for k, r in radar.items() if NOW - r["seen"] < 48 * 3600), key=lambda kv: -kv[1]["seen"])[:300])
+    save("radar.json", radar)
 
     positions = []
     for p in load("my_positions.json", []):
@@ -1683,7 +1742,7 @@ def main():
                           "now": now_px, "mult": now_px / e, "peak_x": peak / e, "next": nxt})
 
     n_ok = sum(1 for v in HEALTH.values() if v["ok"])
-    page_ctx = {"positions": positions, "alerts": alog[:12], "alerts_on": bool(notify.TOPIC), "watch_last": watchd.get("last_poll"), "top": top, "cbm": cbm, "metas": metas, "trends": trends, "chat": chat, "ledger": ledger, "flagged": flagged,
+    page_ctx = {"positions": positions, "alert_card": card, "alerts": alog[:15], "alerts_on": bool(notify.TOPIC), "watch_last": watchd.get("last_poll"), "top": top, "cbm": cbm, "metas": metas, "trends": trends, "chat": chat, "ledger": ledger, "flagged": flagged,
                 "catalysts": cats, "cg_categories": cg_categories, "cb_new": cb_new, "n_scanned": len(live), "n_sources": len(HEALTH),
                 "n_sources_ok": n_ok, "secs": time.time() - START}
     write_page(page_ctx)
