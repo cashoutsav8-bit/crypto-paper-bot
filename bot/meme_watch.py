@@ -22,6 +22,9 @@ MINUTES = float(os.environ.get("MEME_WATCH_MINUTES", "12.5"))
 POLL = 60
 BREAKOUTS_PER_DAY = 6
 EARLY_PER_DAY = 8
+FRESH_PER_DAY = 6
+FRESH_NETS = ["solana", "base"]          # GeckoTerminal networks polled for brand-new pools every minute
+BASE_CACHE = {}
 FOLLOW_DAYS = 3
 
 
@@ -68,7 +71,7 @@ def build_watch(scan, picks, ledger, book):
                 "entry": p["entry"], "plan": p, "ref_liq": cur.get("ref_liq", 0), "news_name": cur.get("news_name") or p.get("news_name")}
     # coins you were alerted on in the last few days: follow them for exits
     for a in book.d["log"] + book.other_log:
-        if a.get("kind") in ("breakout", "toppick", "early") and a.get("coin") and a.get("price") and time.time() - a["t"] < FOLLOW_DAYS * 86400:
+        if a.get("kind") in ("breakout", "toppick", "early", "sleeper", "fresh") and a.get("coin") and a.get("price") and time.time() - a["t"] < FOLLOW_DAYS * 86400 * (3 if a["kind"] in ("fresh", "sleeper") else 1):
             k = a["coin"]
             if k.startswith("cb:"):
                 continue
@@ -110,6 +113,7 @@ def poll(watch):
                 if cr and (not a["created"] or cr < a["created"]):
                     a["created"] = cr
                 if liq > a["liq"]:
+                    a["pair_addr"] = p.get("pairAddress")
                     a.update(liq=liq, price=ms.num(p.get("priceUsd")), mcap=ms.num(p.get("marketCap")) or ms.num(p.get("fdv")),
                              m5=ms.num(pc.get("m5")), h1=ms.num(pc.get("h1")), h6=ms.num(pc.get("h6")), h24=ms.num(pc.get("h24")),
                              name=(p.get("baseToken") or {}).get("name"))
@@ -157,6 +161,70 @@ def check_position(k, v, a, book, base):
 
 
 SEC_CACHE = {}
+
+
+def base_for(v, a):
+    """Has this coin already had its big run this week? (hourly closes of its main pool)"""
+    if not BASE_CACHE:
+        BASE_CACHE.update(load("base_cache.json", {}))
+        BASE_CACHE["_loaded"] = {"t": 0}
+    return ms.base_check(v["chain"], a.get("pair_addr"), BASE_CACHE, "GeckoTerminal OHLCV (watch)")
+
+
+def fresh_feed(watch, book):
+    """Brand-new pools (mostly fresh pump.fun graduations) join the watch list for their first 6 hours."""
+    fr = book.d.setdefault("fresh", {})
+    now = time.time()
+    for net in FRESH_NETS:
+        j = ms.fetch(f"{ms.GT}/networks/{net}/new_pools?include=base_token&page=1", "GeckoTerminal new pools", headers=ms.GTH, tries=1)
+        if not isinstance(j, dict):
+            continue
+        toks = {t.get("id"): t.get("attributes") or {} for t in j.get("included") or [] if t.get("type") == "token"}
+        for d in j.get("data") or []:
+            at, rel = d.get("attributes") or {}, d.get("relationships") or {}
+            bid = ((rel.get("base_token") or {}).get("data") or {}).get("id") or ""
+            dex = (((rel.get("dex") or {}).get("data") or {}).get("id") or "").lower()
+            if "_" not in bid or "pump-fun" in dex or "pumpfun" == dex:        # skip bonding-curve "pools"
+                continue
+            addr, chain = bid.rsplit("_", 1)[1], ms.GT2DS.get(net, net)
+            sym = (toks.get(bid, {}).get("symbol") or "").strip()
+            if not sym or sym.upper() in ms.MAJORS:
+                continue
+            k = ms.ckey(chain, addr)
+            if k in fr or ms.num(at.get("reserve_in_usd")) < 8000:
+                continue
+            fr[k] = {"symbol": sym, "name": toks.get(bid, {}).get("name") or sym, "chain": chain, "address": addr,
+                     "created": ms.parse_time(at.get("pool_created_at")) or now,
+                     "mcap0": ms.num(at.get("market_cap_usd")) or ms.num(at.get("fdv_usd")), "seen": now}
+    for k in [k for k, r in fr.items() if now - r["created"] > 6 * 3600]:
+        del fr[k]
+    for k, r in fr.items():
+        if k not in watch:
+            watch[k] = {"key": k, "symbol": r["symbol"], "name": r["name"], "chain": r["chain"], "address": r["address"],
+                        "url": f"https://dexscreener.com/{r['chain']}/{r['address']}", "role": "fresh", "created": r["created"],
+                        "mcap0": r["mcap0"], "ref_liq": 0}
+
+
+def check_fresh(k, v, a, book):
+    """A launch that is running but hasn't had its big leg yet: 1.5-4x since it listed, real buyers, still rising."""
+    age_m = (time.time() - (v.get("created") or time.time())) / 60
+    mcap0 = v.get("mcap0") or 0
+    if not mcap0:                                   # first sighting without a starting mcap: use the first price we see
+        v["mcap0"] = mcap0 = a["mcap"]
+        book.d["fresh"].get(k, {})["mcap0"] = mcap0
+    growth = a["mcap"] / mcap0 if mcap0 else 0
+    n1 = a["b1"] + a["s1"]
+    if not (15 <= age_m <= 240 and 1.5 <= growth <= 4 and 5e4 <= a["mcap"] <= 1.5e6 and a["liq"] >= 15000 and a["vol_h1"] >= 25000
+            and n1 >= 80 and a["b1"] / n1 >= 0.6 and a["m5"] >= 0):
+        return
+    if book.recently("fresh:" + k, 24) or book.count_today("fresh") >= FRESH_PER_DAY:
+        return
+    if not safe(k, v) or v["sec"] != "pass":         # launches need a clean check: no mint/freeze, holders not concentrated
+        return
+    book.alert("fresh:" + k, "fresh", f"🐣 New launch running: ${v['symbol']} {growth:.1f}x since it listed {age_m:.0f}m ago",
+               f"{v['name']} on {chain_name(v['chain'])}: mcap {ms.usd(a['mcap'])}, liquidity {ms.usd(a['liq'])}, {ms.usd(a['vol_h1'])} traded in the last hour, "
+               f"{a['b1'] / n1 * 100:.0f}% buys, safety pass.\nContract: {v['address']}\n"
+               "Highest-risk alert: most launches dump within the hour. $10-25 max, sell half at 2x.", v["url"], 5, ["hatching_chick"], k, a["price"])
 
 
 def safe(k, v):
@@ -228,14 +296,23 @@ def check(watch, agg, book):
             pk = book.d.setdefault("peaks", {})
             pkey = f"{k}:{int(v['entry_t'])}"
             pk[pkey] = max(pk.get(pkey, 0), a["price"])
+        if v["role"] == "fresh":
+            check_fresh(k, v, a, book)
+            continue
         if v["role"] not in ("scan", "radar"):
             continue
         age = (time.time() - a["created"]) / 3600 if a.get("created") else None
         # early mover: building before the big candle
         reason = ms.early_signal({"m5": a["m5"], "h1": a["h1"], "h6": a.get("h6", 0), "h24": a["h24"]},
                                  {"h1": a["vol_h1"], "h6": a["vol_h6"]}, (a["b1"], a["s1"]), a["liq"], a["mcap"], age)
-        if reason and not book.recently("early:" + k, 12) and book.count_today("early") < EARLY_PER_DAY and safe(k, v):
-            book.alert("early:" + k, "early", f"🌱 Early mover: ${sym} +{a['h1']:.0f}% in 1h",
+        bc = None
+        if reason and not book.recently("early:" + k, 12):
+            bc = ms.base_class(base_for(v, a))
+        kind = "sleeper" if bc == "sleeper" else "early"
+        if reason and bc in ("sleeper", "mid") and not book.recently("early:" + k, 12) and book.count_today(kind) < EARLY_PER_DAY and safe(k, v):
+            b = BASE_CACHE.get(f"{v['chain']}:{a.get('pair_addr')}") or {}
+            book.alert("early:" + k, kind, (f"💤 Sleeper waking: ${sym} +{a['h1']:.0f}% in 1h, only {b.get('now_x', 0):.1f}x off its low"
+                                           if kind == "sleeper" else f"🌱 Early mover: ${sym} +{a['h1']:.0f}% in 1h"),
                        f"{v.get('name') or a.get('name') or sym} on {chain_name(v['chain'])}: {reason}. {base_of(v, a)}\n"
                        "Early alerts catch some runs before the big candle, and many that never come. Small size only.",
                        url, 5, ["seedling"], k, a["price"])
@@ -243,7 +320,7 @@ def check(watch, agg, book):
         extended = a["h1"] >= 100 or a.get("h6", 0) >= 200
         if (a["m5"] >= 10 and a["vol_m5"] >= max(15000, 3 * pace) and n5 >= 30 and buys >= 0.6 and not extended
                 and a["liq"] >= 50000 and a["h24"] < 300 and not book.recently("breakout:" + k, 6)
-                and book.count_today("breakout") < BREAKOUTS_PER_DAY and safe(k, v)):
+                and book.count_today("breakout") < BREAKOUTS_PER_DAY and safe(k, v) and ms.base_class(base_for(v, a)) in ("sleeper", "mid")):
             book.alert("breakout:" + k, "breakout", f"🚀 Breakout: ${sym} +{a['m5']:.0f}% in 5 min",
                        f"{v['name']} on {chain_name(v['chain'])}: {ms.usd(a['vol_m5'])} traded in 5 min ({surge:.1f}x normal), "
                        f"{buys * 100:.0f}% buys. {base}\nMost breakouts fade within the hour; only money you can lose.",
@@ -298,6 +375,7 @@ def main():
     while time.time() < end:
         t0 = time.time()
         try:
+            fresh_feed(watch, book)
             check(watch, poll(watch), book)
             if time.time() - last_news > 300:
                 check_news(watch, book)

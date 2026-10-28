@@ -337,6 +337,7 @@ def take_pair(p, source=None):
         c["boosts"] = max(c["boosts"], int(num((p.get("boosts") or {}).get("active"))))
         if liq > c["liq"]:
             pc = p.get("priceChange") or {}
+            c["pair_addr"] = p.get("pairAddress")
             c.update(symbol=sym, name=(bt.get("name") or sym).strip(), pair_url=safe_url(p.get("url")) or f"https://dexscreener.com/{chain}/{addr}", dex=p.get("dexId"),
                      price=num(p.get("priceUsd")), mcap=num(p.get("marketCap")) or num(p.get("fdv")), liq=liq,
                      chg={k: num(pc.get(k)) for k in ("m5", "h1", "h6", "h24")}, has_data=True)
@@ -383,6 +384,52 @@ def f_ds_search(queries):
         j = fetch(DS + "/latest/dex/search?q=" + urllib.parse.quote(q), "DexScreener search")
         out.append((q, must, (j or {}).get("pairs") or [] if isinstance(j, dict) else []))
     return out
+
+
+DS2GT = {"ethereum": "eth", "polygon": "polygon_pos", "avalanche": "avax", "sui": "sui-network"}
+RAN_X = 8          # a coin that made an 8x+ leg in the last week "already ran": no entry alerts
+SLEEPER_X = 3      # under 3x from its weekly low (and at least a day old) = hasn't had its run
+
+
+def base_check(chain, pair_addr, cache, src="GeckoTerminal OHLCV"):
+    """How far has this coin already run? Uses hourly closes of its main pool over the last week (GeckoTerminal).
+    low = lowest close (ignoring the pool's first 2 hours of launch noise), ran_x = biggest rise from that low,
+    now_x = current vs that low. Closes, not wicks, so one bad print (like a $804 tick) can't fake a run."""
+    if not pair_addr:
+        return None
+    key = f"{chain}:{pair_addr}"
+    e = cache.get(key)
+    if e and NOW - e.get("t", 0) < 3600:
+        return e
+    net = DS2GT.get(chain, chain)
+    j = fetch(f"{GT}/networks/{net}/pools/{pair_addr}/ohlcv/hour?aggregate=1&limit=168&currency=usd", src, headers=GTH)
+    d = j.get("data") if isinstance(j, dict) else None
+    rows = ((d.get("attributes") or {}).get("ohlcv_list") or []) if isinstance(d, dict) else []
+    rows = sorted(r for r in rows if isinstance(r, list) and len(r) >= 5 and num(r[4]) > 0)
+    if len(rows) < 3:
+        return None
+    usable = rows[2:] if len(rows) > 8 else rows
+    cl = [num(r[4]) for r in usable]
+    # a level only counts if two hours in a row closed there, so a single bad print can't fake a low or a run
+    lo2 = [max(cl[i], cl[i + 1]) for i in range(len(cl) - 1)] or cl
+    hi2 = [min(cl[i], cl[i + 1]) for i in range(len(cl) - 1)] or cl
+    lo_i = min(range(len(lo2)), key=lambda i: lo2[i])
+    low = lo2[lo_i]
+    high_after = max(hi2[lo_i:]) if hi2[lo_i:] else low
+    res = {"t": NOW, "low": low, "ran_x": max(high_after, low) / low, "now_x": num(rows[-1][4]) / low, "hours": len(rows),
+           "high": max(hi2)}
+    cache[key] = res
+    return res
+
+
+def base_class(b):
+    if not b:
+        return None
+    if b["ran_x"] >= RAN_X:
+        return "ran"
+    if b["ran_x"] < SLEEPER_X and b["hours"] >= 24:
+        return "sleeper"
+    return "mid"
 
 
 def f_gt():
@@ -845,6 +892,13 @@ def score(c, ctx):
     if ch["h1"] < -15:
         pen += 5
         W.append(f"dumping now ({ch['h1']:.0f}% in 1h)")
+    bc = base_class(c.get("base"))
+    if bc == "ran":
+        pen += 10
+        W.insert(0, f"already ran {c['base']['ran_x']:.0f}x this week (from {price_s(c['base']['low'])}): the big move happened")
+    elif bc == "sleeper":
+        pts["fresh"] = 5
+        R.insert(0, f"hasn't run yet: {c['base']['now_x']:.1f}x off its weekly low")
     sec = c.get("sec") or {}
     if sec.get("verdict") == "danger":
         pen += 30
@@ -950,6 +1004,17 @@ def update_ledger(ledger, ranked, cbm, cbprods, claude_picks):
             tickets.append({"key": k, "by": "claude", "symbol": p.get("symbol"), "name": p.get("name"), "chain": p.get("chain") or "coinbase",
                             "url": p.get("url") or (c or {}).get("pair_url"), "t": p.get("t") or NOW, "entry": price, "peak": price, "last": price,
                             "last_t": NOW, "status": "open", "score": (c or {}).get("score"), "why": p.get("thesis", "")})
+    # the pre-run basket: $100 paper ticket at the alert price for every 🐣 new-launch and 💤 sleeper alert
+    # (the "10 coins at $100, need one to make it" strategy, measured before real money goes in)
+    have = {(t["key"], t["by"]) for t in tickets}
+    for x in load("alerts.json", {}).get("log", []) + load("watch.json", {}).get("log", []):
+        k = x.get("coin") or ""
+        if x.get("kind") in ("fresh", "sleeper") and x.get("price") and ":" in k and not k.startswith("cb:") and (k, "basket") not in have:
+            have.add((k, "basket"))
+            tickets.append({"key": k, "by": "basket", "day": datetime.fromtimestamp(x["t"], timezone.utc).strftime("%Y-%m-%d"),
+                            "symbol": x["title"].split("$")[1].split(" ")[0].rstrip(":,") if "$" in x["title"] else "?", "name": "",
+                            "chain": k.split(":", 1)[0], "url": x.get("url"), "t": x["t"], "entry": x["price"], "peak": x["price"],
+                            "last": x["price"], "last_t": x["t"], "status": "open", "why": x["title"]})
     # mark open tickets to market
     open_t = [t for t in tickets if t["status"] == "open"]
     dex_keys = {t["key"] for t in open_t if not t["key"].startswith("cb:")}
@@ -1257,8 +1322,10 @@ def write_page(ctx):
     tickets = ledger.get("tickets", [])
     h.append(f"<h2>Paper tickets (${TICKET_USD:.0f} each)</h2><p class='muted small'>The bot paper-buys ${TICKET_USD:.0f} of up to {BOT_TICKETS_PER_DAY} DEX coins a day "
              f"that score {PICK_SCORE}+ and pass the safety filters (plus up to {CB_TICKETS_PER_DAY} Coinbase memes with heat {CB_PICK_HEAT}+), holds each for {TICKET_DAYS} days, "
-             f"and charges {COST_EACH_WAY * 100:.0f}% each way for fees and slippage. 'Peak' is the best multiple reached, the most you could have sold for.</p>")
-    rows = [(lbl, ledger_summary(tickets, by)) for by, lbl in (("bot", "Bot picks"), ("claude", "Claude's picks"))]
+             f"and charges {COST_EACH_WAY * 100:.0f}% each way for fees and slippage. The <b>pre-run basket</b> puts ${TICKET_USD:.0f} into every 🐣 new-launch and 💤 sleeper alert "
+             f"at the alert price: your '$1,000 across 10 coins, one has to make it' plan, tested on paper first. 'Peak' is the best multiple reached, "
+             f"the most you could have sold for (checked every 15 minutes, so short spikes are missed).</p>")
+    rows = [(lbl, ledger_summary(tickets, by)) for by, lbl in (("basket", "Pre-run basket (🐣/💤 alerts)"), ("bot", "Bot picks"), ("claude", "Claude's picks"))]
     rows = [(l, s) for l, s in rows if s]
     if rows:
         h.append("<div class=wrap><table><tr><th></th><th class=n>Tickets</th><th class='n hide-s'>Paid</th><th class=n>Worth</th><th class=n>Return</th>"
@@ -1276,7 +1343,7 @@ def write_page(ctx):
             val = ticket_value(t, price)
             mult = price / t["entry"] if t["entry"] else 0
             st = {"open": "<span class='pill ok'>open</span>", "closed": "<span class=pill>closed</span>"}.get(t["status"], f"<span class='pill bad'>{esc(t['status'])}</span>")
-            who = " <span class=pill>Claude</span>" if t["by"] == "claude" else ""
+            who = {"claude": " <span class=pill>Claude</span>", "basket": " <span class='pill ok'>basket</span>"}.get(t["by"], "")
             link = safe_url(t.get("url"))
             name = f"<a href='{esc(link)}' target=_blank rel=noopener><b>${esc(t['symbol'])}</b></a>" if link else f"<b>${esc(t['symbol'])}</b>"
             dead = f" <span class='pill bad'>{esc(t['status'])}</span>" if t["status"] in ("rugged", "dead") else ""
@@ -1574,6 +1641,15 @@ def main():
         for grp in (sol, evm):
             for c, res in zip(grp, ex.map(lambda c: security(c, sec_cache), grp)):
                 c["sec"] = res
+    base_cache = {k: v for k, v in load("base_cache.json", {}).items() if NOW - v.get("t", 0) < 6 * 3600}
+    need_base = [c for c in live if c["mcap"] < 1e9][:30] + [c for c in live if c.get("early")][:15]
+    seen_b = set()
+    for c in need_base:
+        if c["key"] in seen_b or time.time() - START > BUDGET - 40:
+            continue
+        seen_b.add(c["key"])
+        c["base"] = base_check(c["chain"], c.get("pair_addr"), base_cache)
+    save("base_cache.json", base_cache)
     groups = {}
     for c in live:
         for g in {re.sub(r"[^a-z0-9]", "", c["symbol"].lower()), re.sub(r"[^a-z0-9]", "", c["name"].lower())}:
@@ -1685,7 +1761,7 @@ def main():
             book.d["hello"] = NOW
     for c in top:
         a = age_h(c)
-        if (c["score"] >= ALERT_SCORE and (c.get("sec") or {}).get("verdict") in ("pass", "caution") and c["liq"] >= 50000
+        if (c["score"] >= ALERT_SCORE and base_class(c.get("base")) in ("sleeper", "mid") and (c.get("sec") or {}).get("verdict") in ("pass", "caution") and c["liq"] >= 50000
                 and c["vol"]["h1"] >= 10000 and sum(c["txns"]["h1"]) >= 30
                 and (a is None or a >= 2) and c["chg"]["h24"] < 300 and not c.get("copy_younger") and not flag_note(c)
                 and not book.recently("toppick:" + c["key"], 24) and book.count_today("toppick") < TOPPICK_ALERTS_PER_DAY):
@@ -1695,9 +1771,12 @@ def main():
                        + (f" Watch out: {'; '.join(c['warn'][:2])}." if c["warn"] else "") + f"\nContract: {c['address']}",
                        c.get("pair_url"), 5, ["fire"], c["key"], c["price"])
     for c in live:
-        if (c.get("early") and (c.get("sec") or {}).get("verdict") in ("pass", "caution") and not c.get("copy_younger") and not flag_note(c)
-                and not book.recently("early:" + c["key"], 12) and book.count_today("early") < EARLY_ALERTS_PER_DAY):
-            book.alert("early:" + c["key"], "early", f"🌱 Early mover: ${c['symbol']} +{c['chg']['h1']:.0f}% in 1h",
+        bc = base_class(c.get("base"))
+        kind = "sleeper" if bc == "sleeper" else "early"
+        if (c.get("early") and bc in ("sleeper", "mid") and (c.get("sec") or {}).get("verdict") in ("pass", "caution") and not c.get("copy_younger")
+                and not flag_note(c) and not book.recently("early:" + c["key"], 12) and book.count_today(kind) < EARLY_ALERTS_PER_DAY):
+            book.alert("early:" + c["key"], kind, (f"💤 Sleeper waking: ${c['symbol']} +{c['chg']['h1']:.0f}% in 1h, only {c['base']['now_x']:.1f}x off its low"
+                                                  if kind == "sleeper" else f"🌱 Early mover: ${c['symbol']} +{c['chg']['h1']:.0f}% in 1h"),
                        f"{c['name']} on {CHAIN_LABEL.get(c['chain'], c['chain'])}: {c['early']}. Mcap {usd(c['mcap'])}, liquidity {usd(c['liq'])}, "
                        f"safety {(c.get('sec') or {}).get('verdict')}. Early alerts catch some runs before the big candle, and many that never come. "
                        f"Small size only.\nContract: {c['address']}", c.get("pair_url"), 5, ["seedling"], c["key"], c["price"])
@@ -1717,7 +1796,8 @@ def main():
         pk = peaks.get(f"{x.get('coin')}:{int(x['t'])}")
         x["best"] = (max(pk, cur or 0) / x["price"] - 1) * 100 if pk and x.get("price") else None
     card = []
-    for kind, lbl in (("early", "🌱 Early mover"), ("breakout", "🚀 Breakout"), ("toppick", "🔥 Top pick")):
+    for kind, lbl in (("fresh", "🐣 New launch running"), ("sleeper", "💤 Sleeper waking"), ("early", "🌱 Early mover"),
+                      ("breakout", "🚀 Breakout"), ("toppick", "🔥 Top pick")):
         xs = [x for x in alog if x.get("kind") == kind and NOW - x["t"] < 14 * 86400 and x.get("best") is not None]
         if xs:
             card.append({"lbl": lbl, "n": len(xs), "hit": sum(x["best"] >= 50 for x in xs), "now": sorted(x["since"] or 0 for x in xs)[len(xs) // 2]})
@@ -1750,7 +1830,7 @@ def main():
     def slim(c):
         return {k: c.get(k) for k in ("key", "symbol", "name", "chain", "address", "pair_url", "price", "mcap", "liq", "vol", "chg", "txns",
                                       "created", "score", "pts", "pen", "why", "warn", "ment", "themes", "metas", "culture", "cg_rank",
-                                      "on_cb", "sec", "src", "links", "desc", "score_6h", "copy_note")}
+                                      "on_cb", "sec", "src", "links", "desc", "score_6h", "copy_note", "base", "pair_addr")}
     save("scan.json", {"t": NOW, "updated": datetime.fromtimestamp(NOW, ET_TZ).isoformat(), "health": HEALTH, "top": [slim(c) for c in live[:60]],
                        "flagged": [slim(c) for c in flagged[:20]], "coinbase_memes": cbm[:30], "metas": metas[:15],
                        "trends": [{k: v for k, v in t.items() if k != "coins"} | {"coins": [c["key"] for c in t.get("coins", [])[:6]]} for t in trends[:15]],
