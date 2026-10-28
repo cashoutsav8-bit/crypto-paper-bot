@@ -139,6 +139,11 @@ def check_position(k, v, a, book, base):
     elif not st["half"] and mult <= stop_x and not book.recently(tag + ":stop", 12):
         book.alert(tag + ":stop", "position", f"🛑 STOP: ${sym} is back to your entry ({ms.price_s(px)})",
                    f"It was up to {st['peak'] / e:.1f}x. The plan says sell: don't let a winner turn into a loss. {base}", url, 5, ["octagonal_sign"], k, px)
+    # a real, sellable spike: the main pool jumped 25%+ in 5 minutes (not a one-off bad print from a junk pool)
+    if a.get("m5", 0) >= 25 and a.get("liq", 0) >= 50000 and not book.recently(tag + ":spike", 1):
+        book.alert(tag + ":spike", "position", f"⚡ ${sym} spiking: +{a['m5']:.0f}% in 5 min",
+                   f"Now {ms.price_s(px)} ({mult:.1f}x your entry) in the main pool ({ms.usd(a['liq'])} liquidity). Spikes like this often reverse "
+                   f"within minutes; if you want to sell into it, do it now. {base}", url, 5, ["zap"], k, px)
     for lvl in (10, 5, 3):
         if mult >= lvl:
             if not book.recently(f"{tag}:x{lvl}", 24 * 60):
