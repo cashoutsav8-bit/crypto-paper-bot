@@ -117,7 +117,7 @@ EVM_RE = re.compile(r"\b0x[a-fA-F0-9]{40}\b")
 HEALTH = {}
 _hl = threading.Lock()
 _host_lock, _host_last = {}, {}
-PACE = {"api.geckoterminal.com": 3.0, "api.coingecko.com": 4.0, "api.rugcheck.xyz": 0.7, "api.gopluslabs.io": 1.1,
+PACE = {"api.geckoterminal.com": 2.6, "api.coingecko.com": 4.0, "api.rugcheck.xyz": 0.7, "api.gopluslabs.io": 1.1,
         "www.reddit.com": 1.2, "old.reddit.com": 1.2, "api.dexscreener.com": 0.22, "a.4cdn.org": 1.1, "api.coinbase.com": 0.12}
 
 
@@ -331,6 +331,9 @@ def take_pair(p, source=None):
         created = num(p.get("pairCreatedAt")) / 1000 or None
         if created and (not c["created"] or created < c["created"]):
             c["created"] = created
+        if (created and liq >= 1000 and not any(b in (p.get("dexId") or "").lower() for b in BONDING_DEX)
+                and (not c.get("base_created") or created < c["base_created"])):
+            c["base_created"], c["base_pair"] = created, p.get("pairAddress")
         info = p.get("info") or {}
         add_links(c, info.get("websites"))
         add_links(c, info.get("socials"))
@@ -387,39 +390,43 @@ def f_ds_search(queries):
 
 
 DS2GT = {"ethereum": "eth", "polygon": "polygon_pos", "avalanche": "avax", "sui": "sui-network"}
-RAN_X = 8          # a coin that made an 8x+ leg in the last week "already ran": no entry alerts
-SLEEPER_X = 3      # under 3x from its weekly low (and at least a day old) = hasn't had its run
+RAN_X = 8          # a coin that has made an 8x+ leg since its launch pool opened "already ran": no entry alerts
+SLEEPER_X = 3      # never more than 3x off its low (and at least a day old) = hasn't had its run
 
 
-def base_check(chain, pair_addr, cache, src="GeckoTerminal OHLCV"):
-    """How far has this coin already run? Uses hourly closes of its main pool over the last week (GeckoTerminal).
-    low = lowest close (ignoring the pool's first 2 hours of launch noise), ran_x = biggest rise from that low,
-    now_x = current vs that low. Closes, not wicks, so one bad print (like a $804 tick) can't fake a run."""
+BONDING_DEX = ("pumpfun", "pump-fun", "moonshot", "launchlab", "letsbonk", "bonkfun", "boop", "believe")
+
+
+def base_check(chain, pair_addr, cache, price=None, src="GeckoTerminal OHLCV"):
+    """How far has this coin already run? Hourly closes of its launch pool (the oldest real pool, not the bonding curve),
+    up to ~6 weeks back. low = the pool's opening price or its lowest level; ran_x = the biggest rise from that low
+    (including right now); now_x = current price vs that low. A level only counts if two hourly closes agree, so one bad
+    print (like an $804 tick) can't fake a run or a low. History is cached for 6 hours; the current price is applied fresh."""
     if not pair_addr:
         return None
     key = f"{chain}:{pair_addr}"
     e = cache.get(key)
-    if e and NOW - e.get("t", 0) < 3600:
-        return e
-    net = DS2GT.get(chain, chain)
-    j = fetch(f"{GT}/networks/{net}/pools/{pair_addr}/ohlcv/hour?aggregate=1&limit=168&currency=usd", src, headers=GTH)
-    d = j.get("data") if isinstance(j, dict) else None
-    rows = ((d.get("attributes") or {}).get("ohlcv_list") or []) if isinstance(d, dict) else []
-    rows = sorted(r for r in rows if isinstance(r, list) and len(r) >= 5 and num(r[4]) > 0)
-    if len(rows) < 3:
-        return None
-    usable = rows[2:] if len(rows) > 8 else rows
-    cl = [num(r[4]) for r in usable]
-    # a level only counts if two hours in a row closed there, so a single bad print can't fake a low or a run
-    lo2 = [max(cl[i], cl[i + 1]) for i in range(len(cl) - 1)] or cl
-    hi2 = [min(cl[i], cl[i + 1]) for i in range(len(cl) - 1)] or cl
-    lo_i = min(range(len(lo2)), key=lambda i: lo2[i])
-    low = lo2[lo_i]
-    high_after = max(hi2[lo_i:]) if hi2[lo_i:] else low
-    res = {"t": NOW, "low": low, "ran_x": max(high_after, low) / low, "now_x": num(rows[-1][4]) / low, "hours": len(rows),
-           "high": max(hi2)}
-    cache[key] = res
-    return res
+    if not e or NOW - e.get("t", 0) > 6 * 3600:
+        net = DS2GT.get(chain, chain)
+        j = fetch(f"{GT}/networks/{net}/pools/{pair_addr}/ohlcv/hour?aggregate=1&limit=1000&currency=usd", src, headers=GTH)
+        d = j.get("data") if isinstance(j, dict) else None
+        rows = ((d.get("attributes") or {}).get("ohlcv_list") or []) if isinstance(d, dict) else []
+        rows = sorted(r for r in rows if isinstance(r, list) and len(r) >= 5 and num(r[4]) > 0)
+        if len(rows) < 3:
+            return None
+        cl = [num(r[4]) for r in rows]
+        lo2 = [max(cl[i], cl[i + 1]) for i in range(len(cl) - 1)]
+        hi2 = [min(cl[i], cl[i + 1]) for i in range(len(cl) - 1)]
+        lo_i = min(range(len(lo2)), key=lambda i: lo2[i])
+        low = lo2[lo_i]
+        first_open = num(rows[0][1])
+        if 0 < first_open < low:          # the run started in the very first hour: the opening price is the real low
+            low, lo_i = first_open, 0
+        e = {"t": NOW, "low": low, "high_after": max(max(hi2[lo_i:] or [low]), low), "hours": len(rows), "last": cl[-1],
+             "first_t": rows[0][0]}
+        cache[key] = e
+    cur = price or e["last"]
+    return {**e, "ran_x": max(e["high_after"], cur) / e["low"], "now_x": cur / e["low"]}
 
 
 def base_class(b):
@@ -895,10 +902,10 @@ def score(c, ctx):
     bc = base_class(c.get("base"))
     if bc == "ran":
         pen += 10
-        W.insert(0, f"already ran {c['base']['ran_x']:.0f}x this week (from {price_s(c['base']['low'])}): the big move happened")
+        W.insert(0, f"already ran {c['base']['ran_x']:.0f}x since launch (from {price_s(c['base']['low'])}): the big move happened")
     elif bc == "sleeper":
         pts["fresh"] = 5
-        R.insert(0, f"hasn't run yet: {c['base']['now_x']:.1f}x off its weekly low")
+        R.insert(0, f"hasn't run yet: {c['base']['now_x']:.1f}x off its low, never more than {c['base']['ran_x']:.1f}x")
     sec = c.get("sec") or {}
     if sec.get("verdict") == "danger":
         pen += 30
@@ -1641,14 +1648,14 @@ def main():
         for grp in (sol, evm):
             for c, res in zip(grp, ex.map(lambda c: security(c, sec_cache), grp)):
                 c["sec"] = res
-    base_cache = {k: v for k, v in load("base_cache.json", {}).items() if NOW - v.get("t", 0) < 6 * 3600}
-    need_base = [c for c in live if c["mcap"] < 1e9][:30] + [c for c in live if c.get("early")][:15]
+    base_cache = {k: v for k, v in load("base_cache.json", {}).items() if NOW - v.get("t", 0) < 6 * 3600 and "high_after" in v}
+    need_base = [c for c in live if c["mcap"] < 1e9][:25] + [c for c in live if c.get("early")][:15]
     seen_b = set()
     for c in need_base:
         if c["key"] in seen_b or time.time() - START > BUDGET - 40:
             continue
         seen_b.add(c["key"])
-        c["base"] = base_check(c["chain"], c.get("pair_addr"), base_cache)
+        c["base"] = base_check(c["chain"], c.get("base_pair") or c.get("pair_addr"), base_cache, c["price"])
     save("base_cache.json", base_cache)
     groups = {}
     for c in live:
@@ -1830,7 +1837,7 @@ def main():
     def slim(c):
         return {k: c.get(k) for k in ("key", "symbol", "name", "chain", "address", "pair_url", "price", "mcap", "liq", "vol", "chg", "txns",
                                       "created", "score", "pts", "pen", "why", "warn", "ment", "themes", "metas", "culture", "cg_rank",
-                                      "on_cb", "sec", "src", "links", "desc", "score_6h", "copy_note", "base", "pair_addr")}
+                                      "on_cb", "sec", "src", "links", "desc", "score_6h", "copy_note", "base", "pair_addr", "base_pair")}
     save("scan.json", {"t": NOW, "updated": datetime.fromtimestamp(NOW, ET_TZ).isoformat(), "health": HEALTH, "top": [slim(c) for c in live[:60]],
                        "flagged": [slim(c) for c in flagged[:20]], "coinbase_memes": cbm[:30], "metas": metas[:15],
                        "trends": [{k: v for k, v in t.items() if k != "coins"} | {"coins": [c["key"] for c in t.get("coins", [])[:6]]} for t in trends[:15]],

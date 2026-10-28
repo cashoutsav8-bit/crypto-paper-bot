@@ -112,6 +112,9 @@ def poll(watch):
                 cr = ms.num(p.get("pairCreatedAt")) / 1000 or None
                 if cr and (not a["created"] or cr < a["created"]):
                     a["created"] = cr
+                if (cr and liq >= 1000 and not any(b in (p.get("dexId") or "").lower() for b in ms.BONDING_DEX)
+                        and (not a.get("base_created") or cr < a["base_created"])):
+                    a["base_created"], a["base_pair"] = cr, p.get("pairAddress")
                 if liq > a["liq"]:
                     a["pair_addr"] = p.get("pairAddress")
                     a.update(liq=liq, price=ms.num(p.get("priceUsd")), mcap=ms.num(p.get("marketCap")) or ms.num(p.get("fdv")),
@@ -166,9 +169,9 @@ SEC_CACHE = {}
 def base_for(v, a):
     """Has this coin already had its big run this week? (hourly closes of its main pool)"""
     if not BASE_CACHE:
-        BASE_CACHE.update(load("base_cache.json", {}))
+        BASE_CACHE.update({k: e for k, e in load("base_cache.json", {}).items() if "high_after" in e})
         BASE_CACHE["_loaded"] = {"t": 0}
-    return ms.base_check(v["chain"], a.get("pair_addr"), BASE_CACHE, "GeckoTerminal OHLCV (watch)")
+    return ms.base_check(v["chain"], a.get("base_pair") or a.get("pair_addr"), BASE_CACHE, a.get("price"), "GeckoTerminal OHLCV (watch)")
 
 
 def fresh_feed(watch, book):
@@ -310,7 +313,7 @@ def check(watch, agg, book):
             bc = ms.base_class(base_for(v, a))
         kind = "sleeper" if bc == "sleeper" else "early"
         if reason and bc in ("sleeper", "mid") and not book.recently("early:" + k, 12) and book.count_today(kind) < EARLY_PER_DAY and safe(k, v):
-            b = BASE_CACHE.get(f"{v['chain']}:{a.get('pair_addr')}") or {}
+            b = base_for(v, a) or {}
             book.alert("early:" + k, kind, (f"💤 Sleeper waking: ${sym} +{a['h1']:.0f}% in 1h, only {b.get('now_x', 0):.1f}x off its low"
                                            if kind == "sleeper" else f"🌱 Early mover: ${sym} +{a['h1']:.0f}% in 1h"),
                        f"{v.get('name') or a.get('name') or sym} on {chain_name(v['chain'])}: {reason}. {base_of(v, a)}\n"
