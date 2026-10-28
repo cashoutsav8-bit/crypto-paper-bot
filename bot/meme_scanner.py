@@ -1650,12 +1650,17 @@ def main():
                 c["sec"] = res
     base_cache = {k: v for k, v in load("base_cache.json", {}).items() if NOW - v.get("t", 0) < 6 * 3600 and "high_after" in v}
     need_base = [c for c in live if c["mcap"] < 1e9][:25] + [c for c in live if c.get("early")][:15]
-    seen_b = set()
+    seen_b, new_fetches = set(), 0
     for c in need_base:
         if c["key"] in seen_b or time.time() - START > BUDGET - 40:
             continue
         seen_b.add(c["key"])
-        c["base"] = base_check(c["chain"], c.get("base_pair") or c.get("pair_addr"), base_cache, c["price"])
+        pa = c.get("base_pair") or c.get("pair_addr")
+        cached = f"{c['chain']}:{pa}" in base_cache
+        if not cached and new_fetches >= 14:      # GeckoTerminal rate limit: the rest get filled in over the next scans
+            continue
+        new_fetches += 0 if cached else 1
+        c["base"] = base_check(c["chain"], pa, base_cache, c["price"])
     save("base_cache.json", base_cache)
     groups = {}
     for c in live:
